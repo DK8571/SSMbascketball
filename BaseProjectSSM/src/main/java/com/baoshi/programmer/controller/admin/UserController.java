@@ -135,11 +135,6 @@ public class UserController {
 			ret.put("msg", "请填写用户名！");
 			return ret;
 		}
-//		if(StringUtils.isEmpty(user.getPassword())){
-//			ret.put("type", "error");
-//			ret.put("msg", "请填写密码！");
-//			return ret;
-//		}
 		if(user.getRoleId() == null){
 			ret.put("type", "error");
 			ret.put("msg", "请选择所属角色！");

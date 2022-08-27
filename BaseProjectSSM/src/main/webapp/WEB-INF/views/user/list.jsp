@@ -27,7 +27,7 @@
         </div>
     </div>
     <!-- End of toolbar -->
-    <table id="data-datagrid" class="easyui-datagrid" toolbar="#wu-toolbar"></table>
+    <table id="data-datagrid" class="easyui-datagrid"  toolbar="#wu-toolbar"></table>
 </div>
 <!-- Begin of easyui-dialog -->
 <div id="add-dialog" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:420px; padding:10px;">
@@ -186,7 +186,6 @@
 	
 	function uploadPhoto(){
 		$("#photo-file").click();
-		
 	}
 	
 	

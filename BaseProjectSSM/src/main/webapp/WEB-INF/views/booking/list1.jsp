@@ -8,9 +8,9 @@
             <%@include file="../common/menus.jsp"%>
         </div>
         <div class="wu-toolbar-search">
-            <label>日期:</label><input id="search-date" class="wu-text" style="width:100px">
+            <label>日期:</label><div id="search-date" data-options="editable:false" style="width:100px"></div>
             <label>预约球场:</label>
-            <select id="search-venues" class="easyui-combobox" panelHeight="auto" style="width:400px">
+            <select id="search-venues" class="easyui-combobox" data-options="editable:false" panelHeight="auto" style="width:420px">
                 <option value="-1">全部</option>
                 <c:forEach items="${venuesList}" var="venuesId">
                     <option value="${venuesId.id }">${venuesId.venuesname }   单价：${venuesId.price }元/人   全场价：${venuesId.allprice }元   最大人数：${venuesId.max }</option>
@@ -58,6 +58,11 @@
 
 <!-- End of easyui-dialog -->
 <script type="text/javascript">
+
+
+
+
+
 	/**
 	* Name 修改记录
 	*/
@@ -89,7 +94,7 @@
 	*/
 	function openEdit(){
 		//$('#edit-form').form('clear');
-		var item = $('#data-datagrid').datagrid('getSelections');
+		var item = $('#search-date').datagrid('getSelections');
 		if(item == null || item.length == 0){
 			$.messager.alert('信息提示','请选择要修改的数据！','info',item);
 			return;
@@ -121,14 +126,31 @@
                 $("#edit-quote").val(item.quote);
             }
         });
-	}	
-	
+	}
+    var curr_time = new Date();
+    console.log(curr_time);
+    $('#search-date').datebox().datebox('calendar').calendar({
+        validator: function(date){
+            var d1 = new Date(curr_time.getFullYear(), curr_time.getMonth(), curr_time.getDate());
+            return d1<date;
+        }
+    });
+
 	
 	//搜索按钮监听
     $("#search-btn").click(function(){
         var venuesid = $("#search-venues").combobox('getValue');
-        var option = {datestr:$("#search-date").val()};
-        if(venuesid != -1){
+        $.fn.datetimebox.defaults.formatter = function(date){
+            var y = date.getFullYear();
+            var m = date.getMonth()+1;
+            var d = date.getDate();
+            var h = date.getHours();
+            var minu = date.getMinutes();
+            var sce =date.getSeconds();
+            return y+'-'+m+'-'+d;
+        }
+        var option = {datestr:$("#search-date").datebox('getValue')};
+        if(venuesid !== -1){
             option.venuesid = venuesid;
         }
         $('#data-datagrid').datagrid('reload',option);

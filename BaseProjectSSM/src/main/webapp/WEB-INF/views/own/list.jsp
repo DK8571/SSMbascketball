@@ -47,26 +47,22 @@
 <!-- End of easyui-dialog -->
 <script type="text/javascript">
     //搜索按钮监听
-	$("#search-btn").click(function(){
-		var ordertypeid = $("#search-ordertype").combobox('getValue');
+    $("#search-btn").click(function(){
+        var ordertypeid = $("#search-ordertype").combobox('getValue');
         var timeid = $("#search-time").combobox('getValue');
-        var memberid = $("#search-member").combobox('getValue');
         var venuesid = $("#search-venues").combobox('getValue');
-		var option = {datestr:$("#search-date").val()};
-		if(ordertypeid != -1){
-			option.ordertypeid = ordertypeid;
-		}
+        var option = {datestr:$("#search-date").val()};
+        if(ordertypeid != -1){
+            option.ordertypeid = ordertypeid;
+        }
         if(timeid != -1){
             option.timeid = timeid;
-        }
-        if(memberid != -1){
-            option.memberid = memberid;
         }
         if(venuesid != -1){
             option.venuesid = venuesid;
         }
-		$('#data-datagrid').datagrid('reload',option);
-	});
+        $('#data-datagrid').datagrid('reload',option);
+    });
 
     /**
      * 删除记录
@@ -99,8 +95,8 @@
             }
         });
     }
-	
-	/** 
+
+	/**
 	* 载入数据
 	*/
 	$('#data-datagrid').datagrid({

@@ -46,6 +46,7 @@ com\baoshi\programmer\entity\admin\Authority.class
 com\baoshi\programmer\service\admin\StadiumService.class
 com\baoshi\programmer\AOP\admin\test.class
 com\baoshi\programmer\service\admin\impl\StadiumServiceImpl.class
+com\baoshi\programmer\AOP\admin\text.class
 com\baoshi\programmer\controller\admin\RoleController.class
 com\baoshi\programmer\controller\admin\MenuController.class
 com\baoshi\programmer\dao\admin\InstuctorDao.class

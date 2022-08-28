@@ -1,3 +1,52 @@
+Version 1.3.6
+* Bug
+ * treegrid: The 'getChecked' method can not return correct checked rows. fixed.
+ * tree: The checkbox does not display properly on async tree when 'onlyLeafCheck' property is true. fixed.
+* Improvement
+ * treegrid: All the selecting and checking methods are extended from datagrid component.
+ * linkbutton: The icon alignment is fully supported, possible values are: 'top','bottom','left','right'.
+ * linkbutton: Add 'size' property, possible values are: 'small','large'.
+ * linkbutton: Add 'onClick' event.
+ * menubutton: Add 'menuAlign' property that allows the user set top level menu alignment.
+ * combo: Add 'panelAlign' property, possible values are: 'left','right'.
+ * calendar: The 'formatter','styler' and 'validator' options are available to custom the calendar dates.
+ * calendar: Add 'onChange' event.
+ * panel: Add 'method','queryParams' and 'loader' options.
+ * panel: Add 'onLoadError' event.
+ * datagrid: Add 'onBeginEdit' event that fires when a row goes into edit mode.
+ * datagrid: Add 'onEndEdit' event that fires when finishing editing but before destroying editors.
+ * datagrid: Add 'sort' method and 'onBeforeSortColumn' event.
+ * datagrid: The 'combogrid' editor has been integrated into datagrid.
+ * datagrid: Add 'ctrlSelect' property that only allows multi-selection when ctrl+click is used.
+ * slider: Add 'converter' option that allows users determine how to convert a value to the slider position or the slider position to the value.
+ * searchbox: Add 'disabled' property.
+ * searchbox: Add 'disable','enable','clear','reset' methods.
+ * spinner: Add 'readonly' property, 'readonly' method and 'onChange' event.
+
+Version 1.3.5
+-------------
+* Bug
+ * searchbox: The 'searcher' function can not offer 'name' parameter value correctly. fixed.
+ * combo: The 'isValid' method can not return boolean value. fixed.
+ * combo: Clicking combo will trigger the 'onHidePanel' event of other combo components that have hidden drop-down panels. fixed.
+ * combogrid: Some methods can not inherit from combo. fixed.
+* Improvement
+ * datagrid: Improve performance on checking rows.
+ * menu: Allows to append a menu separator.
+ * menu: Add 'hideOnUnhover' property to indicate if the menu should be hidden when mouse exits it.
+ * slider: Add 'clear' and 'reset' methods.
+ * tabs: Add 'unselect' method that will trigger 'onUnselect' event.
+ * tabs: Add 'selected' property to specify what tab panel will be opened.
+ * tabs: The 'collapsible' property of tab panel is supported to determine if the tab panel can be collapsed.
+ * tabs: Add 'showHeader' property, 'showHeader' and 'hideHeader' methods.
+ * combobox: The 'disabled' property can be used to disable some items.
+ * tree: Improve loading performance.
+ * pagination: The 'layout' property can be used to customize the pagination layout.
+ * accordion: Add 'unselect' method that will trigger 'onUnselect' event.
+ * accordion: Add 'selected' and 'multiple' properties.
+ * accordion: Add 'getSelections' method.
+ * datebox: Add 'sharedCalendar' property that allows multiple datebox components share one calendar component.
+
 Version 1.3.4
 -------------
 * Bug

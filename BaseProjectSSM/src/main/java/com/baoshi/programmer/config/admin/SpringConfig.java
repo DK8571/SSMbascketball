@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.annotation.PostConstruct;
+
 @Configuration
 @ComponentScan({"com.baoshi.programmer"})
 @PropertySource("classpath:db.properties")

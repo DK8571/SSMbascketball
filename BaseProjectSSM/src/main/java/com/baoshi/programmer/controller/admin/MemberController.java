@@ -65,6 +65,7 @@ public class MemberController {
         queryMap.put("offset", page.getOffset());
         queryMap.put("pageSize", page.getRows());
         ret.put("rows", memberService.findList(queryMap));
+        System.out.println(memberService.findList(queryMap));
         ret.put("total", memberService.getTotal(queryMap));
         return ret;
     }

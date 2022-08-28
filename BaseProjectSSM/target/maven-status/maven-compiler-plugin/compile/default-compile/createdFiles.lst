@@ -43,6 +43,7 @@ com\baoshi\programmer\service\admin\MemberService.class
 com\baoshi\programmer\service\admin\impl\MenuServiceImpl.class
 com\baoshi\programmer\config\admin\JdbcConfig.class
 com\baoshi\programmer\entity\admin\Authority.class
+com\baoshi\programmer\entity\admin\Cashier.class
 com\baoshi\programmer\service\admin\StadiumService.class
 com\baoshi\programmer\AOP\admin\test.class
 com\baoshi\programmer\service\admin\impl\StadiumServiceImpl.class

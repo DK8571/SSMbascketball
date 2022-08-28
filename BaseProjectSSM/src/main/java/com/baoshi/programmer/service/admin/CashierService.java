@@ -1,5 +1,6 @@
 package com.baoshi.programmer.service.admin;
 
+import com.baoshi.programmer.entity.admin.Cashier;
 import com.baoshi.programmer.entity.admin.User;
 import org.springframework.stereotype.Service;
 

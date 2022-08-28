@@ -1,6 +1,7 @@
 package com.baoshi.programmer.service.admin.impl;
 
 import com.baoshi.programmer.dao.admin.CashierDao;
+import com.baoshi.programmer.entity.admin.Cashier;
 import com.baoshi.programmer.entity.admin.User;
 import com.baoshi.programmer.service.admin.CashierService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,7 @@ public class CashierServiceImpl implements CashierService {
 
     @Override
     public List<User> findList(Map<String, Object> queryMap) {
-        System.out.println(queryMap);
-        List<User> a  = cashierDao.findList(queryMap);
-        System.out.println(a);
-        return a;
+        return cashierDao.findList(queryMap);
     }
 
     @Override

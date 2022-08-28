@@ -48,6 +48,7 @@ D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\control
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\service\admin\AuthorityService.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\service\admin\impl\AuthorityServiceImpl.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\config\admin\JdbcConfig.java
+D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\entity\admin\Cashier.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\config\admin\SpringMvcSupport.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\service\admin\EquipmentService.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\entity\admin\Member.java

@@ -1,9 +1,8 @@
 package com.baoshi.programmer.dao.admin;
 
+import com.baoshi.programmer.entity.admin.Cashier;
 import com.baoshi.programmer.entity.admin.User;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,12 +23,15 @@ public interface CashierDao {
     int delete(String ids);
 
     @Select({"<script>"+
-            "select * from user where roleId = 2"+
+            "select user.*,cashier.stadiumid,stadium.stadiumname from user,cashier,stadium where user.roleId = 2 and user.id = cashier.id and stadium.id = cashier.stadiumid "+
             "<if test='username != null'>"+
             "and username like '%${username}%'"+
             "</if>"+
             "<if test='sex != null'>"+
             "and sex = #{sex}"+
+            "</if>"+
+            "<if test='satdiumid != null'>"+
+            "and stadiumid = #{satdiumid}"+
             "</if>"+
             "<if test='offset != null and pageSize != null'>"+
             "limit #{offset},#{pageSize}"+
@@ -38,10 +40,13 @@ public interface CashierDao {
     })
     List<User> findList(Map<String, Object> queryMap);
     @Select({"<script>"+
-            "select count(*) from user where 1 = 1 "+
+            "select count(*) from user,cashier,stadium where user.roleId = 2 and user.id = cashier.id and stadium.id = cashier.stadiumid "+
             "<if test='username != null'>and username like '%${username}%'</if>"+
             "<if test='sex != null'>"+
             "and sex = #{sex}"+
+            "</if>"+
+            "<if test='stadiumid != null'>"+
+            "and cashier.stadiumid = #{stadiumid}"+
             "</if>"+
             "</script>"
     })

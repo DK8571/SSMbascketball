@@ -18,6 +18,7 @@ public class User {
 	private Integer age;//年龄
 	private String address;//家庭住址
 	private double balance;
+	private Integer stadiumid;
 
 	public double getBalance() {
 		return balance;
@@ -27,7 +28,13 @@ public class User {
 		this.balance = balance;
 	}
 
+	public Integer getStadiumid() {
+		return stadiumid;
+	}
 
+	public void setStadiumid(Integer stadiumid) {
+		this.stadiumid = stadiumid;
+	}
 
 	public Long getId() {
 		return id;
@@ -90,6 +97,7 @@ public class User {
 				", age=" + age +
 				", address='" + address + '\'' +
 				", balance=" + balance +
+				", stadiumid=" + stadiumid +
 				'}';
 	}
 }

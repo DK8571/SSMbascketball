@@ -16,6 +16,13 @@
             	<option value="1">男</option>
             	<option value="2">女</option>
             </select>
+            <label>所属球馆:</label>
+            <select id="search-stadium" class="easyui-combobox" panelHeight="auto" style="width:120px">
+                <option value="-1">全部</option>
+                <c:forEach items="${stadiumList}" var="stadium">
+                    <option value="${stadium.id }">${stadium.stadiumname }</option>
+                </c:forEach>
+            </select>
             <a href="#" id="search-btn" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
         </div>
     </div>
@@ -45,7 +52,6 @@
                 <td width="60" align="right">密码:</td>
                 <td><input type="password" id="add-password" name="password" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写密码'" /></td>
             </tr>
-
             <tr>
                 <td width="60" align="right">性别:</td>
                 <td>
@@ -63,6 +69,16 @@
             <tr>
                 <td width="60" align="right">地址:</td>
                 <td><input type="text" id="add-address" name="address" class="wu-text easyui-validatebox" /></td>
+            </tr>
+            <tr>
+                <td width="60" align="right">所属球馆:</td>
+                <td>
+                    <select name="stadiumid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择所属球馆'">
+                        <c:forEach items="${stadiumList}" var="stadium">
+                            <option value="${stadium.id }">${stadium.stadiumname }</option>
+                        </c:forEach>
+                    </select>
+                </td>
             </tr>
         </table>
     </form>
@@ -105,6 +121,16 @@
             <tr>
                 <td width="60" align="right">地址:</td>
                 <td><input type="text" id="edit-address" name="address" class="wu-text easyui-validatebox" /></td>
+            </tr>
+            <tr>
+                <td width="60" align="right">所属球馆:</td>
+                <td>
+                    <select name="stadiumid" id="edit-stadiumid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择所属球馆'">
+                        <c:forEach items="${stadiumList}" var="stadium">
+                            <option value="${stadium.id }">${stadium.stadiumname }</option>
+                        </c:forEach>
+                    </select>
+                </td>
             </tr>
         </table>
     </form>
@@ -215,7 +241,6 @@
 			success:function(data){
 				if(data.type == 'success'){
 					$.messager.alert('信息提示','修改成功！','info');
-                    $
 					$('#edit-dialog').dialog('close');
 					$('#data-datagrid').datagrid('reload');
 				}else{
@@ -320,10 +345,10 @@
             	$("#edit-preview-photo").attr('src',item.photo);
 				$("#edit-photo").val(item.photo);
             	$("#edit-username").val(item.username);
-            	$("#edit-roleId").combobox('setValue',item.roleId);
             	$("#edit-sex").combobox('setValue',item.sex);
             	$("#edit-age").val(item.age);
             	$("#edit-address").val(item.address);
+                $("#edit-stadiumid").combobox('setValue',item.stadiumid);
             }
         });
 	}	
@@ -331,15 +356,15 @@
 	
 	//搜索按钮监听
 	$("#search-btn").click(function(){
-		var roleId = $("#search-role").combobox('getValue');
 		var sex = $("#search-sex").combobox('getValue')
+        var satdiumid = $("#search-stadium").combobox('getValue')
 		var option = {username:$("#search-name").val()};
-		if(roleId != -1){
-			option.roleId = roleId;
-		}
 		if(sex != -1){
 			option.sex = sex;
 		}
+        if(satdiumid != -1){
+            option.satdiumid = satdiumid;
+        }
 		$('#data-datagrid').datagrid('reload',option);
 	});
 	
@@ -379,10 +404,14 @@
 				return value;
 			}},
 			{ field:'age',title:'年龄',width:100},
-			{ field:'address',title:'地址',width:200}
+			{ field:'address',title:'地址',width:200},
+            { field:'stadiumid',title:'所属球馆',width:200,formatter:function(value,row,index){
+                    var stadiumList = $("#search-stadium").combobox('getData');
+                    for(var i=0;i<stadiumList.length;i++){
+                        if(value == stadiumList[i].value) return stadiumList[i].text;
+                    }
+                    return value;
+                }}
 		]],
-		onLoadSuccess:function(data){  
-			$('.authority-edit').linkbutton({text:'编辑权限',plain:true,iconCls:'icon-edit'});  
-		 }  
 	});
 </script>

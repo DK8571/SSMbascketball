@@ -3,6 +3,7 @@ package com.baoshi.programmer.controller.admin;
 import com.baoshi.programmer.entity.admin.User;
 import com.baoshi.programmer.page.admin.Page;
 import com.baoshi.programmer.service.admin.CashierService;
+import com.baoshi.programmer.service.admin.StadiumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -18,15 +19,20 @@ import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @RequestMapping("/admin/cashier")
 @Controller
 public class CashierController {
     @Autowired
     private CashierService cashierService;
+    @Autowired
+    private StadiumService stadiumService;
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public ModelAndView list(ModelAndView model) {
+        Map<String,Object> queryMap = new HashMap<>();
+        model.addObject("stadiumList",stadiumService.findList(queryMap));
         model.setViewName("cashier/list");
         return model;
     }
@@ -34,12 +40,17 @@ public class CashierController {
     @RequestMapping(value = "/list",method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getList(Page page,
-                         @RequestParam(name = "username",required = false,defaultValue = "") String username,
-                         @RequestParam(name = "sex",required = false) Integer sex
+                                        @RequestParam(name = "username",required = false,defaultValue = "") String username,
+                                        @RequestParam(name = "sex",required = false) Integer sex,
+                                        @RequestParam(name = "satdiumid",required = false) Integer stadiumid
     ) {
+        if(Objects.equals(username,"")){
+            username = null;
+        }
         Map<String, Object> queryMap = new HashMap<String, Object>();
         queryMap.put("username", username);
         queryMap.put("sex",sex);
+        queryMap.put("satdiumid",stadiumid);
         queryMap.put("offset", page.getOffset());
         queryMap.put("pageSize", page.getRows());
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -54,31 +65,31 @@ public class CashierController {
         Map<String, String> ret = new HashMap<String, String>();
         if(user == null){
             ret.put("type", "error");
-            ret.put("msg", "??????????????????");
+            ret.put("msg", "请填写正确的用户信息！");
             return ret;
         }
         if(StringUtils.isEmpty(user.getUsername())){
             ret.put("type", "error");
-            ret.put("msg", "????????????");
+            ret.put("msg", "请填写用户名！");
             return ret;
         }
         if(StringUtils.isEmpty(user.getPassword())){
             ret.put("type", "error");
-            ret.put("msg", "?????????");
+            ret.put("msg", "请填写密码！");
             return ret;
         }
         if(isExist(user.getUsername(), 0l)){
             ret.put("type", "error");
-            ret.put("msg", "?????????????????????????");
+            ret.put("msg", "该用户名已经存在，请重新输入！");
             return ret;
         }
         if(cashierService.add(user) <= 0){
             ret.put("type", "error");
-            ret.put("msg", "??????????????????????");
+            ret.put("msg", "用户添加失败，请联系管理员！");
             return ret;
         }
         ret.put("type", "success");
-        ret.put("msg", "??????????");
+        ret.put("msg", "角色添加成功！");
         return ret;
     }
 
@@ -93,12 +104,12 @@ public class CashierController {
         Map<String, String> ret = new HashMap<String, String>();
         if(user == null){
             ret.put("type", "error");
-            ret.put("msg", "??????????????????");
+            ret.put("msg", "请填写正确的用户信息！");
             return ret;
         }
         if(StringUtils.isEmpty(user.getUsername())){
             ret.put("type", "error");
-            ret.put("msg", "????????????");
+            ret.put("msg", "请填写用户名！");
             return ret;
         }
 //		if(StringUtils.isEmpty(user.getPassword())){
@@ -108,16 +119,16 @@ public class CashierController {
 //		}
         if(isExist(user.getUsername(), user.getId())){
             ret.put("type", "error");
-            ret.put("msg", "?????????????????????????");
+            ret.put("msg", "该用户名已经存在，请重新输入！");
             return ret;
         }
         if(cashierService.edit(user) <= 0){
             ret.put("type", "error");
-            ret.put("msg", "??????????????????????");
+            ret.put("msg", "用户添加失败，请联系管理员！");
             return ret;
         }
         ret.put("type", "success");
-        ret.put("msg", "??????????");
+        ret.put("msg", "角色添加成功！");
         return ret;
     }
 
@@ -127,7 +138,7 @@ public class CashierController {
         Map<String, String> ret = new HashMap<String, String>();
         if(StringUtils.isEmpty(ids)){
             ret.put("type", "error");
-            ret.put("msg", "??????????????");
+            ret.put("msg", "选择要删除的数据！");
             return ret;
         }
         if(ids.contains(",")){
@@ -135,11 +146,11 @@ public class CashierController {
         }
         if(cashierService.delete(ids) <= 0){
             ret.put("type", "error");
-            ret.put("msg", "??????????????????????");
+            ret.put("msg", "用户删除失败，请联系管理员！");
             return ret;
         }
         ret.put("type", "success");
-        ret.put("msg", "???????????");
+        ret.put("msg", "用户删除成功！");
         return ret;
     }
 
@@ -149,19 +160,19 @@ public class CashierController {
         Map<String, String> ret = new HashMap<String, String>();
         if(photo == null){
             ret.put("type", "error");
-            ret.put("msg", "??????????????");
+            ret.put("msg", "选择要上传的文件！");
             return ret;
         }
         if(photo.getSize() > 1024*1024*1024){
             ret.put("type", "error");
-            ret.put("msg", "?????????????10M??");
+            ret.put("msg", "文件大小不能超过10M！");
             return ret;
         }
         //?????????
         String suffix = photo.getOriginalFilename().substring(photo.getOriginalFilename().lastIndexOf(".")+1,photo.getOriginalFilename().length());
         if(!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())){
             ret.put("type", "error");
-            ret.put("msg", "?????jpg,jpeg,gif,png?????????");
+            ret.put("msg", "请选择jpg,jpeg,gif,png格式的图片！");
             return ret;
         }
         String savePath = request.getSession().getServletContext().getRealPath("/") + "/resources/upload/";
@@ -177,12 +188,12 @@ public class CashierController {
         }catch (Exception e) {
             // TODO Auto-generated catch block
             ret.put("type", "error");
-            ret.put("msg", "???????????");
+            ret.put("msg", "保存文件异常！");
             e.printStackTrace();
             return ret;
         }
         ret.put("type", "success");
-        ret.put("msg", "???????????");
+        ret.put("msg", "用户删除成功！");
         ret.put("filepath",request.getSession().getServletContext().getContextPath() + "/resources/upload/" + filename );
         return ret;
     }

@@ -73,7 +73,7 @@
             <tr>
                 <td width="60" align="right">所属球馆:</td>
                 <td>
-                    <select name="stadiumid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择所属球馆'">
+                    <select name="stadiumid" id="add-stadiumid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择所属球馆'">
                         <c:forEach items="${stadiumList}" var="stadium">
                             <option value="${stadium.id }">${stadium.stadiumname }</option>
                         </c:forEach>
@@ -107,7 +107,6 @@
                 <td width="60" align="right">性别:</td>
                 <td>
                 	<select id="edit-sex" name="sex" class="easyui-combobox" panelHeight="auto" style="width:268px">
-                        <option value="-1">全部</option>
 		                <option value="0">未知</option>
             			<option value="1">男</option>
             			<option value="2">女</option>
@@ -288,7 +287,8 @@
 	*/
 	function openAdd(){
 		//$('#add-form').form('clear');
-        $("#add-sex").combobox('setValue',-1);
+        $("#add-sex").combobox('setValue',0);
+        $("#add-stadiumid").combobox('setValue',1);
 		$('#add-dialog').dialog({
 			closed: false,
 			modal:true,

@@ -14,6 +14,7 @@ public interface CashierDao {
     User findByCashiername(String username);
 
     @Insert("insert into user(id,username,password,roleId,photo,sex,age,address) values(null,#{username},#{password},2,#{photo},#{sex},#{age},#{address})")
+    @Options(useGeneratedKeys=true,keyProperty="id",keyColumn="id")
     int add(User user);
 
     @Insert("update user set username = #{username},photo = #{photo},sex = #{sex},age = #{age},address = #{address} where id = #{id}")
@@ -51,4 +52,16 @@ public interface CashierDao {
             "</script>"
     })
     int getTotal(Map<String, Object> queryMap);
+
+    @Insert("INSERT into cashier(id,stadiumid)  VALUES(${id},${stadiumid})")
+
+    void addcashier(@Param("id") Long id, @Param("stadiumid") Integer stadiumid);
+
+    @Update("update cashier set stadiumid = ${stadiumid} where id = ${id}")
+
+    void editcashier(@Param("id") Long id, @Param("stadiumid") Integer stadiumid);
+
+    @Delete("delete from cashier where id in(${value})")
+
+    void deletecashier(String ids);
 }

@@ -26,11 +26,13 @@ public class CashierServiceImpl implements CashierService {
 
     @Override
     public int edit(User user) {
+        cashierDao.editcashier(user.getId(),user.getStadiumid());
         return  cashierDao.edit(user);
     }
 
     @Override
     public int delete(String ids) {
+        cashierDao.deletecashier(ids);
         return cashierDao.delete(ids);
     }
 
@@ -42,6 +44,11 @@ public class CashierServiceImpl implements CashierService {
     @Override
     public int getTotal(Map<String, Object> queryMap) {
         return cashierDao.getTotal(queryMap);
+    }
+
+    @Override
+    public void addcashier(Long id, Integer stadiumid) {
+        cashierDao.addcashier(id,stadiumid);
     }
 }
 

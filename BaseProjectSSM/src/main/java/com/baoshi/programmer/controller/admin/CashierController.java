@@ -88,6 +88,7 @@ public class CashierController {
             ret.put("msg", "用户添加失败，请联系管理员！");
             return ret;
         }
+        cashierService.addcashier(user.getId(),user.getStadiumid());
         ret.put("type", "success");
         ret.put("msg", "角色添加成功！");
         return ret;
@@ -101,6 +102,7 @@ public class CashierController {
     @RequestMapping(value="/edit",method=RequestMethod.POST)
     @ResponseBody
     public Map<String, String> edit(User user){
+        System.out.println(user);
         Map<String, String> ret = new HashMap<String, String>();
         if(user == null){
             ret.put("type", "error");

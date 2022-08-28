@@ -14,4 +14,5 @@ public interface CashierService {
     public int delete(String ids);
     public List<User> findList(Map<String, Object> queryMap);
     public int getTotal(Map<String, Object> queryMap);
+    void addcashier(Long id, Integer stadiumid);
 }

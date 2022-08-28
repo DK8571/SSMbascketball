@@ -1,5 +1,7 @@
 package com.baoshi.programmer.controller.admin;
 
+import com.baoshi.programmer.entity.admin.Member;
+import com.baoshi.programmer.entity.admin.User;
 import com.baoshi.programmer.page.admin.Page;
 import com.baoshi.programmer.service.admin.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class OrderController {
     private MemberService memberService;
     @Autowired
     private VenuesService venuesService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public ModelAndView list(ModelAndView mv){
@@ -44,13 +48,19 @@ public class OrderController {
     public Map<String,Object> list(Page page,
                                    @RequestParam(value = "datestr",required = false) String date,
                                    @RequestParam(value = "ordertypeid",required = false) Integer ordertypeid,
-                                   @RequestParam(value = "memberid",required = false) Integer memberid,
+                                   @RequestParam(value = "username",required = false) String username,
                                    @RequestParam(value = "venuesid",required = false) Integer venuesid,
                                    @RequestParam(value = "timeid",required = false) Integer timeid
                                    ){
         Map<String,Object> queryMap = new HashMap<>();
         if (Objects.equals(date,"")){
             date=null;
+        }
+        Long memberid = null;
+        if (username!=null&&username!="") {
+            User user = userService.findByUsername(username);
+            Member member = memberService.findbyuserid(user.getId());
+            memberid = member.getMemberid();
         }
         queryMap.put("date",date);
         queryMap.put("ordertypeid",ordertypeid);
@@ -59,7 +69,6 @@ public class OrderController {
         queryMap.put("timeid",timeid);
         Map<String,Object> ret = new HashMap<>();
         ret.put("rows",orderService.findList(queryMap));
-
         ret.put("total",orderService.getTotal(queryMap));
         return ret;
     }

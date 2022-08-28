@@ -8,7 +8,8 @@
             <%@include file="../common/menus.jsp"%>
         </div>
         <div class="wu-toolbar-search">
-            <label>日期:</label><input id="search-date" class="wu-text" style="width:100px">
+            <label>日期:</label><div id="search-date" data-options="editable:false" style="width:100px"></div>
+            <label>预约会员:</label><input id="search-username" class="wu-text" style="width:100px">
             <label>订单类型:</label>
             <select id="search-ordertype" class="easyui-combobox" panelHeight="auto" style="width:120px">
             	<option value="-1">全部</option>
@@ -25,13 +26,15 @@
             </select>
 
             <!--需要修改内容-->
-            <label>预约会员:</label>
-            <select id="search-member" class="easyui-combobox" panelHeight="auto" style="width:120px">
-                <option value="-1">全部</option>
-                <c:forEach items="${memberlist}" var="memberId">
-                    <option value="${memberId.memberid }">${memberId.username }</option>
-                </c:forEach>
-            </select>
+            <span style='display:none'>
+                <label>预约会员:</label>
+                <select id="search-member" class="easyui-combobox" panelHeight="auto" style="width:120px">
+                    <option value="-1">全部</option>
+                    <c:forEach items="${memberlist}" var="memberId">
+                        <option value="${memberId.memberid }">${memberId.username }</option>
+                    </c:forEach>
+                </select>
+            </span>
             <label>预约球场:</label>
             <select id="search-venues" class="easyui-combobox" panelHeight="auto" style="width:120px">
                 <option value="-1">全部</option>
@@ -53,21 +56,33 @@
 
 <!-- End of easyui-dialog -->
 <script type="text/javascript">
+    var curr_time = new Date();
+    console.log(curr_time);
+    $('#search-date').datebox().datebox('calendar').calendar();
 	//搜索按钮监听
 	$("#search-btn").click(function(){
 		var ordertypeid = $("#search-ordertype").combobox('getValue');
         var timeid = $("#search-time").combobox('getValue');
-        var memberid = $("#search-member").combobox('getValue');
+        var username = $("#search-username").val()
         var venuesid = $("#search-venues").combobox('getValue');
-		var option = {datestr:$("#search-date").val()};
+        $.fn.datetimebox.defaults.formatter = function(date){
+            var y = date.getFullYear();
+            var m = date.getMonth()+1;
+            var d = date.getDate();
+            var h = date.getHours();
+            var minu = date.getMinutes();
+            var sce =date.getSeconds();
+            return y+'-'+m+'-'+d;
+        }
+        var option = {datestr:$("#search-date").datebox('getValue')};
 		if(ordertypeid != -1){
 			option.ordertypeid = ordertypeid;
 		}
         if(timeid != -1){
             option.timeid = timeid;
         }
-        if(memberid != -1){
-            option.memberid = memberid;
+        if(username != null){
+            option.username = username;
         }
         if(venuesid != -1){
             option.venuesid = venuesid;

@@ -8,7 +8,7 @@
             <%@include file="../common/menus.jsp"%>
         </div>
         <div class="wu-toolbar-search">
-            <label>日期:</label><input id="search-date" class="wu-text" style="width:100px">
+            <label>日期:</label><div id="search-date" data-options="editable:false" style="width:100px"></div>
             <label>订单类型:</label>
             <select id="search-ordertype" class="easyui-combobox" panelHeight="auto" style="width:120px">
             	<option value="-1">全部</option>
@@ -46,12 +46,22 @@
 
 <!-- End of easyui-dialog -->
 <script type="text/javascript">
+    $('#search-date').datebox().datebox('calendar').calendar();
     //搜索按钮监听
     $("#search-btn").click(function(){
         var ordertypeid = $("#search-ordertype").combobox('getValue');
         var timeid = $("#search-time").combobox('getValue');
         var venuesid = $("#search-venues").combobox('getValue');
-        var option = {datestr:$("#search-date").val()};
+        $.fn.datetimebox.defaults.formatter = function(date){
+            var y = date.getFullYear();
+            var m = date.getMonth()+1;
+            var d = date.getDate();
+            var h = date.getHours();
+            var minu = date.getMinutes();
+            var sce =date.getSeconds();
+            return y+'-'+m+'-'+d;
+        }
+        var option = {datestr:$("#search-date").datebox('getValue')};
         if(ordertypeid != -1){
             option.ordertypeid = ordertypeid;
         }

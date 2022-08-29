@@ -19,4 +19,6 @@ public interface UserService {
 	public int delete(String ids);
 	public List<User> findList(Map<String, Object> queryMap);
 	public int getTotal(Map<String, Object> queryMap);
+    public User findbyuserid(Long userid);
+	public List<User> findListbycashierid(Map<String, Object> queryMap);
 }

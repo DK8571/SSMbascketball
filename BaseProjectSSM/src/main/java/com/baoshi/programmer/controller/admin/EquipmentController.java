@@ -2,6 +2,7 @@ package com.baoshi.programmer.controller.admin;
 
 
 import com.baoshi.programmer.entity.admin.Equipment;
+import com.baoshi.programmer.entity.admin.User;
 import com.baoshi.programmer.page.admin.Page;
 import com.baoshi.programmer.service.admin.EquipmentService;
 import com.baoshi.programmer.service.admin.UserService;
@@ -32,10 +33,16 @@ public class EquipmentController {
     private VenuesService venuesService;
 
     @RequestMapping(value = "list",method = RequestMethod.GET)
-    public ModelAndView list(ModelAndView mv){
+    public ModelAndView list(ModelAndView mv,
+                             HttpServletRequest request
+                             ){
         Map<String,Object> queryMap=new HashMap<String,Object>();
-        mv.addObject("venuesList", venuesService.findList(queryMap));
-        mv.addObject("userList", userService.findList(queryMap));
+        Long userid = (Long) request.getSession().getAttribute("adminid");
+        User user = userService.findbyuserid(userid);
+        queryMap.put("roleId" , user.getRoleId());
+        queryMap.put("cashierid" , user.getId());
+        mv.addObject("venuesList", venuesService.findListbycashierid(queryMap));
+        mv.addObject("userList", userService.findListbycashierid(queryMap));
         mv.setViewName("equipment/list");
         return mv;
     }
@@ -46,13 +53,14 @@ public class EquipmentController {
                                       @RequestParam(value = "userid",required = false) Integer userid,
                                       @RequestParam(value = "venuesid",required = false) Integer venuesid){
         Map<String,Object> queryMap=new HashMap<String,Object>();
+        Long userId = (Long) request.getSession().getAttribute("adminid");
+        User user = userService.findbyuserid(userId);
+        queryMap.put("roleId" , user.getRoleId());
+        queryMap.put("cashierid" , user.getId());
         queryMap.put("equipmentname",equipmentname);
         queryMap.put("userid",userid);
         queryMap.put("venuesid",venuesid);
-
-
         request.getSession().setAttribute("venuesid",venuesid);
-
         queryMap.put("offset",page.getOffset());
         queryMap.put("pageSize",page.getRows());
         Map<String,Object> resultMap=new HashMap<String,Object>();

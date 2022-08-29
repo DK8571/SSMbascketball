@@ -57,6 +57,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public User findbyuserid(Long userid) {
+		return userDao.findbyuserid(userid);
+	}
+
+	@Override
+	public List<User> findListbycashierid(Map<String, Object> queryMap) {
+		return userDao.findListbycashierid(queryMap);
+	}
+
+	@Override
 	public int editPassword(User user) {
 		// TODO Auto-generated method stub
 		return userDao.editPassword(user);

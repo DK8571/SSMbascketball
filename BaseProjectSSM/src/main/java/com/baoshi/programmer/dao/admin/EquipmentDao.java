@@ -14,9 +14,12 @@ import java.util.Map;
 public interface EquipmentDao {
 
     @Select({"<script>"+
-            "select * from equipment where 1=1"+
+            "select * from equipment where 1=1 "+
             "<if test='equipmentname != null'>"+
             "and equipmentname like '%${equipmentname}%'"+
+            "</if>"+
+            "<if test='roleId == 2'>"+
+            "and venuesid in (select venues.id from venues,cashier where venues.stadiumid=cashier.stadiumid and cashier.id =${cashierid})"+
             "</if>"+
             "<if test='userid != null'>"+
             "and userid = #{userid}"+

@@ -24,4 +24,12 @@ public interface UserDao {
 	public int delete(String ids);
 	public List<User> findList(Map<String, Object> queryMap);
 	public int getTotal(Map<String, Object> queryMap);
+
+	@Select("select * from user where id = #{userid}")
+
+    User findbyuserid(Long userid);
+
+	@Select("select * from user where roleId != 3")
+
+	List<User> findListbycashierid(Map<String, Object> queryMap);
 }

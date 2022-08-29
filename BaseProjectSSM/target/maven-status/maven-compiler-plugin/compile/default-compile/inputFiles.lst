@@ -34,6 +34,7 @@ D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\service
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\AOP\admin\text.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\controller\admin\VenuesController.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\config\admin\SpringMvcConfig.java
+D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\controller\admin\CashierorderController.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\service\admin\StadiumService.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\dao\admin\StadiumDao.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\entity\admin\Authority.java

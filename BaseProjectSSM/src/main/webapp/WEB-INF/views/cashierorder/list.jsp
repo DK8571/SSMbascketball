@@ -56,12 +56,10 @@
 
 <!-- End of easyui-dialog -->
 <script type="text/javascript">
-    var curr_time = new Date();
-    console.log(curr_time);
     $('#search-date').datebox().datebox('calendar').calendar();
-	//搜索按钮监听
-	$("#search-btn").click(function(){
-		var ordertypeid = $("#search-ordertype").combobox('getValue');
+    //搜索按钮监听
+    $("#search-btn").click(function(){
+        var ordertypeid = $("#search-ordertype").combobox('getValue');
         var timeid = $("#search-time").combobox('getValue');
         var username = $("#search-username").val();
         var venuesid = $("#search-venues").combobox('getValue');
@@ -75,28 +73,60 @@
             return y+'-'+m+'-'+d;
         }
         var option = {datestr:$("#search-date").datebox('getValue')};
-		if(ordertypeid != -1){
-			option.ordertypeid = ordertypeid;
-		}
+        if(ordertypeid != -1){
+            option.ordertypeid = ordertypeid;
+        }
         if(timeid != -1){
             option.timeid = timeid;
-        }
-        if(username != null){
-            option.username = username;
         }
         if(venuesid != -1){
             option.venuesid = venuesid;
         }
-		$('#data-datagrid').datagrid('reload',option);
-	});
-	
-	/** 
+        if(username != null){
+            option.username = username;
+        }
+        $('#data-datagrid').datagrid('reload',option);
+    });
+
+    /**
+     * 删除记录
+     */
+    function remove(){
+        $.messager.confirm('信息提示','确定要删除该记录？', function(result){
+            if(result){
+                var item = $('#data-datagrid').datagrid('getSelections');
+                this.obj=item[0];
+                if(item == null || item.length == 0){
+                    $.messager.alert('信息提示','请选择要删除的数据！','info');
+                    return;
+                }
+                // item=JSON.parse(JSON.stringify(item))
+                // console.log(item)
+                $.ajax({
+                    url:'delete',
+                    dataType:'json',
+                    type:'post',
+                    data:{orderid:item[0].id,orderdate:item[0].datestr,price:item[0].price,memberid:item[0].memberid},
+                    success:function(data){
+                        if(data.type == 'success'){
+                            $.messager.alert('信息提示','删除成功！','info');
+                            $('#data-datagrid').datagrid('reload');
+                        }else{
+                            $.messager.alert('信息提示',data.msg,'warning');
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+	/**
 	* 载入数据
 	*/
 	$('#data-datagrid').datagrid({
         url:'list',
         rownumbers:true,
-        singleSelect:false,
+        singleSelect:true,
         pageSize:20,
         pagination:true,
         multiSort:true,

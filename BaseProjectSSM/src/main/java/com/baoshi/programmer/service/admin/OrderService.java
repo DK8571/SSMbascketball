@@ -16,4 +16,6 @@ public interface OrderService {
     public int getTotal(Map<String, Object> queryMap);
     public List<Order> findListbyuserid(Map<String, Object> queryMap);
     public int getTotalbyuserid(Map<String, Object> queryMap);
+    public List<Order> findListbycashierid(Map<String, Object> queryMap);
+    public int  getTotalbycashierid(Map<String, Object> queryMap);
 }

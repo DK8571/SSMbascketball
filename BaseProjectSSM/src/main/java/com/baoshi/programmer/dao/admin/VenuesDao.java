@@ -59,4 +59,8 @@ public interface VenuesDao {
     @Select("select * from venues where id = #{venuesid}")
 
     Venues findbyVenusId(Long venuesid);
+
+    @Select("select venues.* from venues,cashier where venues.stadiumid=cashier.stadiumid and cashier.id =${cashierid}")
+
+    List<Venues> findListbycashierid(Map<String, Object> queryMap);
 }

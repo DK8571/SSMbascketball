@@ -18,4 +18,5 @@ public interface MemberService {
     public int deletemember(String ids);
     public void editmember(double balance, Long id);
     public Member findbyuserid(long userid);
+    public Member findbymemberid(long memberid);
 }

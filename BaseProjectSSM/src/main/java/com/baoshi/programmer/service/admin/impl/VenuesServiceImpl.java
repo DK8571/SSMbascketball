@@ -50,4 +50,9 @@ public class VenuesServiceImpl implements VenuesService {
     public Venues findbyVenusId(Long venuesid) {
         return venuesDao.findbyVenusId(venuesid);
     }
+
+    @Override
+    public List<Venues> findListbycashierid(Map<String, Object> queryMap) {
+        return venuesDao.findListbycashierid(queryMap);
+    }
 }

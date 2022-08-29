@@ -71,4 +71,7 @@ public interface MemberDao {
 
     Member findbyuserid(long userid);
 
+    @Select("select id memberid,userid id,balance from member where id = #{value}")
+
+    Member findbymemberid(long memberid);
 }

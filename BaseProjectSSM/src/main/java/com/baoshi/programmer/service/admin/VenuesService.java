@@ -17,5 +17,5 @@ public interface VenuesService {
     public List<Venues> findList(Map<String, Object> queryMap);
     public int getTotal(Map<String, Object> queryMap);
     public Venues findbyVenusId(Long venuesid);
-
+    public List<Venues> findListbycashierid(Map<String, Object> queryMap);
 }

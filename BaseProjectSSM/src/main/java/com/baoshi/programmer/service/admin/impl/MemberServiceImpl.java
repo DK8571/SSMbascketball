@@ -77,4 +77,9 @@ public class MemberServiceImpl implements MemberService {
         return memberDao.findbyuserid(userid);
     }
 
+    @Override
+    public Member findbymemberid(long memberid) {
+        return memberDao.findbymemberid(memberid);
+    }
+
 }

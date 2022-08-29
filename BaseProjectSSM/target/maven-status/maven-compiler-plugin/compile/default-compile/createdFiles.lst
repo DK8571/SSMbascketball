@@ -24,6 +24,7 @@ com\baoshi\programmer\dao\admin\TimeDao.class
 com\baoshi\programmer\controller\admin\BookingController.class
 com\baoshi\programmer\entity\admin\Ordertype.class
 com\baoshi\programmer\config\admin\SpringMvcConfig.class
+com\baoshi\programmer\controller\admin\CashierorderController.class
 com\baoshi\programmer\controller\admin\InstuctorController.class
 com\baoshi\programmer\service\admin\impl\OrdertypeServiceImpl.class
 com\baoshi\programmer\service\admin\OrdertypeService.class

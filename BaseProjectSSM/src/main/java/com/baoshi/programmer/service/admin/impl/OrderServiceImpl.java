@@ -47,4 +47,14 @@ public class OrderServiceImpl implements OrderService {
     public int getTotalbyuserid(Map<String, Object> queryMap) {
         return orderDao.getTotalbyuserid(queryMap);
     }
+
+    @Override
+    public List<Order> findListbycashierid(Map<String, Object> queryMap) {
+        return orderDao.findListbycashierid(queryMap);
+    }
+
+    @Override
+    public int getTotalbycashierid(Map<String, Object> queryMap) {
+        return orderDao.getTotalbycashierid(queryMap);
+    }
 }

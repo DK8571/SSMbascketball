@@ -9,8 +9,6 @@
 <body>
 <div title="欢迎使用" style="padding:20px;overflow:hidden; color:red; " ></div>
 <div id="container" style="width:100%;height:100%;">11</div>
-<h4>${date }</h4>
-<h4>${price }</h4>
 <script type="text/javascript">
     var dom = document.getElementById('container');
     var myChart = echarts.init(dom, null, {
@@ -23,7 +21,7 @@
 
     option = {
         title: {
-            text: '营业额'
+            text: '${title }'
         },
         xAxis: {
             text: '日期',

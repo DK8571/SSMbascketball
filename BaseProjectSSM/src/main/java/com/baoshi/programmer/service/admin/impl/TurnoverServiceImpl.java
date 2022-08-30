@@ -7,13 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class TurnoverServiceImpl implements TurnoverService{
     @Autowired
     private TurnoverDao turnoverDao;
 
     @Override
-    public List<Turnover> findturnover(Long id) {
-        return turnoverDao.findturnover(id);
+    public List<Turnover> findturnover(Map<String,Object> querymap) {
+        System.out.println(querymap.get("id"));
+        return turnoverDao.findturnover(querymap);
     }
 }

@@ -73,10 +73,18 @@ public class SystemController {
 	@RequestMapping(value="/welcome",method=RequestMethod.GET)
 	public ModelAndView welcome(HttpServletRequest request
 								,ModelAndView model){
+		Map<String,Object> querymap = new HashMap<>();
 		Role role = (Role) request.getSession().getAttribute("role");
-		List<Turnover> turnovers = turnoverService.findturnover(role.getId());
+		if (role.getId() == 1){
+			querymap.put("id",role.getId());
+		}else{
+			querymap.put("id",role.getId());
+			querymap.put("userid",request.getSession().getAttribute("adminid"));
+		}
+		List<Turnover> turnovers = turnoverService.findturnover(querymap);
 		String date = "";
 		String price = "";
+		String type;
 		for (Turnover tournover:turnovers) {
 			date += "'"+tournover.getDatestr()+"'"+",";
 			price += tournover.getPrice()+",";
@@ -88,6 +96,13 @@ public class SystemController {
 		if(!StringUtils.isEmpty(price)){
 			price = price.substring(0,price.length()-1);
 		}
+		System.out.println(price);
+		if (role.getId()==3){
+			type = "消费";
+		}else {
+			type = "营业额";
+		}
+		model.addObject("title",type);
 		model.addObject("date",date);
 		model.addObject("price",price);
 		model.setViewName("system/welcome");

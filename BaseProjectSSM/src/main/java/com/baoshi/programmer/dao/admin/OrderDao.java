@@ -1,6 +1,7 @@
 package com.baoshi.programmer.dao.admin;
 
 import com.baoshi.programmer.entity.admin.Order;
+import com.baoshi.programmer.entity.admin.Turnover;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -170,4 +171,6 @@ public interface OrderDao {
     })
 
     int getTotalbycashierid(Map<String, Object> queryMap);
+
+
 }

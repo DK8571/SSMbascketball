@@ -11,5 +11,6 @@
 <link rel="stylesheet" type="text/css" href="../../resources/admin/easyui/css/icon.css" />
 <script type="text/javascript" src="../../resources/admin/easyui/js/jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="../../resources/admin/easyui/easyui/1.3.4/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../../resources/admin/easyui/easyui/1.3.4/echarts.js"></script>
 <script type="text/javascript" src="../../resources/admin/easyui/easyui/1.3.4/locale/easyui-lang-zh_CN.js"></script>
 <body class="easyui-layout">

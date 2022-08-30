@@ -1,6 +1,7 @@
 package com.baoshi.programmer.service.admin;
 
 import com.baoshi.programmer.entity.admin.Role;
+import com.baoshi.programmer.entity.admin.Turnover;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,4 +19,5 @@ public interface RoleService {
 	public List<Role> findList(Map<String, Object> queryMap);
 	public int getTotal(Map<String, Object> queryMap);
 	public Role find(Long id);
+
 }

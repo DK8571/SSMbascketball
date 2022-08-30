@@ -60,7 +60,13 @@ public interface VenuesDao {
 
     Venues findbyVenusId(Long venuesid);
 
-    @Select("select venues.* from venues,cashier where venues.stadiumid=cashier.stadiumid and cashier.id =${cashierid}")
+    @Select({"<script>"+
+            "select venues.* from venues,cashier where 1=1 " +
+            "<if test='roleId == 2'>"+
+                "and venues.stadiumid=cashier.stadiumid and cashier.id =${cashierid}"+
+            "</if>"+
+            "</script>"
+    })
 
     List<Venues> findListbycashierid(Map<String, Object> queryMap);
 }

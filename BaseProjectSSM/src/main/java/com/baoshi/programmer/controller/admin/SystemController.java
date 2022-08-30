@@ -1,13 +1,7 @@
 package com.baoshi.programmer.controller.admin;
 
-import com.baoshi.programmer.entity.admin.Authority;
-import com.baoshi.programmer.entity.admin.Menu;
-import com.baoshi.programmer.entity.admin.Role;
-import com.baoshi.programmer.entity.admin.User;
-import com.baoshi.programmer.service.admin.AuthorityService;
-import com.baoshi.programmer.service.admin.MenuService;
-import com.baoshi.programmer.service.admin.RoleService;
-import com.baoshi.programmer.service.admin.UserService;
+import com.baoshi.programmer.entity.admin.*;
+import com.baoshi.programmer.service.admin.*;
 import com.baoshi.programmer.util.CpachaUtil;
 import com.baoshi.programmer.util.MenuUtil;
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +45,9 @@ public class SystemController {
 	@Autowired
 	private MenuService menuService;
 
+	@Autowired
+	private TurnoverService turnoverService;
+
 //	@Autowired
 //	private LogService logService;
 
@@ -73,7 +71,25 @@ public class SystemController {
 	 * @return
 	 */
 	@RequestMapping(value="/welcome",method=RequestMethod.GET)
-	public ModelAndView welcome(ModelAndView model){
+	public ModelAndView welcome(HttpServletRequest request
+								,ModelAndView model){
+		Role role = (Role) request.getSession().getAttribute("role");
+		List<Turnover> turnovers = turnoverService.findturnover(role.getId());
+		String date = "";
+		String price = "";
+		for (Turnover tournover:turnovers) {
+			date += "'"+tournover.getDatestr()+"'"+",";
+			price += tournover.getPrice()+",";
+		}
+		if(!StringUtils.isEmpty(date)){
+			date = date.substring(0,date.length()-1);
+		}
+		System.out.println(date);
+		if(!StringUtils.isEmpty(price)){
+			price = price.substring(0,price.length()-1);
+		}
+		model.addObject("date",date);
+		model.addObject("price",price);
 		model.setViewName("system/welcome");
 		return model;
 	}

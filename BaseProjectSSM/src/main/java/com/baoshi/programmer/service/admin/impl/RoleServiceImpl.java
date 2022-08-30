@@ -5,6 +5,7 @@ package com.baoshi.programmer.service.admin.impl;
 
 import com.baoshi.programmer.dao.admin.RoleDao;
 import com.baoshi.programmer.entity.admin.Role;
+import com.baoshi.programmer.entity.admin.Turnover;
 import com.baoshi.programmer.service.admin.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,5 +54,6 @@ public class RoleServiceImpl implements RoleService {
 		// TODO Auto-generated method stub
 		return roleDao.find(id);
 	}
+
 
 }

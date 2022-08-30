@@ -2,6 +2,7 @@ package com.baoshi.programmer.service.admin.impl;
 
 import com.baoshi.programmer.dao.admin.OrderDao;
 import com.baoshi.programmer.entity.admin.Order;
+import com.baoshi.programmer.entity.admin.Turnover;
 import com.baoshi.programmer.service.admin.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,4 +58,5 @@ public class OrderServiceImpl implements OrderService {
     public int getTotalbycashierid(Map<String, Object> queryMap) {
         return orderDao.getTotalbycashierid(queryMap);
     }
+
 }

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@include file="../common/header.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -6,19 +7,47 @@
 <title>欢迎页面</title>
 </head>
 <body>
-<div title="欢迎使用" style="padding:20px;overflow:hidden; color:red; " >
-	<p style="font-size: 50px; line-height: 60px; height: 60px;">${admin.username}</p>
-	<p style="font-size: 25px; line-height: 30px; height: 30px;">飞跃篮球联盟预约管理系统</p>
-  	<p>开发人员：【glx】</p>
-  	
-  	<hr />
-  	<h2>系统环境</h2>
-  	<p>系统环境：Windows</p>
-	<p>开发工具：idea</p>
-	<p>Java版本：JDK 1.8</p>
-	<p>服务器：tomcat 8.0</p>
-	<p>数据库：MySQL 8.0</p>
-	<p>系统采用技术： spring+springMVC+mybaits+EasyUI+jQuery+Ajax+面向接口编程</p>
-</div>
+<div title="欢迎使用" style="padding:20px;overflow:hidden; color:red; " ></div>
+<div id="container" style="width:100%;height:100%;">11</div>
+<h4>${date }</h4>
+<h4>${price }</h4>
+<script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+        renderer: 'canvas',
+        useDirtyRect: false
+    });
+    var app = {};
+
+    var option;
+
+    option = {
+        title: {
+            text: '营业额'
+        },
+        xAxis: {
+            text: '日期',
+            type: 'category',
+            data: [${date }]
+        },
+        yAxis: {
+            text: '金额',
+            type: 'value'
+        },
+        series: [
+            {
+                data: [${price }],
+                type: 'line'
+            }
+        ]
+    };
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+
+</script>
 </body>
 </html>

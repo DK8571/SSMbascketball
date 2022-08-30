@@ -43,7 +43,7 @@
 				登录
 			</div>
 		</div>
-		<div class="sk-rotating-plane"></div>
+		<div class="sk-spinner"></div>
 <canvas class="particles-js-canvas-el" width="1147" height="952" style="width: 100%; height: 100%;"></canvas></div>
 
 <!-- scripts -->
@@ -93,7 +93,7 @@
 					return;
 				}
 				addClass(document.querySelector(".login"), "active")
-				addClass(document.querySelector(".sk-rotating-plane"), "active")
+				addClass(document.querySelector(".sk-spinner"), "active")
 				document.querySelector(".login").style.display = "none"
 				$.ajax({
 					url:'login',
@@ -105,7 +105,7 @@
 							window.parent.location = 'index';
 						}else{
 							removeClass(document.querySelector(".login"), "active");
-							removeClass(document.querySelector(".sk-rotating-plane"), "active");
+							removeClass(document.querySelector(".sk-spinner"), "active");
 							document.querySelector(".login").style.display = "block";
 							alert(data.msg);
 							changeCpacha();

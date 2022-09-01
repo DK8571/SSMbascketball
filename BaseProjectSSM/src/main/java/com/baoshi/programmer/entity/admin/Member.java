@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 public class Member {
     private Long id;//用户id，设置自增
     private String username;//用户名，登录名
+    private String name;
     private String password;//登录密码
     private Long roleId;//所属角色id
     private String photo;//头像照片地址
@@ -14,6 +15,14 @@ public class Member {
     private String address;//家庭住址
     private Double balance;//余额
     private Long memberid;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Long getMemberid() {
         return memberid;
@@ -100,6 +109,7 @@ public class Member {
         return "Member{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", roleId=" + roleId +
                 ", photo='" + photo + '\'' +

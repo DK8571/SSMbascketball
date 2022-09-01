@@ -367,6 +367,7 @@
 				return img;
 			}},
 			{ field:'username',title:'用户名',width:100,sortable:true},
+            { field:'name',title:'姓名',width:100},
 			{ field:'sex',title:'性别',width:100,formatter:function(value,row,index){
 				switch(value){
 					case 0:{

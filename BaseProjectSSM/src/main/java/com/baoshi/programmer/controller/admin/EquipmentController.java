@@ -81,26 +81,21 @@ public class EquipmentController {
         }
         if(StringUtils.isEmpty(venues.getEquipmentname())){
             ret.put("type", "error");
-            ret.put("msg", "请填写用户名！");
+            ret.put("msg", "请填写设备！");
             return ret;
         }
         if(venues.getVenuesid() == null){
             ret.put("type", "error");
-            ret.put("msg", "请选择所属球馆！");
-            return ret;
-        }
-        if(isExist(venues.getEquipmentname(), 0l)){
-            ret.put("type", "error");
-            ret.put("msg", "该用户名已经存在，请重新输入！");
+            ret.put("msg", "请选择所属球场！");
             return ret;
         }
         if(equipmentService.add(venues) <= 0){
             ret.put("type", "error");
-            ret.put("msg", "用户添加失败，请联系管理员！");
+            ret.put("msg", "设备添加失败，请联系管理员！");
             return ret;
         }
         ret.put("type", "success");
-        ret.put("msg", "角色添加成功！");
+        ret.put("msg", "设备添加成功！");
         return ret;
     }
 
@@ -114,22 +109,17 @@ public class EquipmentController {
         Map<String, String> ret = new HashMap<String, String>();
         if(venues == null){
             ret.put("type", "error");
-            ret.put("msg", "请填写正确的用户信息！");
+            ret.put("msg", "请填写正确的设备信息！");
             return ret;
         }
         if(StringUtils.isEmpty(venues.getEquipmentname())){
             ret.put("type", "error");
-            ret.put("msg", "请填写用户名！");
+            ret.put("msg", "请填写设备名！");
             return ret;
         }
         if(venues.getEquipmentname() == null){
             ret.put("type", "error");
-            ret.put("msg", "请选择所属球馆！");
-            return ret;
-        }
-        if(isExist(venues.getEquipmentname(), venues.getId())){
-            ret.put("type", "error");
-            ret.put("msg", "该用户名已经存在，请重新输入！");
+            ret.put("msg", "请选择所属球场！");
             return ret;
         }
         if(equipmentService.edit(venues) <= 0){
@@ -138,7 +128,7 @@ public class EquipmentController {
             return ret;
         }
         ret.put("type", "success");
-        ret.put("msg", "角色添加成功！");
+        ret.put("msg", "设备添加成功！");
         return ret;
     }
 
@@ -161,11 +151,11 @@ public class EquipmentController {
         }
         if(equipmentService.delete(ids) <= 0){
             ret.put("type", "error");
-            ret.put("msg", "用户删除失败，请联系管理员！");
+            ret.put("msg", "设备删除失败，请联系管理员！");
             return ret;
         }
         ret.put("type", "success");
-        ret.put("msg", "用户删除成功！");
+        ret.put("msg", "设备删除成功！");
         return ret;
     }
 

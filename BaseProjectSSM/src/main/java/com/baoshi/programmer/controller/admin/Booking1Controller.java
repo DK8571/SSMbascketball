@@ -63,7 +63,7 @@ public class Booking1Controller {
         Map<String,Object> queryMap = new HashMap<>();
         if (date != null&&date!="") {
             queryMap.put("date",date);
-            if (venuesid != null){
+            if (venuesid != -1){
                 queryMap.put("venuesid",venuesid);
                 ret.put("rows",bookingService.findList(queryMap));
                 ret.put("total",bookingService.getTotal(queryMap));
@@ -89,12 +89,18 @@ public class Booking1Controller {
         if (booking.getQuote()==0) {
             if (booking.getOrdertypeid()==1) {
                     ///
-                    double priceall =venues.getAllprice();
+                if (member.getBalance()<(venues.getPrice()*booking.getNumber())){
+                    ret.put("type","error");
+                    ret.put("msg","余额不足请充值");
+                    return ret;
+                }else {
+                    double priceall = venues.getAllprice();
                     booking.setPrice(priceall);
-                    balance = member.getBalance()-priceall;
+                    balance = member.getBalance() - priceall;
                     memberService.editmember(balance, userid);
                     booking.setQuote(1);
                     bookingService.add(booking);
+                }
             }else{
                 if (booking.getSum()+booking.getNumber()>venues.getMax()) {
                     ret.put("type","error");

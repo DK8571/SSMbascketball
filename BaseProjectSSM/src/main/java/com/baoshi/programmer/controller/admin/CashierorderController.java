@@ -45,10 +45,12 @@ public class CashierorderController {
         Map<String,Object> queryMap = new HashMap<>();
         Long userid = (Long) request.getSession().getAttribute("adminid");
         queryMap.put("cashierid",userid);
+        queryMap.put("roleId",2);
         mv.addObject("ordertypelist",ordertypeService.findList());
         mv.addObject("timelist",timeService.findList(queryMap));
         mv.addObject("memberlist",memberService.findList(queryMap));
         mv.addObject("venuesList", venuesService.findListbycashierid(queryMap));
+        System.out.println(venuesService.findListbycashierid(queryMap));
         mv.setViewName("cashierorder/list");
         return mv;
     }

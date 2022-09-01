@@ -29,7 +29,7 @@ public interface UserDao {
 
     User findbyuserid(Long userid);
 
-	@Select("select * from user where roleId != 3")
+	@Select("select `user`.* from user WHERE roleId=1 OR `user`.id in (SELECT id from cashier where stadiumid = (SELECT stadiumid FROM cashier WHERE cashier.id = ${cashierid }))")
 
 	List<User> findListbycashierid(Map<String, Object> queryMap);
 }

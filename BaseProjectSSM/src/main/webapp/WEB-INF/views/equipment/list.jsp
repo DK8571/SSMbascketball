@@ -45,7 +45,7 @@
             <tr>
                 <td width="60" align="right">所属场地:</td>
                 <td>
-                	<select name="venuesid" id="add-venuesid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择角色'">
+                	<select name="venuesid" id="add-venuesid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择场地'">
                         <c:forEach items="${venuesList}" var="venues">
                             <option value="${venues.id }">${venues.venuesname }</option>
                         </c:forEach>
@@ -59,16 +59,16 @@
 <div id="edit-dialog" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:450px; padding:10px;">
 	<form id="edit-form" method="post">
         <input type="hidden" name="id" id="edit-id">
-        <input type="text" name="id" value="${venuesid }">
+        <input type="hidden" name="id" value="${venuesid }">
         <table>
             <input  type="hidden" name="userid" class="wu-text easyui-validatebox" value="${admin.id}">
             <tr>
                 <td width="60" align="right">设备名称:</td>
-                <td><input type="text" id="edit-equipmentname" name="equipmentname" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" id="edit-equipmentname" name="equipmentname" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写设备'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">备注:</td>
-                <td><input type="text" id="edit-remark" name="remark" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" id="edit-remark" name="remark" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填备注'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">所属场地:</td>
@@ -187,7 +187,7 @@
 	* Name 打开添加窗口
 	*/
 	function openAdd(){
-        $('#add-venuesid').combobox('setValue','1');
+        $('#add-venuesid').combobox('setValue','');
 		$('#add-dialog').dialog({
 			closed: false,
 			modal:true,
@@ -280,7 +280,7 @@
         fit:true,
 		columns:[[
 			{ field:'chk',checkbox:true},
-            { field:'id',title:'时间id',width:100},
+            // { field:'id',title:'时间id',width:100},
 			{ field:'equipmentname',title:'设备名称',width:100,sortable:true},
             { field:'remark',title:'备注',width:100,sortable:true},
             // { field:'id',title:'所属球馆',width:200,sortable:true},

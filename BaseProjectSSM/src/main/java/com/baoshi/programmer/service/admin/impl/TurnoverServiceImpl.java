@@ -16,7 +16,6 @@ public class TurnoverServiceImpl implements TurnoverService{
 
     @Override
     public List<Turnover> findturnover(Map<String,Object> querymap) {
-        System.out.println(querymap.get("id"));
         return turnoverDao.findturnover(querymap);
     }
 }

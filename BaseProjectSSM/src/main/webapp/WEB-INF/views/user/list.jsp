@@ -46,7 +46,7 @@
             </tr>
             <tr>
                 <td width="60" align="right">用户名:</td>
-                <td><input type="text" name="username" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" name="username" class="wu-text easyui-validatebox"  data-options="required:true, missingMessage:'请填写用户名'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">密码:</td>

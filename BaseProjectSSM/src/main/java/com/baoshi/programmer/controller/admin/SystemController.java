@@ -92,11 +92,9 @@ public class SystemController {
 		if(!StringUtils.isEmpty(date)){
 			date = date.substring(0,date.length()-1);
 		}
-		System.out.println(date);
 		if(!StringUtils.isEmpty(price)){
 			price = price.substring(0,price.length()-1);
-		}
-		System.out.println(price);
+		};
 		if (role.getId()==3){
 			type = "消费";
 		}else {

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class User {
 	private Long id;//用户id，设置自增
+	private String name;
 	private String username;//用户名，登录名
 	private String password;//登录密码
 	private Long roleId;//所属角色id
@@ -19,6 +20,14 @@ public class User {
 	private String address;//家庭住址
 	private double balance;
 	private Integer stadiumid;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public double getBalance() {
 		return balance;
@@ -89,6 +98,7 @@ public class User {
 	public String toString() {
 		return "User{" +
 				"id=" + id +
+				", name='" + name + '\'' +
 				", username='" + username + '\'' +
 				", password='" + password + '\'' +
 				", roleId=" + roleId +

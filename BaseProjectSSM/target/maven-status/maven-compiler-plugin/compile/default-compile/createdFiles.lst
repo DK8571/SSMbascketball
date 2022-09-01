@@ -45,6 +45,7 @@ com\baoshi\programmer\controller\admin\VenuesController.class
 com\baoshi\programmer\dao\admin\OrdertypeDao.class
 com\baoshi\programmer\controller\admin\SystemController.class
 com\baoshi\programmer\entity\admin\Equipment.class
+com\baoshi\programmer\controller\admin\OwnmasageController.class
 com\baoshi\programmer\dao\admin\BookingDao.class
 com\baoshi\programmer\controller\admin\OrderController.class
 com\baoshi\programmer\entity\admin\User.class

@@ -34,6 +34,9 @@ public interface MemberDao {
             "<if test='sex != null'>"+
             "and sex = #{sex}"+
             "</if>"+
+            "<if test='userid != null'>"+
+            "and user.id = #{userid}"+
+            "</if>"+
             "<if test='userid!= null'>"+
             "and member.userid = #{userid}"+
             "</if>"+

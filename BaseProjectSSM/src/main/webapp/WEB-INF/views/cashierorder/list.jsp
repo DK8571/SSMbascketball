@@ -92,12 +92,12 @@
      * 删除记录
      */
     function remove(){
-        $.messager.confirm('信息提示','确定要删除该记录？', function(result){
+        $.messager.confirm('信息提示','确定要取消该订单？', function(result){
             if(result){
                 var item = $('#data-datagrid').datagrid('getSelections');
                 this.obj=item[0];
                 if(item == null || item.length == 0){
-                    $.messager.alert('信息提示','请选择要删除的数据！','info');
+                    $.messager.alert('信息提示','请选择要取消的订单的数据！','info');
                     return;
                 }
                 // item=JSON.parse(JSON.stringify(item))
@@ -109,7 +109,7 @@
                     data:{orderid:item[0].id,orderdate:item[0].datestr,price:item[0].price,memberid:item[0].memberid},
                     success:function(data){
                         if(data.type == 'success'){
-                            $.messager.alert('信息提示','删除成功！','info');
+                            $.messager.alert('信息提示','订单成功取消！','info');
                             $('#data-datagrid').datagrid('reload');
                         }else{
                             $.messager.alert('信息提示',data.msg,'warning');

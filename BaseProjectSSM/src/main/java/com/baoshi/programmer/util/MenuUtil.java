@@ -48,7 +48,6 @@ public class MenuUtil {
 	/**
 	 * 获取某个二级菜单下的按钮
 	 * @param menuList
-	 * @param url
 	 * @return
 	 */
 	public static List<Menu> getAllThirdMenu(List<Menu> menuList,Long secondMenuId){

@@ -55,4 +55,9 @@ public class VenuesServiceImpl implements VenuesService {
     public List<Venues> findListbycashierid(Map<String, Object> queryMap) {
         return venuesDao.findListbycashierid(queryMap);
     }
+
+    @Override
+    public Integer findequipment(String ids) {
+        return venuesDao.findequipment(ids);
+    }
 }

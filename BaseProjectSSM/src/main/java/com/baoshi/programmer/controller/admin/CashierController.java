@@ -114,11 +114,6 @@ public class CashierController {
             ret.put("msg", "请填写用户名！");
             return ret;
         }
-//		if(StringUtils.isEmpty(user.getPassword())){
-//			ret.put("type", "error");
-//			ret.put("msg", "?????????");
-//			return ret;
-//		}
         if(isExist(user.getUsername(), user.getId())){
             ret.put("type", "error");
             ret.put("msg", "该用户名已经存在，请重新输入！");
@@ -130,7 +125,7 @@ public class CashierController {
             return ret;
         }
         ret.put("type", "success");
-        ret.put("msg", "角色添加成功！");
+        ret.put("msg", "收营员添加成功！");
         return ret;
     }
 

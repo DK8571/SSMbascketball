@@ -72,6 +72,8 @@ public class OwnController {
         queryMap.put("ordertypeid",ordertypeid);
         queryMap.put("venuesid",venuesid);
         queryMap.put("timeid",timeid);
+        queryMap.put("offset", page.getOffset());
+        queryMap.put("pageSize", page.getRows());
         ret.put("rows",orderService.findListbyuserid(queryMap));
         ret.put("total",orderService.getTotalbyuserid(queryMap));
         return ret;

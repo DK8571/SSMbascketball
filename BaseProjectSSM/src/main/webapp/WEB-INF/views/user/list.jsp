@@ -46,13 +46,13 @@
             </tr>
             <tr>
                 <td width="60" align="right">用户名:</td>
-                <td><input type="text" name="username" class="wu-text easyui-validatebox"  data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" name="username" oninput="this.value=this.value.replace(/[^a-zA-Z\d]/g,'')" class="wu-text easyui-validatebox"  data-options="required:true, missingMessage:'请填写用户名'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">密码:</td>
                 <td><input type="password" name="password" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写密码'" /></td>
             </tr>
-            <tr>
+            <tr style="display: none">
                 <td width="60" align="right">所属角色:</td>
                 <td>
                 	<select name="roleId" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择角色'">
@@ -101,9 +101,9 @@
             </tr>
             <tr>
                 <td width="60" align="right">用户名:</td>
-                <td><input type="text" id="edit-username" name="username" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" id="edit-username" readonly="readonly" name="username"  class="wu-text easyui-validatebox"  /></td>
             </tr>
-            <tr>
+            <tr style="display: none">
                 <td width="60" align="right">所属角色:</td>
                 <td>
                 	<select id="edit-roleId" name="roleId" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择角色'">

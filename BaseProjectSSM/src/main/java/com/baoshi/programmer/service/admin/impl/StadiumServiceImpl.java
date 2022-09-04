@@ -44,4 +44,9 @@ public class StadiumServiceImpl implements StadiumService {
     public int getTotal(Map<String, Object> queryMap) {
         return stadiumDao.getTotal(queryMap);
     }
+
+    @Override
+    public Integer findvenues(String ids) {
+        return stadiumDao.findvenues(ids);
+    }
 }

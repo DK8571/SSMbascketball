@@ -13,11 +13,11 @@ public interface CashierDao {
     @Select("select * from user where username = #{username}")
     User findByCashiername(String username);
 
-    @Insert("insert into user(id,username,password,roleId,photo,sex,age,address) values(null,#{username},#{password},2,#{photo},#{sex},#{age},#{address})")
+    @Insert("insert into user(id,username,name,password,roleId,photo,sex,age,address) values(null,#{username},#{name},#{password},2,#{photo},#{sex},#{age},#{address})")
     @Options(useGeneratedKeys=true,keyProperty="id",keyColumn="id")
     int add(User user);
 
-    @Insert("update user set username = #{username},photo = #{photo},sex = #{sex},age = #{age},address = #{address} where id = #{id}")
+    @Update("update user set username = #{username},name=#{name},photo = #{photo},sex = #{sex},age = #{age},address = #{address} where id = #{id}")
     int edit(User user);
 
     @Delete("delete from user where id in(${value})")

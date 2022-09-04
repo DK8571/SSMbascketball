@@ -47,21 +47,7 @@ public class StadiumController {
     @ResponseBody
     public Map<String, String> add(Stadium stadium){
         Map<String, String> ret = new HashMap<String, String>();
-        if(stadium == null){
-            ret.put("type", "error");
-            ret.put("msg", "请填写正确的用户信息！");
-            return ret;
-        }
-        if(StringUtils.isEmpty(stadium.getStadiumname())){
-            ret.put("type", "error");
-            ret.put("msg", "请填写用户名！");
-            return ret;
-        }
-        if(isExist(stadium.getStadiumname(), 0l)){
-            ret.put("type", "error");
-            ret.put("msg", "该用户名已经存在，请重新输入！");
-            return ret;
-        }
+
         if(stadiumService.add(stadium) <= 0 ){
 
             ret.put("type", "error");
@@ -82,26 +68,6 @@ public class StadiumController {
     @ResponseBody
     public Map<String, String> edit(Stadium stadium){
         Map<String, String> ret = new HashMap<String, String>();
-        if(stadium == null){
-            ret.put("type", "error");
-            ret.put("msg", "请填写正确的用户信息！");
-            return ret;
-        }
-        if(StringUtils.isEmpty(stadium.getStadiumname())){
-            ret.put("type", "error");
-            ret.put("msg", "请填写用户名！");
-            return ret;
-        }
-//		if(StringUtils.isEmpty(stadium.getPassword())){
-//			ret.put("type", "error");
-//			ret.put("msg", "请填写密码！");
-//			return ret;
-//		}
-        if(isExist(stadium.getStadiumname(), stadium.getId())){
-            ret.put("type", "error");
-            ret.put("msg", "该用户名已经存在，请重新输入！");
-            return ret;
-        }
         if(stadiumService.edit(stadium) <= 0){
             ret.put("type", "error");
             ret.put("msg", "用户添加失败，请联系管理员！");
@@ -129,6 +95,12 @@ public class StadiumController {
         if(ids.contains(",")){
             ids = ids.substring(0,ids.length()-1);
         }
+        if(stadiumService.findvenues(ids)> 0 ){
+            System.out.println("into");
+            ret.put("type", "error");
+            ret.put("msg", "球馆下仍有球场未删除");
+            return ret;
+        }
         if(stadiumService.delete(ids) <= 0){
             ret.put("type", "error");
             ret.put("msg", "用户删除失败，请联系管理员！");
@@ -137,12 +109,5 @@ public class StadiumController {
         ret.put("type", "success");
         ret.put("msg", "用户删除成功！");
         return ret;
-    }
-
-    private boolean isExist(String stadiumname,Long id){
-        Stadium stadium = stadiumService.findByStadiumname(stadiumname);
-        if(stadium == null)return false;
-        if(stadium.getId().longValue() == id.longValue())return false;
-        return true;
     }
 }

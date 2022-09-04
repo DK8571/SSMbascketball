@@ -41,6 +41,7 @@ public class OwnmasageController {
     @RequestMapping(value="/edit",method=RequestMethod.POST)
     @ResponseBody
     public Map<String, String> edit(User user){
+        System.out.println(user.getName());
         Map<String, String> ret = new HashMap<String, String>();
         if(user == null){
             ret.put("type", "error");
@@ -52,11 +53,6 @@ public class OwnmasageController {
             ret.put("msg", "请填写用户名！");
             return ret;
         }
-//		if(StringUtils.isEmpty(user.getPassword())){
-//			ret.put("type", "error");
-//			ret.put("msg", "请填写密码！");
-//			return ret;
-//		}
         if(isExist(user.getUsername(), user.getId())){
             ret.put("type", "error");
             ret.put("msg", "该用户名已经存在，请重新输入！");

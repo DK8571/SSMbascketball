@@ -15,11 +15,12 @@ public class SpringMvcSupport extends WebMvcConfigurationSupport {
     protected void addInterceptors(InterceptorRegistry registry){
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/admin/**","/system/*")
-                .excludePathPatterns("/system/login","/system/get_cpacha");
+                .excludePathPatterns("/system/login","/system/get_cpacha","/system/addlist","/system/add","/system/upload_photo");
     }
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+
     }
 
 

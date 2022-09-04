@@ -2,6 +2,8 @@ package com.baoshi.programmer.controller.admin;
 
 import com.baoshi.programmer.entity.admin.User;
 import com.baoshi.programmer.page.admin.Page;
+import com.baoshi.programmer.service.admin.CashierService;
+import com.baoshi.programmer.service.admin.MemberService;
 import com.baoshi.programmer.service.admin.RoleService;
 import com.baoshi.programmer.service.admin.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,10 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private RoleService roleService;
+	@Autowired
+	private MemberService memberService;
+	@Autowired
+	private CashierService cashierService;
 
 	/**
 	 * 用户列表页面
@@ -135,11 +141,6 @@ public class UserController {
 			ret.put("msg", "请填写用户名！");
 			return ret;
 		}
-//		if(StringUtils.isEmpty(user.getPassword())){
-//			ret.put("type", "error");
-//			ret.put("msg", "请填写密码！");
-//			return ret;
-//		}
 		if(user.getRoleId() == null){
 			ret.put("type", "error");
 			ret.put("msg", "请选择所属角色！");
@@ -177,11 +178,21 @@ public class UserController {
 		if(ids.contains(",")){
 			ids = ids.substring(0,ids.length()-1);
 		}
-		if(userService.delete(ids) <= 0){
-			ret.put("type", "error");
-			ret.put("msg", "用户删除失败，请联系管理员！");
-			return ret;
+		if (userService.findcountmember(ids)>0) {
+			if (memberService.findblance(ids) > 0) {
+				ret.put("type", "error");
+				ret.put("msg", "删除会员仍有余额，请退款后再删除");
+				return ret;
+			}
+			if (memberService.findorder(ids) > 0) {
+				ret.put("type", "error");
+				ret.put("msg", "删除会员仍有未完成订单，请退款后再删除");
+				return ret;
+			}
 		}
+		memberService.deletemember(ids);
+		cashierService.delete(ids);
+		userService.delete(ids);
 		ret.put("type", "success");
 		ret.put("msg", "用户删除成功！");
 		return ret;

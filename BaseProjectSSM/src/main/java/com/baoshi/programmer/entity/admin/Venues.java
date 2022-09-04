@@ -4,7 +4,7 @@ public class Venues {
     private Long id;
     private String venuesname;
     private Long stadiumid;
-    private int max;
+    private Integer max;
     private Double price;
     private Double allprice;
 
@@ -16,11 +16,11 @@ public class Venues {
         this.allprice = allprice;
     }
 
-    public int getMax() {
+    public Integer getMax() {
         return max;
     }
 
-    public void setMax(int max) {
+    public void setMax(Integer max) {
         this.max = max;
     }
 

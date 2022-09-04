@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.imageio.ImageIO;
@@ -18,11 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
+
+import static com.baoshi.programmer.util.MD5.getMd5;
 
 /**
  * 系统操作类控制器
@@ -47,6 +49,8 @@ public class SystemController {
 
 	@Autowired
 	private TurnoverService turnoverService;
+	@Autowired
+	private MemberService memberService;
 
 //	@Autowired
 //	private LogService logService;
@@ -116,7 +120,48 @@ public class SystemController {
 		model.setViewName("system/login");
 		return model;
 	}
+	@RequestMapping(value="/addlist",method=RequestMethod.GET)
+	public ModelAndView addlist(ModelAndView model){
+		model.setViewName("system/addlist");
+		return model;
+	}
+	@RequestMapping(value="/add",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> add(User user){
+		Map<String, String> ret = new HashMap<String, String>();
+		if(user == null){
+			ret.put("type", "error");
+			ret.put("msg", "请填写正确的用户信息！");
+			return ret;
+		}
+		if(org.springframework.util.StringUtils.isEmpty(user.getUsername())){
+			ret.put("type", "error");
+			ret.put("msg", "请填写用户名！");
+			return ret;
+		}
+		if(org.springframework.util.StringUtils.isEmpty(user.getPassword())){
+			ret.put("type", "error");
+			ret.put("msg", "请填写密码！");
+			return ret;
+		}
 
+		if(isExist(user.getUsername(), 0l)){
+			ret.put("type", "error");
+			ret.put("msg", "该用户名已经存在，请重新输入！");
+			return ret;
+		}
+		if(memberService.add(user) <= 0 ){
+
+			ret.put("type", "error");
+			ret.put("msg", "用户添加失败，请联系管理员！");
+			return ret;
+		}
+		long id = user.getId();
+		memberService.addmember(id);
+		ret.put("type", "success");
+		ret.put("msg", "角色添加成功！");
+		return ret;
+	}
 	/**
 	 * 登录表单提交处理控制器
 	 * @param user
@@ -125,7 +170,7 @@ public class SystemController {
 	 */
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> loginAct(User user, String cpacha, HttpServletRequest request){
+	public Map<String, String> loginAct(User user, String cpacha, HttpServletRequest request) throws NoSuchAlgorithmException {
 		Map<String, String> ret = new HashMap<String, String>();
 		if(user == null){
 			ret.put("type", "error");
@@ -166,7 +211,7 @@ public class SystemController {
 //			logService.add("登录时，用户名为"+user.getUsername()+"的用户不存在!");
 			return ret;
 		}
-		if(!user.getPassword().equals(findByUsername.getPassword())){
+		if(!(getMd5(user.getPassword())).equals(findByUsername.getPassword())){
 			ret.put("type", "error");
 			ret.put("msg", "密码错误！");
 //			logService.add("用户名为"+user.getUsername()+"的用户登录时输入密码错误!");
@@ -274,5 +319,60 @@ public class SystemController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	@RequestMapping(value="/upload_photo",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> uploadPhoto(MultipartFile photo, HttpServletRequest request){
+		Map<String, String> ret = new HashMap<String, String>();
+		if(photo == null){
+			ret.put("type", "error");
+			ret.put("msg", "选择要上传的文件！");
+			return ret;
+		}
+		if(photo.getSize() > 1024*1024*1024){
+			ret.put("type", "error");
+			ret.put("msg", "文件大小不能超过10M！");
+			return ret;
+		}
+		//获取文件后缀
+		String suffix = photo.getOriginalFilename().substring(photo.getOriginalFilename().lastIndexOf(".")+1,photo.getOriginalFilename().length());
+		if(!"jpg,jpeg,gif,png".toUpperCase().contains(suffix.toUpperCase())){
+			ret.put("type", "error");
+			ret.put("msg", "请选择jpg,jpeg,gif,png格式的图片！");
+			return ret;
+		}
+		String savePath = request.getSession().getServletContext().getRealPath("/") + "/resources/upload/";
+		File savePathFile = new File(savePath);
+		if(!savePathFile.exists()){
+			//若不存在改目录，则创建目录
+			savePathFile.mkdir();
+		}
+		String filename = new Date().getTime()+"."+suffix;
+		try {
+			//将文件保存至指定目录
+			photo.transferTo(new File(savePath+filename));
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			ret.put("type", "error");
+			ret.put("msg", "保存文件异常！");
+			e.printStackTrace();
+			return ret;
+		}
+		ret.put("type", "success");
+		ret.put("msg", "用户删除成功！");
+		ret.put("filepath",request.getSession().getServletContext().getContextPath() + "/resources/upload/" + filename );
+		return ret;
+	}
+	/**
+	 * 判断该用户名是否存在
+	 * @param username
+	 * @param id
+	 * @return
+	 */
+	private boolean isExist(String username,Long id){
+		User user = memberService.findByUsername(username);
+		if(user == null)return false;
+		if(user.getId().longValue() == id.longValue())return false;
+		return true;
 	}
 }

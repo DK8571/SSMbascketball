@@ -21,4 +21,5 @@ public interface UserService {
 	public int getTotal(Map<String, Object> queryMap);
     public User findbyuserid(Long userid);
 	public List<User> findListbycashierid(Map<String, Object> queryMap);
+    public Integer findcountmember(String ids);
 }

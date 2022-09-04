@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateUtils {
-
     public static String datetoString(Date date, String patt){
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat(patt);
         String forDate=simpleDateFormat.format(date);

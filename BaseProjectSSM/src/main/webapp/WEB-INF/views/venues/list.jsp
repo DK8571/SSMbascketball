@@ -28,12 +28,12 @@
         <table>
             <tr>
                 <td width="60" align="right">球场编号:</td>
-                <td><input type="text" name="venuesname" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" name="venuesname" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填球场编号'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">所属球馆:</td>
                 <td>
-                	<select name="stadiumid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择角色'">
+                	<select name="stadiumid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择所属球馆'">
                         <c:forEach items="${stadiumList }" var="stadiumId">
                             <option value="${stadiumId.id }">${stadiumId.stadiumname }</option>
                         </c:forEach>
@@ -62,12 +62,12 @@
         <table>
             <tr>
                 <td width="60" align="right">场地编号:</td>
-                <td><input type="text" id="edit-username" name="venuesname" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" id="edit-username" name="venuesname" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写球场编号'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">所属角色:</td>
                 <td>
-                	<select id="edit-roleId" name="stadiumid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择角色'">
+                	<select id="edit-roleId" name="stadiumid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择所属球馆'">
                         <c:forEach items="${stadiumList}" var="stadiumId">
                             <option value="${stadiumId.id }">${stadiumId.stadiumname }</option>
                         </c:forEach>

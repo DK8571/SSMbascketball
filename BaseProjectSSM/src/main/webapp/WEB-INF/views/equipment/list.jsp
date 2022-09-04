@@ -36,11 +36,11 @@
         <table>
             <tr>
                 <td width="60" align="right">设备名称:</td>
-                <td><input type="text" name="equipmentname" id="add-equipmentname"  class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" name="equipmentname" id="add-equipmentname"  class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写设备名'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">备注:</td>
-                <td><input type="text" name="remark" id="add-remark" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" name="remark" id="add-remark" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写备注'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">所属场地:</td>
@@ -73,7 +73,7 @@
             <tr>
                 <td width="60" align="right">所属场地:</td>
                 <td>
-                	<select id="edit-venuesid" name="venuesid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择角色'">
+                	<select id="edit-venuesid" name="venuesid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择场地'">
                         <c:forEach items="${venuesList}" var="venues">
                             <option value="${venues.id }">${venues.venuesname }</option>
                         </c:forEach>
@@ -187,7 +187,7 @@
 	* Name 打开添加窗口
 	*/
 	function openAdd(){
-        $('#add-venuesid').combobox('setValue','');
+        $('#add-form').form('clear');
 		$('#add-dialog').dialog({
 			closed: false,
 			modal:true,

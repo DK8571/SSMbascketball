@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td width="60" align="right">姓名:</td>
-                    <td><input type="text" id="add-name" name="name" class="wu-text easyui-validatebox"  value="asd"/></td>
+                    <td><input type="text" id="add-name" name="name" class="wu-text easyui-validatebox"  value="${Member[0].name }"/></td>
                 </tr>
                 <tr>
                     <td width="60" align="right">性别:</td>

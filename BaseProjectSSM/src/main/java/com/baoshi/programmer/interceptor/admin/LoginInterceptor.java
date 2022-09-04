@@ -53,7 +53,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 				//表示是ajax请求
 				Map<String, String> ret = new HashMap<String, String>();
 				ret.put("type", "error");
-				ret.put("msg", "登录会话超时或还未登录，请重新登录!");
+				ret.put("msg", "rereg");
 				response.getWriter().write(JSONObject.fromObject(ret).toString());
 				return false;
 			}

@@ -171,7 +171,18 @@
             { field:'chk',checkbox:true},
             { field:'time',title:'时间',width:100},
             { field:'sum',title:'预约人数',width:100},
-            { field:'quotestr',title:'状态',width:100}
+            { field:'quotestr',title:'状态',width:100,formatter:function(value,row,index){
+                if (value === "无人预定") {
+                    var test = '<div style="color: green" >' + value + '</div>'
+                }
+                if (value === "有比赛不可预约"){
+                    var test = '<div style="color: red" >' + value + '</div>'
+                }
+                if (value === "不可预约比赛"){
+                    var test = '<div style="color: orange" >' + value + '</div>'
+                }
+                return test;
+    }}
         ]]
 	});
 </script>

@@ -69,4 +69,8 @@ public interface VenuesDao {
     })
 
     List<Venues> findListbycashierid(Map<String, Object> queryMap);
+
+    @Select("SELECT COUNT(*) from equipment WHERE venuesid in (${value})")
+
+    Integer findequipment(String ids);
 }

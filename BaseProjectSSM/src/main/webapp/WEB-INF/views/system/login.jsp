@@ -20,7 +20,7 @@
 			<div class="login-center clearfix">
 				<div class="login-center-img"><img src="../resources/admin/login/images/name.png"></div>
 				<div class="login-center-input">
-					<input type="text" name="username" id="username" value="" placeholder="请输入您的用户名" onfocus="this.placeholder=&#39;&#39;" onblur="this.placeholder=&#39;请输入您的用户名&#39;">
+					<input type="text" name="username" id="username" value="" placeholder="请输入您的用户名" oninput="this.value=this.value.replace(/[^a-zA-Z\d]/g,'')" onfocus="this.placeholder=&#39;&#39;" onblur="this.placeholder=&#39;请输入您的用户名&#39;">
 					<div class="login-center-input-text">用户名</div>
 				</div>
 			</div>
@@ -38,6 +38,9 @@
 					<div class="login-center-input-text">验证码</div>
 					<img id="cpacha-img" title="点击切换验证码" style="cursor:pointer;" src="get_cpacha?vl=4&w=150&h=40&type=loginCpacha" width="110px" height="30px" onclick="changeCpacha()">
 				</div>
+			</div>
+			<div style="text-align: center">
+				<a href="addlist">注册账号</a>
 			</div>
 			<div class="login-button">
 				登录

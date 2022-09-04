@@ -14,4 +14,5 @@ public interface StadiumService {
     public int delete(String stadium);
     public List<Stadium> findList(Map<String, Object> queryMap);
     public int getTotal(Map<String, Object> queryMap);
+    public Integer findvenues(String ids);
 }

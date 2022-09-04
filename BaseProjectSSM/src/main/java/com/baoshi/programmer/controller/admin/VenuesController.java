@@ -59,7 +59,7 @@ public class VenuesController {
         }
         if(StringUtils.isEmpty(venues.getVenuesname())){
             ret.put("type", "error");
-            ret.put("msg", "请填写用户名！");
+            ret.put("msg", "请填写球场编号！");
             return ret;
         }
         if(venues.getStadiumid() == null){
@@ -67,9 +67,19 @@ public class VenuesController {
             ret.put("msg", "请选择所属球馆！");
             return ret;
         }
-        if(isExist(venues.getVenuesname(), 0l)){
+        if(venues.getPrice() == null){
             ret.put("type", "error");
-            ret.put("msg", "该用户名已经存在，请重新输入！");
+            ret.put("msg", "请添加单价");
+            return ret;
+        }
+        if(venues.getAllprice() == null){
+            ret.put("type", "error");
+            ret.put("msg", "请添加包场价格");
+            return ret;
+        }
+        if(venues.getMax() == 0){
+            ret.put("type", "error");
+            ret.put("msg", "请添加人数上限");
             return ret;
         }
         if(venuesService.add(venues) <= 0){
@@ -89,6 +99,7 @@ public class VenuesController {
     @RequestMapping(value="/edit",method=RequestMethod.POST)
     @ResponseBody
     public Map<String, String> edit(Venues venues){
+        System.out.println("into");
         Map<String, String> ret = new HashMap<String, String>();
         if(venues == null){
             ret.put("type", "error");
@@ -100,19 +111,24 @@ public class VenuesController {
             ret.put("msg", "请填写用户名！");
             return ret;
         }
-//		if(StringUtils.isEmpty(user.getPassword())){
-//			ret.put("type", "error");
-//			ret.put("msg", "请填写密码！");
-//			return ret;
-//		}
         if(venues.getStadiumid() == null){
             ret.put("type", "error");
             ret.put("msg", "请选择所属球馆！");
             return ret;
         }
-        if(isExist(venues.getVenuesname(), venues.getId())){
+        if(venues.getPrice() == null){
             ret.put("type", "error");
-            ret.put("msg", "该用户名已经存在，请重新输入！");
+            ret.put("msg", "请添加单价");
+            return ret;
+        }
+        if(venues.getAllprice() == null){
+            ret.put("type", "error");
+            ret.put("msg", "请添加包场价格");
+            return ret;
+        }
+        if(venues.getMax() == null){
+            ret.put("type", "error");
+            ret.put("msg", "请添加人数上限");
             return ret;
         }
         if(venuesService.edit(venues) <= 0){
@@ -142,6 +158,11 @@ public class VenuesController {
         if(ids.contains(",")){
             ids = ids.substring(0,ids.length()-1);
         }
+        if(venuesService.findequipment(ids)> 0 ){
+            ret.put("type", "error");
+            ret.put("msg", "球场下仍有设备未删除");
+            return ret;
+        }
         if(venuesService.delete(ids) <= 0){
             ret.put("type", "error");
             ret.put("msg", "用户删除失败，请联系管理员！");
@@ -151,12 +172,4 @@ public class VenuesController {
         ret.put("msg", "用户删除成功！");
         return ret;
     }
-
-    private boolean isExist(String venuesname,Long id){
-        Venues venues = venuesService.findByVenuesname(venuesname);
-        if(venues == null)return false;
-        if(venues.getId().longValue() == id.longValue())return false;
-        return true;
-    }
-
 }

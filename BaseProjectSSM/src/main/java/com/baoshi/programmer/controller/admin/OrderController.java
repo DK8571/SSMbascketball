@@ -67,6 +67,8 @@ public class OrderController {
         queryMap.put("memberid",memberid);
         queryMap.put("venuesid",venuesid);
         queryMap.put("timeid",timeid);
+        queryMap.put("offset", page.getOffset());
+        queryMap.put("pageSize", page.getRows());
         Map<String,Object> ret = new HashMap<>();
         ret.put("rows",orderService.findList(queryMap));
         ret.put("total",orderService.getTotal(queryMap));

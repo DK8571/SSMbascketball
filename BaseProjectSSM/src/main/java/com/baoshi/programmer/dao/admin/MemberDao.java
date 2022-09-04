@@ -14,13 +14,13 @@ public interface MemberDao {
     @Select("select * from user where username = #{username}")
     User findByUsername(String username);
 
-    @Insert("insert into user(id,username,password,roleId,photo,sex,age,address) values(null,#{username},#{password},3,#{photo},#{sex},#{age},#{address})")
+    @Insert("insert into user(id,name,username,password,roleId,photo,sex,age,address) values(null,#{name},#{username},#{password},3,#{photo},#{sex},#{age},#{address})")
     @Options(useGeneratedKeys=true,keyProperty="id",keyColumn="id")
     int add(User user);
     @Insert("insert into member(balance,userid) values(0,#{id})")
     int addmember(long id);
 
-    @Update("update user set username = #{username},photo = #{photo},sex = #{sex},age = #{age},address = #{address} where id = #{id}")
+    @Update("update user set username = #{username},name = #{name},photo = #{photo},sex = #{sex},age = #{age},address = #{address} where id = #{id}")
     int edit(User user);
 
     @Delete("delete from user where id in(${value})")
@@ -58,9 +58,6 @@ public interface MemberDao {
             "<if test='userid!= null'>"+
             "and member.userid = #{userid}"+
             "</if>"+
-            "<if test='offset != null and pageSize != null'>"+
-            "limit #{offset},#{pageSize}"+
-            "</if>"+
             "</script>"
     })
     int getTotal(Map<String, Object> queryMap);
@@ -77,4 +74,12 @@ public interface MemberDao {
     @Select("select id memberid,userid id,balance from member where id = #{value}")
 
     Member findbymemberid(long memberid);
+
+    @Select("SELECT SUM(balance) from member WHERE userid in (${value })")
+
+    Double findblance(String ids);
+
+    @Select("SELECT count(*) FROM `order` WHERE DATEDIFF(date,NOW())<=30 AND DATEDIFF(date,NOW())>=0 AND memberid in (SELECT id FROM member WHERE userid IN (${value}))")
+
+    Integer findorder(String ids);
 }

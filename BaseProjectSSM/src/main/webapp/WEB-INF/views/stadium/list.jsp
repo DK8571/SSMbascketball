@@ -22,11 +22,12 @@
             <tr>
                 <td align="right">球馆名称:</td>
                 <td><input type="text" id="add-name" name="stadiumname" class="wu-text easyui-validatebox"
-                           data-options="required:true,missingMessage:'请填写学科名称'"  style="width:260px;"></td>
+                           data-options="required:true,missingMessage:'请填写球馆名称'"  style="width:260px;"></td>
             </tr>
             <tr>
                 <td align="right">球馆地址:</td>
-                <td><textarea id="add-remark" name="address" rows="2" class="wu-textarea" style="width:260px"></textarea></td>
+                <td><textarea id="add-remark" name="address" rows="2" class="wu-textarea easyui-validatebox"
+                              data-options="required:true,missingMessage:'请填写球馆地址'" style="width:260px"></textarea></td>
             </tr>
         </table>
     </form>
@@ -39,11 +40,12 @@
             <tr>
                 <td align="right">球馆名称:</td>
                 <td><input type="text" id="edit-name" name="stadiumname" class="wu-text easyui-validatebox"
-                           data-options="required:true,missingMessage:'请填写学科名称'"  style="width:260px;"></td>
+                           data-options="required:true,missingMessage:'请填写球馆名称'"  style="width:260px;"></td>
             </tr>
             <tr>
                 <td align="right">球馆地址:</td>
-                <td><textarea id="edit-remark" name="address" rows="2" class="wu-textarea" style="width:260px"></textarea></td>
+                <td><textarea id="edit-remark" name="address" rows="2" class="wu-textarea easyui-validatebox"
+                              data-options="required:true,missingMessage:'请填写球馆地址'"  style="width:260px"></textarea></td>
             </tr>
         </table>
     </form>
@@ -97,8 +99,6 @@
             success:function(data){
                 if(data.type == 'success'){
                     $.messager.alert('信息提示','修改成功！','info');
-                    $("#edit-name").val('');
-                    $("#edit-remark").val('');
                     $('#edit-dialog').dialog('close');
                     $('#data-datagrid').datagrid('reload');
                 }else{
@@ -168,13 +168,17 @@
     }
     //修改
     function openEdit(){
-
-        var item = $('#data-datagrid').datagrid('getSelected');
+        var item = $('#data-datagrid').datagrid('getSelections');
         if(item == null || item.length == 0){
             $.messager.alert('信息提示','请选择要编辑的数据！','info');
             return;
         }
-
+        if(item.length > 1){
+            $.messager.alert('信息提示','请选择一条数据进行修改！','info');
+            // window.location.reload(item);
+            return;
+        }
+        item = item[0];
         //$('#add-form').form('clear');
         $('#edit-dialog').dialog({
             closed: false,

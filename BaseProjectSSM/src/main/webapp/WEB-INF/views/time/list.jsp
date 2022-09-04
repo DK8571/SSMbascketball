@@ -159,13 +159,17 @@
     //修改
     function openEdit(){
 
-        var item = $('#data-datagrid').datagrid('getSelected');
+        var item = $('#data-datagrid').datagrid('getSelections');
         if(item == null || item.length == 0){
             $.messager.alert('信息提示','请选择要编辑的数据！','info');
             return;
         }
-
-        //$('#add-form').form('clear');
+        if(item.length > 1){
+            $.messager.alert('信息提示','请选择一条数据进行修改！','info');
+            // window.location.reload(item);
+            return;
+        }
+        item = item[0];
         $('#edit-dialog').dialog({
             closed: false,
             modal:true,

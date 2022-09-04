@@ -82,4 +82,14 @@ public class MemberServiceImpl implements MemberService {
         return memberDao.findbymemberid(memberid);
     }
 
+    @Override
+    public Double findblance(String ids) {
+        return memberDao.findblance(ids);
+    }
+
+    @Override
+    public Integer findorder(String ids) {
+        return memberDao.findorder(ids);
+    }
+
 }

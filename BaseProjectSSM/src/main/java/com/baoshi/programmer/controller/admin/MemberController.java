@@ -130,11 +130,6 @@ public class MemberController {
             ret.put("msg", "请填写用户名！");
             return ret;
         }
-//		if(StringUtils.isEmpty(user.getPassword())){
-//			ret.put("type", "error");
-//			ret.put("msg", "请填写密码！");
-//			return ret;
-//		}
         if(isExist(user.getUsername(), user.getId())){
             ret.put("type", "error");
             ret.put("msg", "该用户名已经存在，请重新输入！");
@@ -167,6 +162,16 @@ public class MemberController {
         }
         if(ids.contains(",")){
             ids = ids.substring(0,ids.length()-1);
+        }
+        if(memberService.findblance(ids)>0){
+            ret.put("type", "error");
+            ret.put("msg", "删除会员仍有余额，请退款后再删除");
+            return ret;
+        }
+        if(memberService.findorder(ids)>0){
+            ret.put("type", "error");
+            ret.put("msg", "删除会员仍有未完成订单，请退款后再删除");
+            return ret;
         }
         if(memberService.deletemember(ids) <= 0){
             ret.put("type", "error");
@@ -224,7 +229,6 @@ public class MemberController {
             return ret;
         }
         ret.put("type", "success");
-        ret.put("msg", "用户删除成功！");
         ret.put("filepath",request.getSession().getServletContext().getContextPath() + "/resources/upload/" + filename );
         return ret;
     }

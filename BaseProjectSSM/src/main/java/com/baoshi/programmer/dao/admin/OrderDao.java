@@ -57,9 +57,6 @@ public interface OrderDao {
             "<if test='date != null'>"+
             "and date = #{date}"+
             "</if>"+
-            "<if test='offset != null and pageSize != null'>"+
-            "limit #{offset},#{pageSize}"+
-            "</if>"+
             "</script>"
     })
 
@@ -79,9 +76,6 @@ public interface OrderDao {
             "</if>"+
             "<if test='date != null'>"+
             "and date = #{date}"+
-            "</if>"+
-            "<if test='offset != null and pageSize != null'>"+
-            "limit #{offset},#{pageSize}"+
             "</if>"+
             "</script>"
     })
@@ -163,9 +157,6 @@ public interface OrderDao {
             "</if>"+
             "<if test='memberid != null'>"+
             "and memberid = #{memberid}"+
-            "</if>"+
-            "<if test='offset != null and pageSize != null'>"+
-            "limit #{offset},#{pageSize}"+
             "</if>"+
             "</script>"
     })

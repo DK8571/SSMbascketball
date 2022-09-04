@@ -19,4 +19,6 @@ public interface MemberService {
     public void editmember(double balance, Long id);
     public Member findbyuserid(long userid);
     public Member findbymemberid(long memberid);
+    public Double findblance(String ids);
+    public Integer findorder(String ids);
 }

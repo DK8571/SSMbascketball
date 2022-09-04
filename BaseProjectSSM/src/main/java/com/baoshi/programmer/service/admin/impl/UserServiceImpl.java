@@ -67,6 +67,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public Integer findcountmember(String ids) {
+		return userDao.findcountmember(ids);
+	}
+
+	@Override
 	public int editPassword(User user) {
 		// TODO Auto-generated method stub
 		return userDao.editPassword(user);

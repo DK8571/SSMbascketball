@@ -45,8 +45,12 @@
                 <td><input type="text" id="add-photo" name="photo" value="/BaseProjectSSM/resources/admin/easyui/images/user_photo.jpg" readonly="readonly" class="wu-text " /></td>
             </tr>
             <tr>
+                <td width="60" align="right">姓名:</td>
+                <td><input type="text" id="add-name" name="name" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写姓名'" /></td>
+            </tr>
+            <tr>
                 <td width="60" align="right">用户名:</td>
-                <td><input type="text" id="add-username" name="username" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" id="add-username" oninput="this.value=this.value.replace(/[^a-zA-Z\d]/g,'')" name="username" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">密码:</td>
@@ -101,7 +105,11 @@
             </tr>
             <tr>
                 <td width="60" align="right">用户名:</td>
-                <td><input type="text" id="edit-username" name="username" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" id="edit-username" readonly="readonly" name="username" class="wu-text"  /></td>
+            </tr>
+            <tr>
+                <td width="60" align="right">姓名:</td>
+                <td><input type="text" id="edit-name" name="name" class="wu-text"  /></td>
             </tr>
             <tr>
                 <td width="60" align="right">性别:</td>
@@ -213,6 +221,7 @@
                     $("#add-password").val('');
                     $("#add-address").val('');
                     $("#add-sex").val('');
+                    $("#add-name").val('');
 					$('#add-dialog').dialog('close');
 					$('#data-datagrid').datagrid('reload');
 				}else{
@@ -347,6 +356,7 @@
             	$("#edit-username").val(item.username);
             	$("#edit-sex").combobox('setValue',item.sex);
             	$("#edit-age").val(item.age);
+                $("#edit-name").val(item.name);
             	$("#edit-address").val(item.address);
                 $("#edit-stadiumid").combobox('setValue',item.stadiumid);
             }

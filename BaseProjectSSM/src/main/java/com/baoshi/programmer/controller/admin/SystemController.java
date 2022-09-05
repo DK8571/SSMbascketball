@@ -127,7 +127,7 @@ public class SystemController {
 	}
 	@RequestMapping(value="/add",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> add(User user){
+	public Map<String, String> add(User user) throws NoSuchAlgorithmException {
 		Map<String, String> ret = new HashMap<String, String>();
 		if(user == null){
 			ret.put("type", "error");
@@ -144,7 +144,7 @@ public class SystemController {
 			ret.put("msg", "请填写密码！");
 			return ret;
 		}
-
+		user.setPassword(getMd5(user.getPassword()));
 		if(isExist(user.getUsername(), 0l)){
 			ret.put("type", "error");
 			ret.put("msg", "该用户名已经存在，请重新输入！");

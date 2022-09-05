@@ -18,9 +18,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.baoshi.programmer.util.MD5.getMd5;
+
 /**
  * 用户管理控制器
  * @author drg
@@ -85,7 +89,7 @@ public class UserController {
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> add(User user){
+	public Map<String, String> add(User user) throws NoSuchAlgorithmException {
 		Map<String, String> ret = new HashMap<String, String>();
 		if(user == null){
 			ret.put("type", "error");
@@ -112,6 +116,7 @@ public class UserController {
 			ret.put("msg", "该用户名已经存在，请重新输入！");
 			return ret;
 		}
+		user.setPassword(getMd5(user.getPassword()));
 		if(userService.add(user) <= 0){
 			ret.put("type", "error");
 			ret.put("msg", "用户添加失败，请联系管理员！");

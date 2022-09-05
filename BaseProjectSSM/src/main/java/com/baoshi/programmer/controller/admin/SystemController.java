@@ -267,7 +267,7 @@ public class SystemController {
 
 	@RequestMapping(value="/edit_password",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> editPasswordAct(String newpassword,String oldpassword,HttpServletRequest request){
+	public Map<String, String> editPasswordAct(String newpassword,String oldpassword,HttpServletRequest request) throws NoSuchAlgorithmException {
 		Map<String, String> ret = new HashMap<String, String>();
 		if(StringUtils.isEmpty(newpassword)){
 			ret.put("type", "error");
@@ -275,12 +275,12 @@ public class SystemController {
 			return ret;
 		}
 		User user = (User)request.getSession().getAttribute("admin");
-		if(!user.getPassword().equals(oldpassword)){
+		if(!user.getPassword().equals(getMd5(oldpassword))){
 			ret.put("type", "error");
 			ret.put("msg", "原密码错误！");
 			return ret;
 		}
-		user.setPassword(newpassword);
+		user.setPassword(getMd5(newpassword));
 		if(userService.editPassword(user) <= 0){
 			ret.put("type", "error");
 			ret.put("msg", "密码修改失败，请联系管理员！");

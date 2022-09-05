@@ -73,4 +73,8 @@ public interface VenuesDao {
     @Select("SELECT COUNT(*) from equipment WHERE venuesid in (${value})")
 
     Integer findequipment(String ids);
+
+    @Select("SELECT COUNT(*) from `order` WHERE venuesid in (${value})")
+
+    Integer findeorders(String ids);
 }

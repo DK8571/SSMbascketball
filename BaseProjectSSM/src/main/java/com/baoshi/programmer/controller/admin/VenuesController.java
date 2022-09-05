@@ -163,6 +163,11 @@ public class VenuesController {
             ret.put("msg", "球场下仍有设备未删除");
             return ret;
         }
+        if(venuesService.findeorders(ids)> 0 ){
+            ret.put("type", "error");
+            ret.put("msg", "球场下仍有订单未结束");
+            return ret;
+        }
         if(venuesService.delete(ids) <= 0){
             ret.put("type", "error");
             ret.put("msg", "用户删除失败，请联系管理员！");

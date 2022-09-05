@@ -19,4 +19,5 @@ public interface VenuesService {
     public Venues findbyVenusId(Long venuesid);
     public List<Venues> findListbycashierid(Map<String, Object> queryMap);
     public Integer findequipment(String ids);
+    public Integer findeorders(String ids);
 }

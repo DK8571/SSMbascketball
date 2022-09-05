@@ -60,4 +60,9 @@ public class VenuesServiceImpl implements VenuesService {
     public Integer findequipment(String ids) {
         return venuesDao.findequipment(ids);
     }
+
+    @Override
+    public Integer findeorders(String ids) {
+        return venuesDao.findeorders(ids);
+    }
 }

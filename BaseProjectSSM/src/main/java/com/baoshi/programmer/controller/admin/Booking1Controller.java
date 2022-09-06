@@ -89,7 +89,7 @@ public class Booking1Controller {
         if (booking.getQuote()==0) {
             if (booking.getOrdertypeid()==1) {
                     ///
-                if (member.getBalance()<(venues.getPrice()*booking.getNumber())){
+                if (member.getBalance()<(venues.getAllprice())){
                     ret.put("type","error");
                     ret.put("msg","余额不足请充值");
                     return ret;
@@ -107,7 +107,7 @@ public class Booking1Controller {
                     ret.put("msg","超出球场人数上限");
                     return ret;
                 } else {
-                    if (member.getBalance()<(venues.getPrice()*booking.getNumber())){
+                    if (member.getBalance()<(venues.getAllprice())){
                         ret.put("type","error");
                         ret.put("msg","余额不足请充值");
                         return ret;

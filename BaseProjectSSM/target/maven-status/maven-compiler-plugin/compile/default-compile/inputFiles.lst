@@ -55,6 +55,7 @@ D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\config\
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\controller\admin\OwnmasageController.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\entity\admin\Cashier.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\config\admin\SpringMvcSupport.java
+D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\config\admin\AlipayConfig.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\service\admin\EquipmentService.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\entity\admin\Member.java
 D:\Git\SSMbascketball\BaseProjectSSM\src\main\java\com\baoshi\programmer\entity\admin\Menu.java

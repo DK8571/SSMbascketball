@@ -34,12 +34,12 @@
         <table>
             <tr>
                 <td width="60" align="right">人数:</td>
-                <td><input type="text" id="edit-number" name="number" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" id="edit-number" name="number" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写预约人数'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">预约活动:</td>
                 <td>
-                	<select id="edit-ordertypeid" name="ordertypeid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择角色'">
+                	<select id="edit-ordertypeid" name="ordertypeid" class="easyui-combobox" panelHeight="auto" style=" width:268px" >
                         <c:forEach items="${ordertypelist}" var="ordertype">
                             <option value="${ordertype.id }">${ordertype.ordertype }</option>
                         </c:forEach>

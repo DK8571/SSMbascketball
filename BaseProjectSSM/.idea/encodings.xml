@@ -10,7 +10,7 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/baoshi/programmer/config/admin/SpringConfig.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/baoshi/programmer/config/admin/SpringMvcConfig.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/baoshi/programmer/config/admin/SpringMvcSupport.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/baoshi/programmer/controller/admin/CashierController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/baoshi/programmer/controller/admin/CashierController.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/baoshi/programmer/dao/admin/CashierDao.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/baoshi/programmer/service/admin/CashierService.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/baoshi/programmer/service/admin/impl/CashierServiceImpl.java" charset="UTF-8" />

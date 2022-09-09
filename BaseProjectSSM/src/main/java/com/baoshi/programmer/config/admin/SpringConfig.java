@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 @Configuration
 @ComponentScan({"com.baoshi.programmer"})
 @PropertySource("classpath:db.properties")
-@Import({JdbcConfig.class,MyBatisConfig.class})
+@Import({JdbcConfig.class,MyBatisConfig.class,AlipayConfig.class})
 @EnableTransactionManagement
 public class SpringConfig {
 }

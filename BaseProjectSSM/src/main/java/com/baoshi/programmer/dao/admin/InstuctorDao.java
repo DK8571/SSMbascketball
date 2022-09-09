@@ -14,12 +14,18 @@ import java.util.Map;
 public interface InstuctorDao {
 
     @Select({"<script>"+
-            "select * from instructor where 1=1"+
+            "select * from instructor where 1=1 "+
+            "<if test='roleId == 2'>"+
+            "and stadiumid = (select stadiumid from cashier where id = #{cashierid })"+
+            "</if>"+
             "<if test='instuctorname != null'>"+
             "and name like '%${instuctorname}%'"+
             "</if>"+
             "<if test='sex != null'>"+
             "and sex = #{sex}"+
+            "</if>"+
+            "<if test='stadiumId != null'>"+
+            "and stadiumid = #{stadiumId}"+
             "</if>"+
             "<if test='offset != null and pageSize != null'>"+
             "limit #{offset},#{pageSize}"+
@@ -36,6 +42,9 @@ public interface InstuctorDao {
             "<if test='sex != null'>"+
             "and sex = #{sex}"+
             "</if>"+
+            "<if test='stadiumId != null'>"+
+            "and stadiumid = #{stadiumId}"+
+            "</if>"+
             "</script>"
     })
 
@@ -45,11 +54,11 @@ public interface InstuctorDao {
 
     Instuctor findByUsername(String instuctorname);
 
-    @Insert("insert into instructor(id,name,photo,sex,age) values(null,#{name},#{photo},#{sex},#{age})")
+    @Insert("insert into instructor(id,name,photo,sex,age,stadiumid) values(null,#{name},#{photo},#{sex},#{age},#{stadiumid})")
 
     int add(Instuctor instuctor);
 
-    @Update("update instructor set name = #{name},photo = #{photo},sex = #{sex},age = #{age} where id = #{id}")
+    @Update("update instructor set name = #{name},photo = #{photo},sex = #{sex},age = #{age},stadiumid=#{stadiumid} where id = #{id}")
 
     int edit(Instuctor instuctor);
 

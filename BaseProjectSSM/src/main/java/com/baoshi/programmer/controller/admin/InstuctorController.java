@@ -1,8 +1,11 @@
 package com.baoshi.programmer.controller.admin;
 
 import com.baoshi.programmer.entity.admin.Instuctor;
+import com.baoshi.programmer.entity.admin.User;
 import com.baoshi.programmer.page.admin.Page;
 import com.baoshi.programmer.service.admin.InstuctorService;
+import com.baoshi.programmer.service.admin.StadiumService;
+import com.baoshi.programmer.service.admin.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -26,9 +29,15 @@ public class InstuctorController {
 
     @Autowired
     private InstuctorService instuctorService;
+    @Autowired
+    private StadiumService stadiumService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public ModelAndView list(ModelAndView model) {
+        Map<String,Object> queryMap=new HashMap<String,Object>();
+        model.addObject("stadiumList", stadiumService.findList(queryMap));
         model.setViewName("instuctor/list");
         return model;
     }
@@ -36,12 +45,19 @@ public class InstuctorController {
     @RequestMapping(value = "/list",method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getList(Page page,
+                                       HttpServletRequest request,
                                        @RequestParam(name = "name",required = false,defaultValue = "") String instuctorname,
-                                       @RequestParam(name = "sex",required = false) Integer sex
+                                       @RequestParam(name = "sex",required = false) Integer sex,
+                                       @RequestParam(name = "stadiumId",required = false) Long stadiumId
     ) {
         Map<String, Object> queryMap = new HashMap<String, Object>();
+        Long userid = (Long) request.getSession().getAttribute("adminid");
+        User user = userService.findbyuserid(userid);
+        queryMap.put("roleId" , user.getRoleId());
+        queryMap.put("cashierid" , user.getId());
         queryMap.put("instuctorname", instuctorname);
         queryMap.put("sex",sex);
+        queryMap.put("stadiumId",stadiumId);
         queryMap.put("offset", page.getOffset());
         queryMap.put("pageSize", page.getRows());
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -56,18 +72,12 @@ public class InstuctorController {
         Map<String, String> ret = new HashMap<String, String>();
         if(instuctor == null){
             ret.put("type", "error");
-            ret.put("msg", "请填写正确的用户信息！");
+            ret.put("msg", "请填写正确的教练信息！");
             return ret;
         }
         if(StringUtils.isEmpty(instuctor.getName())){
             ret.put("type", "error");
-            ret.put("msg", "请填写用户名！");
-            return ret;
-        }
-
-        if(isExist(instuctor.getName(), 0l)){
-            ret.put("type", "error");
-            ret.put("msg", "该用户名已经存在，请重新输入！");
+            ret.put("msg", "请填写教练姓名！");
             return ret;
         }
         if(instuctorService.add(instuctor) <= 0 ){
@@ -91,27 +101,21 @@ public class InstuctorController {
         Map<String, String> ret = new HashMap<String, String>();
         if(instuctor == null){
             ret.put("type", "error");
-            ret.put("msg", "请填写正确的用户信息！");
+            ret.put("msg", "请填写正确的教练信息！");
             return ret;
         }
         if(StringUtils.isEmpty(instuctor.getName())){
             ret.put("type", "error");
-            ret.put("msg", "请填写用户名！");
+            ret.put("msg", "请填教练姓名！");
             return ret;
         }
-//		if(StringUtils.isEmpty(user.getPassword())){
-//			ret.put("type", "error");
-//			ret.put("msg", "请填写密码！");
-//			return ret;
-//		}
-
         if(instuctorService.edit(instuctor) <= 0){
             ret.put("type", "error");
-            ret.put("msg", "用户添加失败，请联系管理员！");
+            ret.put("msg", "教练信息修改失败，请联系管理员！");
             return ret;
         }
         ret.put("type", "success");
-        ret.put("msg", "角色添加成功！");
+        ret.put("msg", "教练信息修改成功！");
         return ret;
     }
 
@@ -191,17 +195,5 @@ public class InstuctorController {
         ret.put("msg", "用户删除成功！");
         ret.put("filepath",request.getSession().getServletContext().getContextPath() + "/resources/upload/" + filename );
         return ret;
-    }
-    /**
-     * 判断该用户名是否存在
-     * @param username
-     * @param id
-     * @return
-     */
-    private boolean isExist(String username,Long id){
-        Instuctor instuctor = instuctorService.findByInstuctorname(username);
-        if(instuctor == null)return false;
-        if(instuctor.getId().longValue() == id.longValue())return false;
-        return true;
     }
 }

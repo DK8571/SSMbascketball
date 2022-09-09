@@ -7,6 +7,15 @@ public class Venues {
     private Integer max;
     private Double price;
     private Double allprice;
+    private String stadiumname;
+
+    public String getStadiumname() {
+        return stadiumname;
+    }
+
+    public void setStadiumname(String staiumname) {
+        this.stadiumname = staiumname;
+    }
 
     public Double getAllprice() {
         return allprice;
@@ -65,6 +74,7 @@ public class Venues {
                 ", max=" + max +
                 ", price=" + price +
                 ", allprice=" + allprice +
+                ", stadiumname='" + stadiumname + '\'' +
                 '}';
     }
 }

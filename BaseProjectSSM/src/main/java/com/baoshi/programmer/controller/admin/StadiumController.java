@@ -96,7 +96,6 @@ public class StadiumController {
             ids = ids.substring(0,ids.length()-1);
         }
         if(stadiumService.findvenues(ids)> 0 ){
-            System.out.println("into");
             ret.put("type", "error");
             ret.put("msg", "球馆下仍有球场未删除");
             return ret;

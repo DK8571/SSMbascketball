@@ -99,7 +99,6 @@ public class VenuesController {
     @RequestMapping(value="/edit",method=RequestMethod.POST)
     @ResponseBody
     public Map<String, String> edit(Venues venues){
-        System.out.println("into");
         Map<String, String> ret = new HashMap<String, String>();
         if(venues == null){
             ret.put("type", "error");

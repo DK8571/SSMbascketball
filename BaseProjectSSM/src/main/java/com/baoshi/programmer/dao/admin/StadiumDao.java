@@ -53,4 +53,8 @@ public interface StadiumDao {
     @Select("SELECT COUNT(*) from venues WHERE stadiumid in (${value})")
 
     Integer findvenues(String ids);
+
+//    @Select("SELECT stadiumname FROM stadium WHERE id = ${stadiumid }")
+//
+//    String findnamebyid(Long stadiumid);
 }

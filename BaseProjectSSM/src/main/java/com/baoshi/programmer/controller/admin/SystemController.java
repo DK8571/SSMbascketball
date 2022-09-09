@@ -52,8 +52,6 @@ public class SystemController {
 	@Autowired
 	private MemberService memberService;
 
-//	@Autowired
-//	private LogService logService;
 
 	/**
 	 * 系统登录后的主页
@@ -61,7 +59,16 @@ public class SystemController {
 	 * @return
 	 */
 	@RequestMapping(value="/index",method=RequestMethod.GET)
-	public ModelAndView index(ModelAndView model,HttpServletRequest request){
+	public ModelAndView index(ModelAndView model,HttpServletRequest request,@RequestParam(name="total_amount",required=false,defaultValue="") String total_amount){
+		if (request.getSession().getAttribute("t").equals(0)) {
+			if (!Objects.equals(total_amount, "") && total_amount != null) {
+				Long id = (Long) request.getSession().getAttribute("adminid");
+				Member member = memberService.findbyuserid(id);
+				member.setBalance(member.getBalance() + Double.parseDouble(total_amount));
+				memberService.editmember(member.getBalance(),id);
+				request.getSession().setAttribute("t",1);
+			}
+		}
 		List<Menu> userMenus = (List<Menu>)request.getSession().getAttribute("userMenus");
 		model.addObject("topMenuList", MenuUtil.getAllTopMenu(userMenus));
 		model.addObject("secondMenuList", MenuUtil.getAllSecondMenu(userMenus));
@@ -234,6 +241,7 @@ public class SystemController {
 		request.getSession().setAttribute("adminid", findByUsername.getId());
 		request.getSession().setAttribute("role", role);
 		request.getSession().setAttribute("userMenus", userMenus);
+		request.getSession().setAttribute("t",1);
 		ret.put("type", "success");
 		ret.put("msg", "登录成功！");
 //		logService.add("用户名为{"+user.getUsername()+"}，角色为{"+role.getName()+"}的用户登录成功!");

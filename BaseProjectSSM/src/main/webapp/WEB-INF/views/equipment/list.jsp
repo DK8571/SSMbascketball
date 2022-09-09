@@ -10,10 +10,10 @@
         <div class="wu-toolbar-search">
             <label>设备名称:</label><input id="search-name" class="wu-text" style="width:100px">
             <label>所属场地:</label>
-            <select id="search-venues" class="easyui-combobox" panelHeight="auto" style="width:120px">
+            <select id="search-venues" class="easyui-combobox" panelHeight="auto" style="width:200px">
             	<option value="-1">全部</option>
             	<c:forEach items="${venuesList}" var="venues">
-            		<option value="${venues.id }">${venues.venuesname }</option>
+            		<option value="${venues.id }">球馆：${venues.stadiumname }  球场：${venues.venuesname }</option>
             	</c:forEach>
             </select>
             <label>操作人:</label>

@@ -65,7 +65,7 @@
                 <td><input type="text" id="edit-username" name="venuesname" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写球场编号'" /></td>
             </tr>
             <tr>
-                <td width="60" align="right">所属角色:</td>
+                <td width="60" align="right">所属球馆:</td>
                 <td>
                 	<select id="edit-roleId" name="stadiumid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择所属球馆'">
                         <c:forEach items="${stadiumList}" var="stadiumId">

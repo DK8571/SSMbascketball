@@ -50,7 +50,6 @@ public class CashierorderController {
         mv.addObject("timelist",timeService.findList(queryMap));
         mv.addObject("memberlist",memberService.findList(queryMap));
         mv.addObject("venuesList", venuesService.findListbycashierid(queryMap));
-        System.out.println(venuesService.findListbycashierid(queryMap));
         mv.setViewName("cashierorder/list");
         return mv;
     }
@@ -97,7 +96,6 @@ public class CashierorderController {
                                       @RequestParam(value = "memberid",required = false) long memberid
     ) throws Exception{
         Member member = memberService.findbymemberid(memberid);
-        System.out.println(member);
         double balance;
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(orderdate, fmt);
@@ -112,8 +110,6 @@ public class CashierorderController {
             if(orderService.delete(String.valueOf(orderid))>0){
                 balance = member.getBalance()+price;
                 memberService.editmember(balance, member.getId());
-                System.out.println(balance);
-                System.out.println(member.getId());
                 ret.put("type", "success");
                 ret.put("msg", "用户删除成功！");
                 return ret;

@@ -30,6 +30,7 @@ com\baoshi\programmer\dao\admin\OrderDao.class
 com\baoshi\programmer\service\admin\impl\OrderServiceImpl.class
 com\baoshi\programmer\service\admin\impl\TimeServiceImpl.class
 com\baoshi\programmer\service\admin\UserService.class
+com\baoshi\programmer\controller\admin\CallbackController.class
 com\baoshi\programmer\dao\admin\EquipmentDao.class
 com\baoshi\programmer\util\DateUtils.class
 com\baoshi\programmer\dao\admin\AuthorityDao.class
@@ -67,6 +68,8 @@ com\baoshi\programmer\dao\admin\CashierDao.class
 com\baoshi\programmer\controller\admin\EquipmentController.class
 com\baoshi\programmer\entity\admin\Booking.class
 com\baoshi\programmer\service\admin\MemberService.class
+com\baoshi\programmer\config\admin\AlipayConfig.class
+com\baoshi\programmer\controller\admin\CashierrechargeController.class
 com\baoshi\programmer\service\admin\impl\TurnoverServiceImpl.class
 com\baoshi\programmer\AOP\admin\test.class
 com\baoshi\programmer\controller\admin\RoleController.class

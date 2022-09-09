@@ -6,14 +6,37 @@ public class Instuctor {
     private String photo;//头像照片地址
     private int sex;//性别0,代表未知，1代表男，2代表女
     private Integer age;//年龄
+    private Long stadiumid;
+
+    @Override
+    public String toString() {
+        return "Instuctor{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", photo='" + photo + '\'' +
+                ", sex=" + sex +
+                ", age=" + age +
+                ", stadiumid=" + stadiumid +
+                '}';
+    }
+
+    public Long getStadiumid() {
+        return stadiumid;
+    }
+
+    public void setStadiumid(Long stadiumid) {
+        this.stadiumid = stadiumid;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 
     public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -47,14 +70,4 @@ public class Instuctor {
         this.age = age;
     }
 
-    @Override
-    public String toString() {
-        return "Instuctor{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", photo='" + photo + '\'' +
-                ", sex=" + sex +
-                ", age=" + age +
-                '}';
-    }
 }

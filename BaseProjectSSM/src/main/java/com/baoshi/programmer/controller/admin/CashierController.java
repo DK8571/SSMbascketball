@@ -106,7 +106,6 @@ public class CashierController {
     @RequestMapping(value="/edit",method=RequestMethod.POST)
     @ResponseBody
     public Map<String, String> edit(User user){
-        System.out.println(user);
         Map<String, String> ret = new HashMap<String, String>();
         if(user == null){
             ret.put("type", "error");

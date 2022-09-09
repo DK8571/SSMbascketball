@@ -16,6 +16,13 @@
             	<option value="1">男</option>
             	<option value="2">女</option>
             </select>
+            <label>所属球馆:</label>
+            <select id="search-role" class="easyui-combobox" panelHeight="auto" style="width:120px">
+                <option value="-1">全部</option>
+                <c:forEach items="${stadiumList}" var="stadiumId">
+                    <option value="${stadiumId.id }">${stadiumId.stadiumname }</option>
+                </c:forEach>
+            </select>
             <a href="#" id="search-btn" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
         </div>
     </div>
@@ -39,7 +46,7 @@
             </tr>
             <tr>
                 <td width="60" align="right">教练名:</td>
-                <td><input type="text" id="add-username" name="name" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" id="add-username" name="name" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写姓名'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">性别:</td>
@@ -54,6 +61,16 @@
             <tr>
                 <td width="60" align="right">年龄:</td>
                 <td><input type="text" id="add-age" name="age" class="wu-text easyui-numberbox easyui-validatebox" data-options="required:true,min:1,precision:0, missingMessage:'请填写年龄'" /></td>
+            </tr>
+            <tr>
+                <td width="60" align="right">所属球馆:</td>
+                <td>
+                    <select id="add-stadiumId" name="stadiumid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择所属球馆'">
+                        <c:forEach items="${stadiumList }" var="stadiumId">
+                            <option value="${stadiumId.id }">${stadiumId.stadiumname }</option>
+                        </c:forEach>
+                    </select>
+                </td>
             </tr>
         </table>
     </form>
@@ -76,7 +93,7 @@
             </tr>
             <tr>
                 <td width="60" align="right">教练名:</td>
-                <td><input type="text" id="edit-username" name="name" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写用户名'" /></td>
+                <td><input type="text" id="edit-username" name="name" class="wu-text easyui-validatebox" data-options="required:true, missingMessage:'请填写姓名'" /></td>
             </tr>
             <tr>
                 <td width="60" align="right">性别:</td>
@@ -91,6 +108,16 @@
             <tr>
                 <td width="60" align="right">年龄:</td>
                 <td><input type="text" id="edit-age" name="age" value="1" class="wu-text easyui-numberbox easyui-validatebox" data-options="required:true,min:1,precision:0, missingMessage:'请填写年龄'" /></td>
+            </tr>
+            <tr>
+                <td width="60" align="right">所属球馆:</td>
+                <td>
+                    <select id="edit-stadiumId" name="stadiumid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择所属球馆'">
+                        <c:forEach items="${stadiumList}" var="stadiumId">
+                            <option value="${stadiumId.id }">${stadiumId.stadiumname }</option>
+                        </c:forEach>
+                    </select>
+                </td>
             </tr>
         </table>
     </form>
@@ -169,6 +196,8 @@
 			success:function(data){
 				if(data.type == 'success'){
 					$.messager.alert('信息提示','添加成功！','info');
+                    $("#add-age").val("");
+                    $("#add-username").val("");
 					$('#add-dialog').dialog('close');
 					$('#data-datagrid').datagrid('reload');
 				}else{
@@ -244,6 +273,7 @@
 	function openAdd(){
 		//$('#add-form').form('clear');
         $("#add-sex").combobox('setValue',0);
+        $("#add-stadiumId").combobox('setValue',1);
 		$('#add-dialog').dialog({
 			closed: false,
 			modal:true,
@@ -302,6 +332,7 @@
 				$("#edit-photo").val(item.photo);
             	$("#edit-username").val(item.name);
             	$("#edit-sex").combobox('setValue',item.sex);
+                $("#edit-stadiumId").combobox('setValue',item.stadiumid);
             	$("#edit-age").val(item.age);
             }
         });
@@ -310,12 +341,15 @@
 	
 	//搜索按钮监听
 	$("#search-btn").click(function(){
-		var roleId = $("#search-role").combobox('getValue');
+		var stadiumId = $("#search-role").combobox('getValue');
 		var sex = $("#search-sex").combobox('getValue')
 		var option = {username:$("#search-name").val()};
 		if(sex != -1){
 			option.sex = sex;
 		}
+        if(stadiumId != -1){
+            option.stadiumId = stadiumId;
+        }
 		$('#data-datagrid').datagrid('reload',option);
 	});
 	
@@ -355,6 +389,13 @@
 				return value;
 			}},
 			{ field:'age',title:'年龄',width:100},
+            { field:'stadiumid',title:'所属球馆',width:100,formatter:function(value,row,index){
+                    var stadiumList = $("#search-role").combobox('getData');
+                    for(var i=0;i<stadiumList.length;i++){
+                        if(value == stadiumList[i].value) return stadiumList[i].text;
+                    }
+                    return value;
+                }}
 		]]
 	});
 </script>

@@ -345,12 +345,8 @@
 	
 	//搜索按钮监听
 	$("#search-btn").click(function(){
-		var roleId = $("#search-role").combobox('getValue');
 		var sex = $("#search-sex").combobox('getValue')
 		var option = {username:$("#search-name").val()};
-		if(roleId != -1){
-			option.roleId = roleId;
-		}
 		if(sex != -1){
 			option.sex = sex;
 		}

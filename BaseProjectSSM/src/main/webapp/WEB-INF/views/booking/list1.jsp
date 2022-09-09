@@ -18,6 +18,7 @@
             </select>
             <a href="#" id="search-btn" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
             <a href="#" id="edit-btn" onclick="openEdit()" class="easyui-linkbutton" iconCls="icon-ok">预约</a>
+            <a href="/BaseProjectSSM/admin/booking/list">返回</a>
         </div>
     </div>
     <!-- End of toolbar -->

@@ -36,6 +36,8 @@ public class CashierorderController {
     private VenuesService venuesService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private  InstructororderService instructororderService;
 
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
@@ -53,17 +55,14 @@ public class CashierorderController {
         mv.setViewName("cashierorder/list");
         return mv;
     }
-
+    //获取订单
     @RequestMapping(value = "/list",method = RequestMethod.POST)
-    public Map<String,Object> list(Page page,
-                                   HttpServletRequest request,
+    public Map<String,Object> list(Page page, HttpServletRequest request,
                                    @RequestParam(value = "datestr",required = false) String date,
                                    @RequestParam(value = "ordertypeid",required = false) Integer ordertypeid,
                                    @RequestParam(value = "venuesid",required = false) Integer venuesid,
                                    @RequestParam(value = "timeid",required = false) Integer timeid,
-                                   @RequestParam(value = "username",required = false) String username
-
-    ){
+                                   @RequestParam(value = "username",required = false) String username){
         Map<String,Object> ret = new HashMap<>();
         Map<String,Object> queryMap = new HashMap<>();
         Long userid = (Long) request.getSession().getAttribute("adminid");
@@ -82,13 +81,14 @@ public class CashierorderController {
         queryMap.put("memberid",memberid);
         queryMap.put("timeid",timeid);
         queryMap.put("cashierid",userid);
+        queryMap.put("offset", page.getOffset());
+        queryMap.put("pageSize", page.getRows());
         ret.put("rows",orderService.findListbycashierid(queryMap));
         ret.put("total",orderService.getTotalbycashierid(queryMap));
         return ret;
     }
-
+    //取消订单
     @RequestMapping(value="/delete",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> delete(HttpServletRequest request,
                                       @RequestParam(value = "orderid",required = false) int orderid,
                                       @RequestParam(value = "orderdate",required = false) String orderdate,
@@ -98,25 +98,24 @@ public class CashierorderController {
         Member member = memberService.findbymemberid(memberid);
         double balance;
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(orderdate, fmt);
-        LocalDate date1 = LocalDate.now();
+        LocalDate date = LocalDate.parse(orderdate, fmt);LocalDate date1 = LocalDate.now();
         Map<String, String> ret = new HashMap<String, String>();
+        //校验数据，具体步骤进行折叠
         if(StringUtils.isEmpty(orderdate)&&StringUtils.isEmpty(orderid)){
             ret.put("type", "error");
-            ret.put("msg", "选择要删除的数据！");
+            ret.put("msg", "选择要取消的订单！");
             return ret;
-        }
+        }//选择取消订单
         if(date1.compareTo(date) < 0){
+            //同时取消订单预约的教练
+            instructororderService.deletebyorderid(orderid);
+            //取消订单将金额退回会员账户
             if(orderService.delete(String.valueOf(orderid))>0){
                 balance = member.getBalance()+price;
                 memberService.editmember(balance, member.getId());
-                ret.put("type", "success");
-                ret.put("msg", "用户删除成功！");
-                return ret;
+                ret.put("type", "success");ret.put("msg", "订单取消成功成功！");return ret;
             }
         }
-        ret.put("type", "error");
-        ret.put("msg", "订单已经过期不可操作");
-        return ret;
+        ret.put("type", "error");ret.put("msg", "订单已经过期不可操作");return ret;
     }
 }

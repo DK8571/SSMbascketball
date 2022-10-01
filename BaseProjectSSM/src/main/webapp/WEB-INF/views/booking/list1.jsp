@@ -7,11 +7,11 @@
         <div class="wu-toolbar-button">
             <%@include file="../common/menus.jsp"%>
         </div>
+        <div display="none"  style="color: red">请选择预约日期和球场进行查询</div>
         <div class="wu-toolbar-search">
-            <label>日期:</label><div id="search-date" data-options="editable:false" style="width:100px"></div>
+            <label>日期:  </label><div id="search-date" data-options="editable:false" style="width:100px"></div>
             <label>预约球场:</label>
             <select id="search-venues" class="easyui-combobox" data-options="editable:false" panelHeight="auto" style="width:400px">
-                <option value="-1">全部</option>
                 <c:forEach items="${venuesList}" var="venuesId">
                     <option value="${venuesId.id }">${venuesId.venuesname }   单价：${venuesId.price }元/人   全场价：${venuesId.allprice }元   最大人数：${venuesId.max }</option>
                 </c:forEach>
@@ -19,6 +19,10 @@
             <a href="#" id="search-btn" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
             <a href="#" id="edit-btn" onclick="openEdit()" class="easyui-linkbutton" iconCls="icon-ok">预约</a>
             <a href="/BaseProjectSSM/admin/booking/list">返回</a>
+        </div>
+        <div style="display: flex">
+            <p>账户余额：</p>
+            <P id="balance" type="text" readonly="readonly"  class="wu-text easyui-validatebox"  style="width: 50px;margin-top: 9px">${memberlist.balance}</P>
         </div>
     </div>
     <!-- End of toolbar -->
@@ -81,7 +85,8 @@
 			data:data,
 			success:function(data){
 				if(data.type == 'success'){
-					$.messager.alert('信息提示','预约成功！','info');
+					$.messager.alert('信息提示',data.msg,'info');
+                    document.getElementById("balance").innerText=data.balance;
 					$('#edit-dialog').dialog('close');
 					$('#data-datagrid').datagrid('reload');
 				}else{
@@ -133,7 +138,8 @@
     $('#search-date').datebox().datebox('calendar').calendar({
         validator: function(date){
             var d1 = new Date(curr_time.getFullYear(), curr_time.getMonth(), curr_time.getDate());
-            return d1<date;
+            var d2 = new Date(curr_time.getFullYear(), curr_time.getMonth(), curr_time.getDate()+30);
+            return d1<date && d2>date;
         }
     });
 
@@ -153,7 +159,7 @@
         }
         $('#data-datagrid').datagrid('reload',option);
     });
-	
+
 	/** 
 	* 载入数据
 	*/
@@ -176,14 +182,29 @@
                 if (value === "无人预定") {
                     var test = '<div style="color: green" >' + value + '</div>'
                 }
-                if (value === "有比赛不可预约"){
+                if (value === "不可预约"){
                     var test = '<div style="color: red" >' + value + '</div>'
                 }
-                if (value === "不可预约比赛"){
+                if (value === "可预约娱乐/训练"){
                     var test = '<div style="color: orange" >' + value + '</div>'
                 }
                 return test;
     }}
         ]]
 	});
+
+    $("#search-date").datebox("setValue",getCurentDateStr());
+    function getCurentDateStr()
+    {
+        var now = new Date();
+        var year = now.getFullYear();       //年
+        var month = now.getMonth() + 1;     //月
+        var day = now.getDate() + 1;            //日
+        var clock = year + "-";
+        if(month < 10) clock += "0";
+        clock += month + "-";
+        if(day < 10) clock += "0";
+        clock += day;
+        return clock;
+    }
 </script>

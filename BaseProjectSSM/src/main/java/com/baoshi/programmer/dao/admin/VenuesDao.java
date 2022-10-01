@@ -23,7 +23,7 @@ public interface VenuesDao {
     int getTotal(Map<String, Object> queryMap);
 
     @Select({"<script>"+
-            "select * from venues where 1=1"+
+            "select venues.*,stadium.stadiumname from venues,stadium where 1=1 and venues.stadiumid=stadium.id"+
             "<if test='venuesname != null'>"+
             "and venuesname like '%${venuesname}%'"+
             "</if>"+

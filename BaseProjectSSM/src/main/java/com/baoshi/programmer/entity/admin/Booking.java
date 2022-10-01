@@ -93,9 +93,9 @@ public class Booking {
         if (quote==0){
             quotestr="无人预定";
         }else if (quote==1){
-            quotestr="有比赛不可预约";
+            quotestr="不可预约";
         }else if (quote==2){
-            quotestr="不可预约比赛";
+            quotestr="可预约娱乐/训练";
         }
         return quotestr;
     }

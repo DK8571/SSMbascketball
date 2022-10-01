@@ -113,10 +113,6 @@
                 <td width="60" align="right">地址:</td>
                 <td><input type="text" id="edit-address" name="address" class="wu-text easyui-validatebox" /></td>
             </tr>
-            <tr>
-                <td width="60" align="right">余额:</td>
-                <td><input type="text" id="edit-balance" name="balance" class="wu-text easyui-validatebox" /></td>
-            </tr>
         </table>
     </form>
 </div>

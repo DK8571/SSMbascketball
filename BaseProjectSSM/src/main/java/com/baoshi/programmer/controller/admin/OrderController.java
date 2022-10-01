@@ -43,7 +43,7 @@ public class OrderController {
         mv.setViewName("order/list");
         return mv;
     }
-
+    //获取订单
     @RequestMapping(value = "/list",method = RequestMethod.POST)
     public Map<String,Object> list(Page page,
                                    @RequestParam(value = "datestr",required = false) String date,
@@ -56,6 +56,7 @@ public class OrderController {
         if (Objects.equals(date,"")){
             date=null;
         }
+        //通过用户名查找会员id，再通过会员id查询订单
         Long memberid = null;
         if (username!=null&&username!="") {
             User user = userService.findByUsername(username);

@@ -31,17 +31,14 @@ import static com.baoshi.programmer.util.MD5.getMd5;
  */
 @RequestMapping("/admin/cashierrecharge")
 @Controller
+@ResponseBody
 public class CashierrechargeController {
     @Autowired
     private MemberService memberService;
     @Autowired
     private RoleService roleService;
 
-    /**
-     * 用户列表页面
-     * @param model
-     * @return
-     */
+    //会员列表页面
     @RequestMapping(value="/list",method=RequestMethod.GET)
     public ModelAndView list(ModelAndView model){
         Map<String, Object> queryMap = new HashMap<String, Object>();
@@ -49,15 +46,8 @@ public class CashierrechargeController {
         return model;
     }
 
-    /**
-     * 获取用户列表
-     * @param page
-     * @param username
-     * @param sex
-     * @return
-     */
+    //获取会员列表
     @RequestMapping(value="/list",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, Object> getList(Page page,
                                        @RequestParam(name="name",required=false,defaultValue="") String username,
                                        @RequestParam(name="sex",required=false) Integer sex
@@ -72,19 +62,15 @@ public class CashierrechargeController {
         ret.put("total", memberService.getTotal(queryMap));
         return ret;
     }
-    /**
-     * 编辑用
-     * @return
-     */
+    //充值
     @RequestMapping(value="/edit",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> edit(String balance,Long id,HttpServletRequest request){
         Map<String, String> ret = new HashMap<String, String>();
+        //获取会员id
         Member member = memberService.findbyuserid(id);
+        //完成充值
         member.setBalance(member.getBalance() + Double.parseDouble(balance));
         memberService.editmember(member.getBalance(),id);
-        ret.put("type", "success");
-        ret.put("msg", "充值成功！");
-        return ret;
+        ret.put("type", "success");ret.put("msg", "充值成功！");return ret;
     }
 }

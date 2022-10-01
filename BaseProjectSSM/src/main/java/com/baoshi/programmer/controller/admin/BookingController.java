@@ -19,13 +19,13 @@ import java.util.Map;
 public class BookingController {
     @Autowired
     private StadiumService stadiumService;
-
+    //
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public ModelAndView list(ModelAndView mv){
         mv.setViewName("booking/list");
         return mv;
     }
-
+    //获取预约球馆
     @RequestMapping(value = "/list",method = RequestMethod.POST)
     public Map<String, Object> getList(Page page,
                                        @RequestParam(name="name",required=false,defaultValue="") String stadiumname

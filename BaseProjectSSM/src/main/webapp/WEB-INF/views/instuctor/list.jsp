@@ -305,6 +305,10 @@
 			$.messager.alert('信息提示','请选择要修改的数据！','info');
 			return;
 		}
+        if(item.length > 1){
+            $.messager.alert('信息提示','请选择一条数据进行修改！','info');
+            return;
+        }
 		if(item.length > 1){
 			// $.messager.alert('信息提示','请选择一条数据进行修改！','info');
             window.location.reload(item);

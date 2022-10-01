@@ -28,6 +28,7 @@ import java.util.Map;
  */
 @RequestMapping("/admin/role")
 @Controller
+@ResponseBody
 public class RoleController {
 
 	@Autowired
@@ -51,14 +52,8 @@ public class RoleController {
 	}
 
 
-	/**
-	 * 获取角色列表
-	 * @param page
-	 * @param name
-	 * @return
-	 */
+	//获取角色列表
 	@RequestMapping(value="/list",method=RequestMethod.POST)
-	@ResponseBody
 	public Map<String, Object> getList(Page page,
 									   @RequestParam(name="name",required=false,defaultValue="") String name
 	){
@@ -71,16 +66,32 @@ public class RoleController {
 		ret.put("total", roleService.getTotal(queryMap));
 		return ret;
 	}
+	//角色修改
+	@RequestMapping(value="/edit",method=RequestMethod.POST)
+	public Map<String, String> edit(Role role){
+		Map<String, String> ret = new HashMap<String, String>();
+		//校验数据，具体步骤进行折叠
+		if(role == null){
+			ret.put("type", "error");
+			ret.put("msg", "请填写正确的角色信息！");
+			return ret;
+		}//填写信息
+		if(StringUtils.isEmpty(role.getName())){
+			ret.put("type", "error");
+			ret.put("msg", "请填写角色名称！");
+			return ret;
+		}//填写名称
+		if(roleService.edit(role) <= 0){
+			ret.put("type", "error");ret.put("msg", "角色修改失败，请联系管理员！");return ret;
+		}
+		ret.put("type", "success");ret.put("msg", "角色修改成功！");return ret;
+	}
 
-	/**
-	 * 角色添加
-	 * @param role
-	 * @return
-	 */
 	@RequestMapping(value="/add",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> add(Role role){
 		Map<String, String> ret = new HashMap<String, String>();
+		//校验数据
 		if(role == null){
 			ret.put("type", "error");
 			ret.put("msg", "请填写正确的角色信息！");
@@ -100,41 +111,6 @@ public class RoleController {
 		ret.put("msg", "角色添加成功！");
 		return ret;
 	}
-
-	/**
-	 * 角色修改
-	 * @param role
-	 * @return
-	 */
-	@RequestMapping(value="/edit",method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String, String> edit(Role role){
-		Map<String, String> ret = new HashMap<String, String>();
-		if(role == null){
-			ret.put("type", "error");
-			ret.put("msg", "请填写正确的角色信息！");
-			return ret;
-		}
-		if(StringUtils.isEmpty(role.getName())){
-			ret.put("type", "error");
-			ret.put("msg", "请填写角色名称！");
-			return ret;
-		}
-		if(roleService.edit(role) <= 0){
-			ret.put("type", "error");
-			ret.put("msg", "角色修改失败，请联系管理员！");
-			return ret;
-		}
-		ret.put("type", "success");
-		ret.put("msg", "角色修改成功！");
-		return ret;
-	}
-
-	/**
-	 * 删除角色信息
-	 * @param id
-	 * @return
-	 */
 	@RequestMapping(value="/delete",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> delete(Long id){
@@ -161,57 +137,45 @@ public class RoleController {
 		return ret;
 	}
 
-	/**
-	 * 获取所有的菜单信息
-	 * @return
-	 */
+	//获取所有的菜单信息
 	@RequestMapping(value="/get_all_menu",method=RequestMethod.POST)
-	@ResponseBody
 	public List<Menu> getAllMenu(){
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("offset", 0);
 		queryMap.put("pageSize", 99999);
 		return menuService.findList(queryMap);
 	}
-
-	/**
-	 * 添加权限
-	 * @param ids
-	 * @return
-	 */
+	//添加权限
 	@RequestMapping(value="/add_authority",method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String, String> addAuthority(
-			@RequestParam(name="ids",required=true) String ids,
-			@RequestParam(name="roleId",required=true) Long roleId
+	public Map<String, String> addAuthority(@RequestParam(name="ids",required=true) String ids,
+											@RequestParam(name="roleId",required=true) Long roleId
 	){
 		Map<String,String> ret = new HashMap<String, String>();
+		//校验数据，具体步骤进行折叠
 		if(StringUtils.isEmpty(ids)){
 			ret.put("type", "error");
 			ret.put("msg", "请选择相应的权限！");
 			return ret;
-		}
+		}//选择相关权限
 		if(roleId == null){
 			ret.put("type", "error");
 			ret.put("msg", "请选择相应的角色！");
 			return ret;
-		}
+		}//选择角色
 		if(ids.contains(",")){
 			ids = ids.substring(0,ids.length()-1);
 		}
 		String[] idArr = ids.split(",");
-		if(idArr.length > 0){
-			authorityService.deleteByRoleId(roleId);
-		}
+		//删除之前所有权限
+		if(idArr.length > 0){authorityService.deleteByRoleId(roleId);}
+		//对角色进行赋权
 		for(String id:idArr){
 			Authority authority = new Authority();
 			authority.setMenuId(Long.valueOf(id));
 			authority.setRoleId(roleId);
 			authorityService.add(authority);
 		}
-		ret.put("type", "success");
-		ret.put("msg", "权限编辑成功！");
-		return ret;
+		ret.put("type", "success");ret.put("msg", "权限编辑成功！");return ret;
 	}
 
 	/**

@@ -39,6 +39,8 @@ public class OwnController {
     private MemberService memberService;
     @Autowired
     private VenuesService venuesService;
+    @Autowired
+    private  InstructororderService instructororderService;
 
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
@@ -99,6 +101,13 @@ public class OwnController {
             return ret;
         }
         if(date1.compareTo(date) < 0){
+            try {
+                instructororderService.deletebyorderid(orderid);
+            } catch (Exception e) {
+                ret.put("type", "error");
+                ret.put("msg", "删除失败联系管理员");
+                return ret;
+            }
             if(orderService.delete(String.valueOf(orderid))>0){
                 balance = member.getBalance()+price;
                 memberService.editmember(balance, userid);

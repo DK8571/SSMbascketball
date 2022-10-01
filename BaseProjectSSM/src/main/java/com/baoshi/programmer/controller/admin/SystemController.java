@@ -177,7 +177,7 @@ public class SystemController {
 	 */
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> loginAct(User user, String cpacha, HttpServletRequest request) throws NoSuchAlgorithmException {
+	public Map<String, String> loginAct(User user, String cpacha, HttpServletRequest request) throws NoSuchAlgorithmException{
 		Map<String, String> ret = new HashMap<String, String>();
 		if(user == null){
 			ret.put("type", "error");
@@ -208,7 +208,6 @@ public class SystemController {
 		if(!cpacha.toUpperCase().equals(loginCpacha.toString().toUpperCase())){
 			ret.put("type", "error");
 			ret.put("msg", "验证码错误！");
-//			logService.add("用户名为"+user.getUsername()+"的用户登录时输入验证码错误!");
 			return ret;
 		}
 		User findByUsername = userService.findByUsername(user.getUsername());

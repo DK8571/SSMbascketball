@@ -14,31 +14,35 @@ import java.util.Map;
 public interface EquipmentDao {
 
     @Select({"<script>"+
-            "select * from equipment where 1=1 "+
+                "select * from equipment where 1=1 "+
             "<if test='equipmentname != null'>"+
-            "and equipmentname like '%${equipmentname}%'"+
+                "and equipmentname like '%${equipmentname}%'"+
             "</if>"+
-            "<if test='roleId == 2'>"+
-            "and venuesid in (select venues.id from venues,cashier where venues.stadiumid=cashier.stadiumid and cashier.id =${cashierid})"+
+            "<if test='roleId == 2'>"+//如果是收银员，通过用户id查询所属球馆，查找球馆下所有球场id
+                "and venuesid in (select venues.id from venues,cashier " +
+                "where venues.stadiumid=cashier.stadiumid and cashier.id =${cashierid})"+
             "</if>"+
             "<if test='userid != null'>"+
-            "and userid = #{userid}"+
+                "and userid = #{userid}"+
             "</if>"+
             "<if test='venuesid != null'>"+
-            "and venuesid = #{venuesid}"+
+                "and venuesid = #{venuesid}"+
             "</if>"+
             "<if test='offset != null and pageSize != null'>"+
-            "limit #{offset},#{pageSize}"+
+                "limit #{offset},#{pageSize}"+
             "</if>"+
             "</script>"
     })
-
     List<Equipment> findList(Map<String, Object> queryMap);
 
     @Select({"<script>"+
             "select count(*) from equipment where 1 = 1 "+
             "<if test='equipmentname != null'>"+
             "and equipmentname like '%${equipmentname}%'"+
+            "</if>"+
+            "<if test='roleId == 2'>"+
+            "and venuesid in (select venues.id from venues,cashier " +
+            "where venues.stadiumid=cashier.stadiumid and cashier.id =${cashierid})"+
             "</if>"+
             "<if test='userid != null'>"+
             "and userid = #{userid}"+

@@ -34,7 +34,7 @@
                 </tr>
                 <tr>
                     <td width="60" align="right">用户名:</td>
-                    <td><input type="text" id="add-username" name="username" class="wu-text easyui-validatebox" value="${Member[0].username }"/></td>
+                    <td><input type="text" id="add-username" name="username" class="wu-text easyui-validatebox"oninput="this.value=this.value.replace(/[^a-zA-Z\d]/g,'')" value="${Member[0].username }"/></td>
                 </tr>
                 <tr>
                     <td width="60" align="right">密码:</td>

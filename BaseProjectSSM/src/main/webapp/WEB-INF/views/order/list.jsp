@@ -35,11 +35,11 @@
                     </c:forEach>
                 </select>
             </span>
-            <label>预约球场:</label>
-            <select id="search-venues" class="easyui-combobox" panelHeight="auto" style="width:120px">
+            <label>所属场地:</label>
+            <select id="search-venues" class="easyui-combobox" panelHeight="auto" style="width:200px">
                 <option value="-1">全部</option>
-                <c:forEach items="${venuesList}" var="venuesId">
-                    <option value="${venuesId.id }">${venuesId.venuesname }</option>
+                <c:forEach items="${venuesList}" var="venues">
+                    <option value="${venues.id }">球馆：${venues.stadiumname }  球场：${venues.venuesname }</option>
                 </c:forEach>
             </select>
             <a href="#" id="search-btn" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
@@ -136,7 +136,6 @@
                     return value;
                 }},
             { field:'number',title:'预约人数',width:100},
-            { field:'quotestr',title:'状态',width:100},
             { field:'price',title:'消费',width:100}
 		]]
 	});

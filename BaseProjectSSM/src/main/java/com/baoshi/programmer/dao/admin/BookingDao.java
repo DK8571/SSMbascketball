@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Repository
 public interface BookingDao {
-
+    //通过球场日期在营业时间和订单表查找预约球场不同时间的状态和预约人数
     @Select("SELECT time.id timeid,time.time time,sum(`order`.Number) sum,`order`.quote FROM time LEFT OUTER JOIN `order` ON"+
             "`order`.timeid = time.id "+
             "AND `order`.venuesid =#{venuesid}  "+

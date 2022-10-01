@@ -33,10 +33,9 @@ public class EquipmentController {
     private VenuesService venuesService;
 
     @RequestMapping(value = "list",method = RequestMethod.GET)
-    public ModelAndView list(ModelAndView mv,
-                             HttpServletRequest request
-                             ){
+    public ModelAndView list(ModelAndView mv, HttpServletRequest request){
         Map<String,Object> queryMap=new HashMap<String,Object>();
+        //获取登录用户id与角色id
         Long userid = (Long) request.getSession().getAttribute("adminid");
         User user = userService.findbyuserid(userid);
         queryMap.put("roleId" , user.getRoleId());
@@ -46,15 +45,18 @@ public class EquipmentController {
         mv.setViewName("equipment/list");
         return mv;
     }
+    //获取设备列表，具体步骤进行折叠
     @RequestMapping(value = "list",method = RequestMethod.POST)
-    public Map<String,Object> getlist(Page page,
-                                      HttpServletRequest request,
+    public Map<String,Object> getlist(Page page, HttpServletRequest request,
                                       @RequestParam(value = "equipmentname",required = false) String equipmentname,
                                       @RequestParam(value = "userid",required = false) Integer userid,
-                                      @RequestParam(value = "venuesid",required = false) Integer venuesid){
+                                      @RequestParam(value = "venuesid",required = false) Integer venuesid)
+    {
         Map<String,Object> queryMap=new HashMap<String,Object>();
+        //获取调用功能用户
         Long userId = (Long) request.getSession().getAttribute("adminid");
         User user = userService.findbyuserid(userId);
+        //角色id和用户id搜索设备
         queryMap.put("roleId" , user.getRoleId());
         queryMap.put("cashierid" , user.getId());
         queryMap.put("equipmentname",equipmentname);
@@ -69,76 +71,61 @@ public class EquipmentController {
         resultMap.put("total",equipmentService.getTotal(queryMap));
         return resultMap;
     }
-
+    //添加设备
     @RequestMapping(value="/add",method=RequestMethod.POST)
-    @ResponseBody
-    public Map<String, String> add(Equipment venues){
+    public Map<String, String> add(HttpServletRequest request,Equipment equipment){
+        //填入此操作人id
+        equipment.setUserid((Long) request.getSession().getAttribute("adminid"));
         Map<String, String> ret = new HashMap<String, String>();
-        if(venues == null){
+        //校验数据，具体步骤进行折叠
+        if(equipment == null){
             ret.put("type", "error");
             ret.put("msg", "请填写正确的用户信息！");
             return ret;
-        }
-        if(StringUtils.isEmpty(venues.getEquipmentname())){
+        }//填写正确设备信息
+        if(StringUtils.isEmpty(equipment.getEquipmentname())){
             ret.put("type", "error");
             ret.put("msg", "请填写设备！");
             return ret;
-        }
-        if(venues.getVenuesid() == null){
+        }//填写设备名称
+        if(equipment.getVenuesid() == null){
             ret.put("type", "error");
             ret.put("msg", "请选择所属球场！");
             return ret;
+        }//填写所属球场id
+        if(equipmentService.add(equipment) <= 0){
+            ret.put("type", "error");ret.put("msg", "设备添加失败，请联系管理员！");return ret;
         }
-        if(equipmentService.add(venues) <= 0){
-            ret.put("type", "error");
-            ret.put("msg", "设备添加失败，请联系管理员！");
-            return ret;
-        }
-        ret.put("type", "success");
-        ret.put("msg", "设备添加成功！");
-        return ret;
+        ret.put("type", "success");ret.put("msg", "设备添加成功！");return ret;
     }
-
-    /**
-     * 编辑用户
-     * @return
-     */
+    //编辑设备
     @RequestMapping(value="/edit",method=RequestMethod.POST)
-    @ResponseBody
-    public Map<String, String> edit(Equipment venues){
+    //前台传入操作人用户id
+    public Map<String, String> edit(Equipment equipment){
         Map<String, String> ret = new HashMap<String, String>();
-        if(venues == null){
+        //校验数据，具体步骤进行折叠
+        if(equipment == null){
             ret.put("type", "error");
             ret.put("msg", "请填写正确的设备信息！");
             return ret;
-        }
-        if(StringUtils.isEmpty(venues.getEquipmentname())){
+        }//填写正确设备信息
+        if(StringUtils.isEmpty(equipment.getEquipmentname())){
             ret.put("type", "error");
             ret.put("msg", "请填写设备名！");
             return ret;
-        }
-        if(venues.getEquipmentname() == null){
+        }//填写设备名称
+        if(equipment.getEquipmentname() == null){
             ret.put("type", "error");
             ret.put("msg", "请选择所属球场！");
             return ret;
+        }//填写所属球场id
+        if(equipmentService.edit(equipment) <= 0){
+            ret.put("type", "error");ret.put("msg", "设备编辑失败，请联系管理员！");return ret;
         }
-        if(equipmentService.edit(venues) <= 0){
-            ret.put("type", "error");
-            ret.put("msg", "用户添加失败，请联系管理员！");
-            return ret;
-        }
-        ret.put("type", "success");
-        ret.put("msg", "设备添加成功！");
-        return ret;
+        ret.put("type", "success");ret.put("msg", "设备添加成功！");return ret;
     }
-
-    /**
-     * 批量删除用户
-     * @param ids
-     * @return
-     */
+    //批量删除设备
     @RequestMapping(value="/delete",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> delete(String ids){
         Map<String, String> ret = new HashMap<String, String>();
         if(StringUtils.isEmpty(ids)){

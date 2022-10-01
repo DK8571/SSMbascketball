@@ -7,6 +7,7 @@
         <div class="wu-toolbar-button">
             <%@include file="../common/menus.jsp"%>
         </div>
+        <div style="color: red">每个订单可以免费预约一名教练</div>
         <div class="wu-toolbar-search">
             <label>日期:</label><div id="search-date" data-options="editable:false" style="width:100px"></div>
             <label>订单类型:</label>
@@ -25,11 +26,11 @@
             </select>
 
             <!--需要修改内容-->
-            <label>预约球场:</label>
-            <select id="search-venues" class="easyui-combobox" panelHeight="auto" style="width:120px">
+            <label>所属场地:</label>
+            <select id="search-venues" class="easyui-combobox" panelHeight="auto" style="width:200px">
                 <option value="-1">全部</option>
-                <c:forEach items="${venuesList}" var="venuesId">
-                    <option value="${venuesId.id }">${venuesId.venuesname }</option>
+                <c:forEach items="${venuesList}" var="venues">
+                    <option value="${venues.id }">球馆：${venues.stadiumname }  球场：${venues.venuesname }</option>
                 </c:forEach>
             </select>
             <a href="#" id="search-btn" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
@@ -78,12 +79,12 @@
      * 删除记录
      */
     function remove(){
-        $.messager.confirm('信息提示','确定要删除该记录？', function(result){
+        $.messager.confirm('信息提示','确定要取消该订单？', function(result){
             if(result){
                 var item = $('#data-datagrid').datagrid('getSelections');
                 this.obj=item[0];
                 if(item == null || item.length == 0){
-                    $.messager.alert('信息提示','请选择要删除的数据！','info');
+                    $.messager.alert('信息提示','请选择要取消的订单！','info');
                     return;
                 }
                 // item=JSON.parse(JSON.stringify(item))
@@ -95,7 +96,7 @@
                     data:{orderid:item[0].id,orderdate:item[0].datestr,price:item[0].price,memberid:item[0].memberid},
                     success:function(data){
                         if(data.type == 'success'){
-                            $.messager.alert('信息提示','删除成功！','info');
+                            $.messager.alert('信息提示','取消成功！','info');
                             $('#data-datagrid').datagrid('reload');
                         }else{
                             $.messager.alert('信息提示',data.msg,'warning');
@@ -145,8 +146,30 @@
                     return value;
                 }},
             { field:'number',title:'预约人数',width:100},
-            { field:'quotestr',title:'状态',width:100},
-            { field:'price',title:'消费',width:100}
+            { field:'price',title:'消费',width:100},
+            { field:'icon',title:'查看教练',width:100,formatter:function(value,row,index){
+                    console.log(row.datestr)
+                    var test = '<a onclick="Open(\''+row.id+'\',\''+row.datestr+'\')" href="#">查看</a>'
+                    console.log(test)
+                    return test;
+                }}
 		]]
 	});
+
+    function Open(id,datestr){
+        console.log(id)
+        console.log(id+'ddddd'+datestr)
+        var timestamp1 = new Date(datestr).getTime();//结束时间
+        var timestamp2 = new Date().getTime();//现在时间
+        var d = timestamp1 - timestamp2;//d>0 没到时间  d<0时间已经过了
+        if(d<0){
+            $.messager.confirm('信息提示','订单已过期，不可预约教练', function(result){
+                if(result){
+                    location.replace("/BaseProjectSSM/admin/instructororder/list?id=" + id + "&datestr=" + datestr)
+                }
+            });
+        }else {
+            location.replace("/BaseProjectSSM/admin/instructororder/list?id=" + id + "&datestr=" + datestr)
+        }
+    }
 </script>

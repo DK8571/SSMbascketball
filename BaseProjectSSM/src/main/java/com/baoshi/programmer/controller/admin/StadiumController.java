@@ -28,7 +28,7 @@ public class StadiumController {
         mv.setViewName("stadium/list");
         return mv;
     }
-
+    //获取球馆列表
     @RequestMapping(value = "/list",method = RequestMethod.POST)
     public Map<String, Object> getList(Page page,
                                        @RequestParam(name="name",required=false,defaultValue="") String stadiumname
@@ -42,51 +42,29 @@ public class StadiumController {
         ret.put("total", stadiumService.getTotal(queryMap));
         return ret;
     }
-
+    //添加球馆
     @RequestMapping(value="/add",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> add(Stadium stadium){
         Map<String, String> ret = new HashMap<String, String>();
-
         if(stadiumService.add(stadium) <= 0 ){
-
-            ret.put("type", "error");
-            ret.put("msg", "用户添加失败，请联系管理员！");
-            return ret;
+            ret.put("type", "error");ret.put("msg", "球馆添加失败，请联系管理员！");return ret;
         }
-        ret.put("type", "success");
-        ret.put("msg", "角色添加成功！");
-        return ret;
+        ret.put("type", "success");ret.put("msg", "球馆添加成功！");return ret;
     }
-
-    /**
-     * 编辑用户
-     * @param stadium
-     * @return
-     */
+    //编辑球馆，具体步骤进行折叠
     @RequestMapping(value="/edit",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> edit(Stadium stadium){
         Map<String, String> ret = new HashMap<String, String>();
         if(stadiumService.edit(stadium) <= 0){
-            ret.put("type", "error");
-            ret.put("msg", "用户添加失败，请联系管理员！");
-            return ret;
+            ret.put("type", "error");ret.put("msg", "球馆失败，请联系管理员！");return ret;
         }
-        ret.put("type", "success");
-        ret.put("msg", "角色添加成功！");
-        return ret;
+        ret.put("type", "success");ret.put("msg", "球馆添加成功！");return ret;
     }
-
-    /**
-     * 批量删除用户
-     * @param ids
-     * @return
-     */
+    //批量删除球馆
     @RequestMapping(value="/delete",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> delete(String ids){
         Map<String, String> ret = new HashMap<String, String>();
+        //校验数据，具体步骤进行折叠
         if(StringUtils.isEmpty(ids)){
             ret.put("type", "error");
             ret.put("msg", "选择要删除的数据！");
@@ -96,17 +74,11 @@ public class StadiumController {
             ids = ids.substring(0,ids.length()-1);
         }
         if(stadiumService.findvenues(ids)> 0 ){
-            ret.put("type", "error");
-            ret.put("msg", "球馆下仍有球场未删除");
-            return ret;
+            ret.put("type", "error");ret.put("msg", "球馆下仍有球场未删除");return ret;
         }
         if(stadiumService.delete(ids) <= 0){
-            ret.put("type", "error");
-            ret.put("msg", "用户删除失败，请联系管理员！");
-            return ret;
+            ret.put("type", "error");ret.put("msg", "球馆删除失败，请联系管理员！");return ret;
         }
-        ret.put("type", "success");
-        ret.put("msg", "用户删除成功！");
-        return ret;
+        ret.put("type", "success");ret.put("msg", "球馆删除成功！");return ret;
     }
 }

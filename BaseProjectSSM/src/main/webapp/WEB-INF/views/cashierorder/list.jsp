@@ -166,7 +166,6 @@
                     return value;
                 }},
             { field:'number',title:'预约人数',width:100},
-            { field:'quotestr',title:'状态',width:100},
             { field:'price',title:'消费',width:100}
 		]]
 	});

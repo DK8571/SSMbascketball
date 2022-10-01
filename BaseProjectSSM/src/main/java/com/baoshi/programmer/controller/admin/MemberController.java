@@ -30,99 +30,69 @@ import static com.baoshi.programmer.util.MD5.getMd5;
  */
 @RequestMapping("/admin/member")
 @Controller
+@ResponseBody
 public class MemberController {
     @Autowired
     private MemberService memberService;
     @Autowired
     private RoleService roleService;
-
-    /**
-     * 用户列表页面
-     * @param model
-     * @return
-     */
+    // 会员列表页面
     @RequestMapping(value="/list",method=RequestMethod.GET)
     public ModelAndView list(ModelAndView model){
         Map<String, Object> queryMap = new HashMap<String, Object>();
         model.setViewName("member/list");
         return model;
     }
-
-    /**
-     * 获取用户列表
-     * @param page
-     * @param username
-     * @param sex
-     * @return
-     */
+    //获取会员列表，具体代码进行折叠，
     @RequestMapping(value="/list",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, Object> getList(Page page,
                                        @RequestParam(name="name",required=false,defaultValue="") String username,
                                        @RequestParam(name="sex",required=false) Integer sex
     ){
         Map<String, Object> ret = new HashMap<String, Object>();
         Map<String, Object> queryMap = new HashMap<String, Object>();
-        queryMap.put("username", username);
-        queryMap.put("sex", sex);
+        queryMap.put("username", username);queryMap.put("sex", sex);
         queryMap.put("offset", page.getOffset());
         queryMap.put("pageSize", page.getRows());
         ret.put("rows", memberService.findList(queryMap));
         ret.put("total", memberService.getTotal(queryMap));
         return ret;
     }
-
-    /**
-     * 添加用户
-     * @param user
-     * @return
-     */
+    // 添加会员
     @RequestMapping(value="/add",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> add(User user) throws NoSuchAlgorithmException {
         Map<String, String> ret = new HashMap<String, String>();
+        //校验数据，具体步骤进行折叠
         if(user == null){
             ret.put("type", "error");
             ret.put("msg", "请填写正确的用户信息！");
             return ret;
-        }
+        }//填写用户
         if(StringUtils.isEmpty(user.getUsername())){
             ret.put("type", "error");
             ret.put("msg", "请填写用户名！");
             return ret;
-        }
+        }//填写用户名
         if(StringUtils.isEmpty(user.getPassword())){
             ret.put("type", "error");
             ret.put("msg", "请填写密码！");
             return ret;
-        }
-
+        }//填写密码
         if(isExist(user.getUsername(), 0l)){
             ret.put("type", "error");
             ret.put("msg", "该用户名已经存在，请重新输入！");
             return ret;
-        }
+        }//判断用户名是否存在
+        //密码进行MD5加密
         user.setPassword(getMd5(user.getPassword()));
-        if(memberService.add(user) <= 0 ){
-
-            ret.put("type", "error");
-            ret.put("msg", "用户添加失败，请联系管理员！");
-            return ret;
+        if(memberService.add(user) <= 0 ){ret.put("type", "error");ret.put("msg", "会员添加失败，请联系管理员！");return ret;
         }
         long id = user.getId();
-        memberService.addmember(id);
-        ret.put("type", "success");
-        ret.put("msg", "角色添加成功！");
+        memberService.addmember(id);ret.put("type", "success");ret.put("msg", "会员添加成功！");
         return ret;
     }
-
-    /**
-     * 编辑用户
-     * @param user
-     * @return
-     */
+    // 编辑会员，具体步骤进行折叠
     @RequestMapping(value="/edit",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> edit(User user){
         Map<String, String> ret = new HashMap<String, String>();
         if(user == null){
@@ -151,42 +121,30 @@ public class MemberController {
         return ret;
     }
 
-    /**
-     * 批量删除用户
-     * @param ids
-     * @return
-     */
+    // 批量删除会员
     @RequestMapping(value="/delete",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> delete(String ids){
         Map<String, String> ret = new HashMap<String, String>();
+        //校验数据，具体步骤进行折叠
         if(StringUtils.isEmpty(ids)){
             ret.put("type", "error");
             ret.put("msg", "选择要删除的数据！");
             return ret;
-        }
+        }//选择删除数据
         if(ids.contains(",")){
             ids = ids.substring(0,ids.length()-1);
         }
         if(memberService.findblance(ids)>0){
-            ret.put("type", "error");
-            ret.put("msg", "删除会员仍有余额，请退款后再删除");
-            return ret;
+            ret.put("type", "error");ret.put("msg", "删除会员仍有余额，请退款后再删除");return ret;
         }
         if(memberService.findorder(ids)>0){
-            ret.put("type", "error");
-            ret.put("msg", "删除会员仍有未完成订单，请退款后再删除");
-            return ret;
+            ret.put("type", "error");ret.put("msg", "删除会员仍有未完成订单，请退款后再删除");return ret;
         }
-        if(memberService.deletemember(ids) <= 0){
-            ret.put("type", "error");
-            ret.put("msg", "用户删除失败，请联系管理员！");
-            return ret;
+        if( memberService.deletemember(ids)<= 0){
+            ret.put("type", "error");ret.put("msg", "会员删除失败，请联系管理员！");return ret;
         }
         memberService.delete(ids);
-        ret.put("type", "success");
-        ret.put("msg", "用户删除成功！");
-        return ret;
+        ret.put("type", "success");ret.put("msg", "会员删除成功！");return ret;
     }
 
     /**
@@ -196,7 +154,6 @@ public class MemberController {
      * @return
      */
     @RequestMapping(value="/upload_photo",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> uploadPhoto(MultipartFile photo,HttpServletRequest request){
         Map<String, String> ret = new HashMap<String, String>();
         if(photo == null){

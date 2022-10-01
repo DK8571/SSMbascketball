@@ -32,7 +32,7 @@
 <!-- Begin of easyui-dialog -->
 <div id="add-dialog" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:420px; padding:10px;">
 	<form id="add-form" method="post">
-        <input type="hidden" name="userid" class="wu-text easyui-validatebox" value="${admin.id }">
+        <input  type="hidden" name="userid" class="wu-text easyui-validatebox" value="${admin.id}">
         <table>
             <tr>
                 <td width="60" align="right">设备名称:</td>
@@ -47,7 +47,7 @@
                 <td>
                 	<select name="venuesid" id="add-venuesid" class="easyui-combobox" panelHeight="auto" style="width:268px" data-options="required:true, missingMessage:'请选择场地'">
                         <c:forEach items="${venuesList}" var="venues">
-                            <option value="${venues.id }">${venues.venuesname }</option>
+                            <option value="${venues.id }">球馆：${venues.stadiumname }  球场：${venues.venuesname }</option>
                         </c:forEach>
 		            </select>
                 </td>

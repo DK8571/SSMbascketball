@@ -9,7 +9,9 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-@ComponentScan({"com.baoshi.programmer.controller.admin","com.baoshi.programmer.interceptor.admin","com.baoshi.programmer.config.admin"})
+@ComponentScan({"com.baoshi.programmer.controller.admin",
+                "com.baoshi.programmer.interceptor.admin",
+                "com.baoshi.programmer.config.admin"})
 @EnableWebMvc
 public class SpringMvcConfig {
 

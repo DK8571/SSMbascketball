@@ -27,19 +27,17 @@ public class OwnmasageController {
     @Autowired
     private RoleService roleService;
 
-
+    //获取个人信息
     @RequestMapping(value = "list",method = RequestMethod.GET)
-    ModelAndView list(ModelAndView mv,
-                      HttpServletRequest request){
+    ModelAndView list(ModelAndView mv,HttpServletRequest request){
         mv.setViewName("ownmasage/ownmasage");
         Map<String,Object> queryMap = new HashMap<>();
         queryMap.put("userid",request.getSession().getAttribute("adminid"));
         mv.addObject("Member",memberService.findList(queryMap));
         return mv;
     }
-
+    //修改个人信息
     @RequestMapping(value="/edit",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> edit(User user){
         Map<String, String> ret = new HashMap<String, String>();
         if(user == null){
@@ -58,14 +56,10 @@ public class OwnmasageController {
             return ret;
         }
         if(memberService.edit(user) <= 0){
-            ret.put("type", "error");
-            ret.put("msg", "用户添加失败，请联系管理员！");
-            return ret;
+            ret.put("type", "error");ret.put("msg", "用户添加失败，请联系管理员！");return ret;
         }
         memberService.editmember(user.getBalance(), user.getId());
-        ret.put("type", "success");
-        ret.put("msg", "角色添加成功！");
-        return ret;
+        ret.put("type", "success");ret.put("msg", "角色添加成功！");return ret;
     }
 
     @RequestMapping(value="/upload_photo",method=RequestMethod.POST)

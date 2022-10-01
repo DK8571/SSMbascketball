@@ -26,6 +26,7 @@ import java.util.Map;
  */
 @RequestMapping("/admin/menu")
 @Controller
+@ResponseBody
 public class MenuController {
 
 	@Autowired
@@ -44,18 +45,13 @@ public class MenuController {
 		return model;
 	}
 
-	/**
-	 * 获取菜单列表
-	 * @param page
-	 * @param name
-	 * @return
-	 */
+	//获取菜单列表
 	@RequestMapping(value="/list",method=RequestMethod.POST)
-	@ResponseBody
 	public Map<String, Object> getMenuList(Page page,
 										   @RequestParam(name="name",required=false,defaultValue="") String name
 	){
 		Map<String, Object> ret = new HashMap<String, Object>();
+		//查询条件
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("offset", page.getOffset());
 		queryMap.put("pageSize", page.getRows());
@@ -65,14 +61,8 @@ public class MenuController {
 		ret.put("total", menuService.getTotal(queryMap));
 		return ret;
 	}
-
-	/**
-	 * 获取指定目录下的系统icon集合
-	 * @param request
-	 * @return
-	 */
+	//获取指定目录下的系统icon集合
 	@RequestMapping(value="/get_icons",method=RequestMethod.POST)
-	@ResponseBody
 	public Map<String, Object> getIconList(HttpServletRequest request){
 		Map<String, Object> ret = new HashMap<String, Object>();
 		String realPath = request.getSession().getServletContext().getRealPath("/");
@@ -93,111 +83,76 @@ public class MenuController {
 		ret.put("content", icons);
 		return ret;
 	}
-
-	/**
-	 * 菜单添加
-	 * @param menu
-	 * @return
-	 */
+	//菜单添加
 	@RequestMapping(value="/add",method=RequestMethod.POST)
-	@ResponseBody
 	public Map<String, String> add(Menu menu){
 		Map<String, String> ret = new HashMap<String, String>();
+		//校验输入数据，具体步骤进行折叠
 		if(menu == null){
 			ret.put("type", "error");
 			ret.put("msg", "请填写正确的菜单信息!");
 			return ret;
-		}
+		}//填写菜单信息
 		if(StringUtils.isEmpty(menu.getName())){
 			ret.put("type", "error");
 			ret.put("msg", "请填写菜单名称!");
 			return ret;
-		}
+		}//填写菜单名称
 		if(StringUtils.isEmpty(menu.getIcon())){
 			ret.put("type", "error");
 			ret.put("msg", "请填写菜单图标类!");
 			return ret;
-		}
-		if(menu.getParentId() == null){
-			menu.setParentId(0l);
-		}
+		}//选择菜单图标
+		if(menu.getParentId() == null){menu.setParentId(0l);}//设置父菜单id为0
 		if(menuService.add(menu) <= 0){
-			ret.put("type", "error");
-			ret.put("msg", "添加失败，请联系管理员!");
-			return ret;
+			ret.put("type", "error");ret.put("msg", "添加失败，请联系管理员!");return ret;
 		}
-		ret.put("type", "success");
-		ret.put("msg", "添加成功!");
-		return ret;
+		ret.put("type", "success");ret.put("msg", "添加成功!");return ret;
 	}
-
-	/**
-	 * 菜单修改
-	 * @param menu
-	 * @return
-	 */
+	//菜单修改
 	@RequestMapping(value="/edit",method=RequestMethod.POST)
-	@ResponseBody
 	public Map<String, String> edit(Menu menu){
 		Map<String, String> ret = new HashMap<String, String>();
+		//校验输入数据，具体步骤进行折叠
 		if(menu == null){
 			ret.put("type", "error");
-			ret.put("msg", "请选择正确的菜单信息!");
+			ret.put("msg", "请填写正确的菜单信息!");
 			return ret;
-		}
+		}//填写菜单信息
 		if(StringUtils.isEmpty(menu.getName())){
 			ret.put("type", "error");
 			ret.put("msg", "请填写菜单名称!");
 			return ret;
-		}
+		}//填写菜单名称
 		if(StringUtils.isEmpty(menu.getIcon())){
 			ret.put("type", "error");
 			ret.put("msg", "请填写菜单图标类!");
 			return ret;
-		}
-		if(menu.getParentId() == null){
-			menu.setParentId(0l);
-		}
+		}//选择菜单图标
+		if(menu.getParentId() == null){menu.setParentId(0l);}//设置父菜单id为0
 		if(menuService.edit(menu) <= 0){
-			ret.put("type", "error");
-			ret.put("msg", "修改失败，请联系管理员!");
-			return ret;
+			ret.put("type", "error");ret.put("msg", "修改失败，请联系管理员!");return ret;
 		}
-		ret.put("type", "success");
-		ret.put("msg", "修改成功!");
-		return ret;
+		ret.put("type", "success");ret.put("msg", "修改成功!");return ret;
 	}
-
-	/**
-	 * 删除菜单信息
-	 * @param id
-	 * @return
-	 */
+	//删除菜单信息
 	@RequestMapping(value="/delete",method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String, String> delete(
-			@RequestParam(name="id",required=true) Long id
-	){
+	public Map<String, String> delete(@RequestParam(name="id",required=true) Long id){
 		Map<String, String> ret = new HashMap<String, String>();
+		//校验输入数据，具体步骤进行折叠
 		if(id == null){
 			ret.put("type", "error");
 			ret.put("msg", "请选择要删除的菜单信息!");
 			return ret;
-		}
+		}//选择删除信息
 		List<Menu> findChildernList = menuService.findChildernList(id);
 		if(findChildernList != null && findChildernList.size() > 0){
 			//表示该分类下存在子分类，不能删除
-			ret.put("type", "error");
-			ret.put("msg", "该分类下存在子分类，不能删除!");
-			return ret;
+			ret.put("type", "error");ret.put("msg", "该分类下存在子分类，不能删除!");return ret;
 		}
 		if(menuService.delete(id) <= 0){
-			ret.put("type", "error");
-			ret.put("msg", "删除失败，请联系管理员!");
-			return ret;
+			ret.put("type", "error");ret.put("msg", "删除失败，请联系管理员!");return ret;
 		}
-		ret.put("type", "success");
-		ret.put("msg", "删除成功!");
-		return ret;
+		ret.put("type", "success");ret.put("msg", "删除成功!");return ret;
 	}
 }

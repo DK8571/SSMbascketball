@@ -15,30 +15,34 @@ public interface InstuctorDao {
 
     @Select({"<script>"+
             "select * from instructor where 1=1 "+
+            "<if test='roleId == 2'>"+//如果是收银员，通过用户id查询所属球馆，查找球馆下所有球场id
+                "and stadiumid = (select stadiumid from cashier where id = #{cashierid })"+
+            "</if>"+
+            "<if test='instuctorname != null'>"+
+                "and name like '%${instuctorname}%'"+
+            "</if>"+
+            "<if test='sex != null'>"+
+                "and sex = #{sex}"+
+            "</if>"+
+            "<if test='stadiumId != null'>"+
+                "and stadiumid = #{stadiumId}"+
+            "</if>"+
+            "<if test='offset != null and pageSize != null'>"+
+                "limit #{offset},#{pageSize}"+
+            "</if>"+
+            "</script>"
+    })
+    List<Instuctor> getlist(Map<String, Object> queryMap);
+
+
+    @Select({"<script>"+
+            "select count(*) from instructor where 1 = 1 "+
             "<if test='roleId == 2'>"+
             "and stadiumid = (select stadiumid from cashier where id = #{cashierid })"+
             "</if>"+
             "<if test='instuctorname != null'>"+
             "and name like '%${instuctorname}%'"+
             "</if>"+
-            "<if test='sex != null'>"+
-            "and sex = #{sex}"+
-            "</if>"+
-            "<if test='stadiumId != null'>"+
-            "and stadiumid = #{stadiumId}"+
-            "</if>"+
-            "<if test='offset != null and pageSize != null'>"+
-            "limit #{offset},#{pageSize}"+
-            "</if>"+
-            "</script>"
-    })
-
-    List<Instuctor> getlist(Map<String, Object> queryMap);
-
-
-    @Select({"<script>"+
-            "select count(*) from instructor where 1 = 1 "+
-            "<if test='instuctorname != null'>and name like '%${instuctorname}%'</if>"+
             "<if test='sex != null'>"+
             "and sex = #{sex}"+
             "</if>"+

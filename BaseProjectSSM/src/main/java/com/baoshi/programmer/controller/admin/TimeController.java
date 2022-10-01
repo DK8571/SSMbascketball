@@ -28,7 +28,7 @@ public class TimeController {
         mv.setViewName("time/list");
         return mv;
     }
-
+    //获取营业时间列表
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public Map<String, Object> list(Page page,
                                     @RequestParam(name = "time", required = false, defaultValue = "") String time) {
@@ -41,9 +41,33 @@ public class TimeController {
         ret.put("total", timeService.getTotal(queryMap));
         return ret;
     }
-
-    @RequestMapping(value="/add",method=RequestMethod.POST)
+    //编辑营业时间
+    @RequestMapping(value="/edit",method=RequestMethod.POST)
     @ResponseBody
+    public Map<String, String> edit(Time time){
+        Map<String, String> ret = new HashMap<String, String>();
+        //校验数据，具体步骤进行折叠
+        if(time == null){
+            ret.put("type", "error");
+            ret.put("msg", "请填写正确的用户信息！");
+            return ret;
+        }//填写营业时间数据
+        if(StringUtils.isEmpty(time.getTime())){
+            ret.put("type", "error");
+            ret.put("msg", "请填写用户名！");
+            return ret;
+        }//填写营业时间
+        if(isExist(time.getTime(), time.getId())){
+            ret.put("type", "error");
+            ret.put("msg", "该用户名已经存在，请重新输入！");
+            return ret;
+        }//营业时间是否存在
+        if(timeService.edit(time) <= 0){
+            ret.put("type", "error");ret.put("msg", "营业时间编辑失败，请联系管理员！");return ret;
+        }
+        ret.put("type", "success");ret.put("msg", "营业时间编辑成功！");return ret;
+    }
+    @RequestMapping(value="/add",method=RequestMethod.POST)
     public Map<String, String> add(Time time){
         Map<String, String> ret = new HashMap<String, String>();
         if(time == null){
@@ -71,46 +95,6 @@ public class TimeController {
         ret.put("msg", "角色添加成功！");
         return ret;
     }
-
-    /**
-     * 编辑用户
-
-     * @return
-     */
-    @RequestMapping(value="/edit",method=RequestMethod.POST)
-    @ResponseBody
-    public Map<String, String> edit(Time time){
-        Map<String, String> ret = new HashMap<String, String>();
-        if(time == null){
-            ret.put("type", "error");
-            ret.put("msg", "请填写正确的用户信息！");
-            return ret;
-        }
-        if(StringUtils.isEmpty(time.getTime())){
-            ret.put("type", "error");
-            ret.put("msg", "请填写用户名！");
-            return ret;
-        }
-//		if(StringUtils.isEmpty(stadium.getPassword())){
-//			ret.put("type", "error");
-//			ret.put("msg", "请填写密码！");
-//			return ret;
-//		}
-        if(isExist(time.getTime(), time.getId())){
-            ret.put("type", "error");
-            ret.put("msg", "该用户名已经存在，请重新输入！");
-            return ret;
-        }
-        if(timeService.edit(time) <= 0){
-            ret.put("type", "error");
-            ret.put("msg", "用户添加失败，请联系管理员！");
-            return ret;
-        }
-        ret.put("type", "success");
-        ret.put("msg", "角色添加成功！");
-        return ret;
-    }
-
     /**
      * 批量删除用户
      * @param ids

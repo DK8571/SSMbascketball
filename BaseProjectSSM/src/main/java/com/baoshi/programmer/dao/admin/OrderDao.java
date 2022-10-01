@@ -33,11 +33,10 @@ public interface OrderDao {
             "and date = #{date}"+
             "</if>"+
             "<if test='offset != null and pageSize != null'>"+
-            "limit #{offset},#{pageSize}"+
+            " ORDER BY `order`.date DESC limit #{offset},#{pageSize}"+
             "</if>"+
             "</script>"
     })
-
     List<Order> findlist(Map<String, Object> queryMap);
 
     @Select({"<script>"+
@@ -102,43 +101,42 @@ public interface OrderDao {
             "and date = #{date}"+
             "</if>"+
             "<if test='offset != null and pageSize != null'>"+
-            "limit #{offset},#{pageSize}"+
+            " ORDER BY `order`.date DESC limit #{offset},#{pageSize}"+
             "</if>"+
             "</script>"
     })
-
     List<Order> findListbyuserid(Map<String, Object> queryMap);
 
     @Delete("delete from `order` where id in (${value})")
 
     int delete(String ids);
 
-    @Select({"<script>"+
-            "SELECT * from `order` where venuesid in (select venues.id from venues,cashier where venues.stadiumid=cashier.stadiumid and cashier.id =${cashierid}) "+
+    @Select({"<script>"+//如果是收银员，通过用户id查询所属球馆，查找球馆下所有球场id
+                "SELECT * from `order` where venuesid in (select venues.id from venues,cashier " +
+                "where venues.stadiumid=cashier.stadiumid and cashier.id =${cashierid}) "+
             "<if test='date != null'>"+
-            "and date = #{date}"+
+                "and date = #{date}"+
             "</if>"+
             "<if test='ordertypeid != null'>"+
-            "and ordertypeid = #{ordertypeid}"+
+                 "and ordertypeid = #{ordertypeid}"+
             "</if>"+
             "<if test='timeid != null'>"+
-            "and timeid = #{timeid}"+
+                "and timeid = #{timeid}"+
             "</if>"+
             "<if test='venuesid != null'>"+
-            "and venuesid = #{venuesid}"+
+                "and venuesid = #{venuesid}"+
             "</if>"+
             "<if test='date != null'>"+
-            "and date = #{date}"+
+                "and date = #{date}"+
             "</if>"+
             "<if test='memberid != null'>"+
-            "and memberid = #{memberid}"+
+                "and memberid = #{memberid}"+
             "</if>"+
             "<if test='offset != null and pageSize != null'>"+
-            "limit #{offset},#{pageSize}"+
+                " ORDER BY `order`.date DESC limit #{offset},#{pageSize}"+
             "</if>"+
             "</script>"
     })
-
     List<Order> findListbycashierid(Map<String, Object> queryMap);
 
     @Select({"<script>"+
@@ -160,8 +158,12 @@ public interface OrderDao {
             "</if>"+
             "</script>"
     })
-
     int getTotalbycashierid(Map<String, Object> queryMap);
 
+    @Select("<script>"+
+            "select * from `order` where id = #{orderid }"+
+            "</script>"
+    )
 
+    Order findbyorderid(Map<String, Object> queryMap);
 }

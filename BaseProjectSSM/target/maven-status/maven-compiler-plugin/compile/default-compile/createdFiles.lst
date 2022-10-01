@@ -4,10 +4,12 @@ com\baoshi\programmer\service\admin\impl\AuthorityServiceImpl.class
 com\baoshi\programmer\entity\admin\Order.class
 com\baoshi\programmer\config\admin\ServletConfig.class
 com\baoshi\programmer\dao\admin\StadiumDao.class
+com\baoshi\programmer\controller\admin\InstructororderController.class
 com\baoshi\programmer\service\admin\impl\MemberServiceImpl.class
 com\baoshi\programmer\config\admin\MyBatisConfig.class
 com\baoshi\programmer\service\admin\impl\UserServiceImpl.class
 com\baoshi\programmer\service\admin\RoleService.class
+com\baoshi\programmer\service\admin\impl\InstructororderServiceImpl.class
 com\baoshi\programmer\dao\admin\TimeDao.class
 com\baoshi\programmer\controller\admin\BookingController.class
 com\baoshi\programmer\controller\admin\CashierorderController.class
@@ -15,6 +17,7 @@ com\baoshi\programmer\service\admin\impl\OrdertypeServiceImpl.class
 com\baoshi\programmer\service\admin\impl\InstuctorServiceImpl.class
 com\baoshi\programmer\controller\admin\TimeController.class
 com\baoshi\programmer\controller\admin\Booking1Controller.class
+com\baoshi\programmer\service\admin\InstructororderService.class
 com\baoshi\programmer\util\CpachaUtil.class
 com\baoshi\programmer\controller\admin\CashierController.class
 com\baoshi\programmer\service\admin\impl\MenuServiceImpl.class
@@ -80,6 +83,7 @@ com\baoshi\programmer\entity\admin\Role.class
 com\baoshi\programmer\entity\admin\Turnover.class
 com\baoshi\programmer\dao\admin\RoleDao.class
 com\baoshi\programmer\service\admin\impl\EquipmentServiceImpl.class
+com\baoshi\programmer\dao\admin\InstructororderDao.class
 com\baoshi\programmer\controller\admin\OwnController.class
 com\baoshi\programmer\service\admin\impl\RoleServiceImpl.class
 com\baoshi\programmer\entity\admin\Time.class

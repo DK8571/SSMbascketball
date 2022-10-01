@@ -7,6 +7,15 @@ public class Instuctor {
     private int sex;//性别0,代表未知，1代表男，2代表女
     private Integer age;//年龄
     private Long stadiumid;
+    private int T;
+
+    public int getT() {
+        return T;
+    }
+
+    public void setT(int t) {
+        T = t;
+    }
 
     @Override
     public String toString() {
@@ -17,6 +26,7 @@ public class Instuctor {
                 ", sex=" + sex +
                 ", age=" + age +
                 ", stadiumid=" + stadiumid +
+                ", T=" + T +
                 '}';
     }
 

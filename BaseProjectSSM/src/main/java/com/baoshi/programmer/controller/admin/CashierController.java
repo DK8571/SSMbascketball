@@ -26,6 +26,7 @@ import static com.baoshi.programmer.util.MD5.getMd5;
 
 @RequestMapping("/admin/cashier")
 @Controller
+@ResponseBody
 public class CashierController {
     @Autowired
     private CashierService cashierService;
@@ -39,9 +40,8 @@ public class CashierController {
         model.setViewName("cashier/list");
         return model;
     }
-
+    //获取收银员列表，具体步骤进行折叠
     @RequestMapping(value = "/list",method = RequestMethod.POST)
-    @ResponseBody
     public Map<String, Object> getList(Page page,
                                         @RequestParam(name = "username",required = false,defaultValue = "") String username,
                                         @RequestParam(name = "sex",required = false) Integer sex,
@@ -61,50 +61,41 @@ public class CashierController {
         resultMap.put("total", cashierService.getTotal(queryMap));
         return resultMap;
     }
-
+    //添加收银员
     @RequestMapping(value="/add",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> add(User user) throws NoSuchAlgorithmException {
         Map<String, String> ret = new HashMap<String, String>();
+        //校验数据，具体步骤进行折叠
         if(user == null){
             ret.put("type", "error");
             ret.put("msg", "请填写正确的用户信息！");
             return ret;
-        }
+        }//填写用户
         if(StringUtils.isEmpty(user.getUsername())){
             ret.put("type", "error");
             ret.put("msg", "请填写用户名！");
             return ret;
-        }
+        }//填写用户名
         if(StringUtils.isEmpty(user.getPassword())){
             ret.put("type", "error");
             ret.put("msg", "请填写密码！");
             return ret;
-        }
+        }//填写密码
         if(isExist(user.getUsername(), 0l)){
             ret.put("type", "error");
             ret.put("msg", "该用户名已经存在，请重新输入！");
             return ret;
-        }
+        }//判断用户名是否存在
+        //密码进行MD5加密
         user.setPassword(getMd5(user.getPassword()));
         if(cashierService.add(user) <= 0){
-            ret.put("type", "error");
-            ret.put("msg", "用户添加失败，请联系管理员！");
-            return ret;
+            ret.put("type", "error");ret.put("msg", "收银员添加失败，请联系管理员！");return ret;
         }
         cashierService.addcashier(user.getId(),user.getStadiumid());
-        ret.put("type", "success");
-        ret.put("msg", "角色添加成功！");
-        return ret;
+        ret.put("type", "success");ret.put("msg", "收银员添加成功！");return ret;
     }
-
-    /**
-     * ?????
-     * @param user
-     * @return
-     */
+    //编辑收银员，具体步骤进行折叠
     @RequestMapping(value="/edit",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> edit(User user){
         Map<String, String> ret = new HashMap<String, String>();
         if(user == null){
@@ -131,31 +122,23 @@ public class CashierController {
         ret.put("msg", "收营员添加成功！");
         return ret;
     }
-
+    //删除收银员，具体步骤进行折叠
     @RequestMapping(value="/delete",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> delete(String ids){
         Map<String, String> ret = new HashMap<String, String>();
         if(StringUtils.isEmpty(ids)){
-            ret.put("type", "error");
-            ret.put("msg", "选择要删除的数据！");
-            return ret;
+            ret.put("type", "error");ret.put("msg", "选择要删除的数据！");return ret;
         }
         if(ids.contains(",")){
             ids = ids.substring(0,ids.length()-1);
         }
         if(cashierService.delete(ids) <= 0){
-            ret.put("type", "error");
-            ret.put("msg", "用户删除失败，请联系管理员！");
-            return ret;
+            ret.put("type", "error");ret.put("msg", "用户删除失败，请联系管理员！");return ret;
         }
-        ret.put("type", "success");
-        ret.put("msg", "用户删除成功！");
-        return ret;
+        ret.put("type", "success");ret.put("msg", "用户删除成功！");return ret;
     }
 
     @RequestMapping(value="/upload_photo",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> uploadPhoto(MultipartFile photo, HttpServletRequest request){
         Map<String, String> ret = new HashMap<String, String>();
         if(photo == null){

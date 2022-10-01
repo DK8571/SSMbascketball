@@ -34,6 +34,7 @@ public class VenuesController {
         mv.setViewName("venues/list");
         return mv;
     }
+    //获取球场列表
     @RequestMapping(value = "/list",method = RequestMethod.POST)
     public Map<String,Object> getList(Page page,
                                       @RequestParam(value = "venuesname",required = false) String venuesname,
@@ -48,10 +49,11 @@ public class VenuesController {
         resultMap.put("total",venuesService.getTotal(queryMap));
         return resultMap;
     }
-
+    //添加球场
     @RequestMapping(value="/add",method=RequestMethod.POST)
     public Map<String, String> add(Venues venues){
         Map<String, String> ret = new HashMap<String, String>();
+        //校验数据，具体步骤进行折叠
         if(venues == null){
             ret.put("type", "error");
             ret.put("msg", "请填写正确的用户信息！");
@@ -61,43 +63,34 @@ public class VenuesController {
             ret.put("type", "error");
             ret.put("msg", "请填写球场编号！");
             return ret;
-        }
+        }//校验球场编号
         if(venues.getStadiumid() == null){
             ret.put("type", "error");
             ret.put("msg", "请选择所属球馆！");
             return ret;
-        }
+        }//校验球馆id
         if(venues.getPrice() == null){
             ret.put("type", "error");
             ret.put("msg", "请添加单价");
             return ret;
-        }
+        }//校验单价
         if(venues.getAllprice() == null){
             ret.put("type", "error");
             ret.put("msg", "请添加包场价格");
             return ret;
-        }
+        }//校验全场价格
         if(venues.getMax() == 0){
             ret.put("type", "error");
             ret.put("msg", "请添加人数上限");
             return ret;
-        }
+        }//最大人数
         if(venuesService.add(venues) <= 0){
-            ret.put("type", "error");
-            ret.put("msg", "用户添加失败，请联系管理员！");
-            return ret;
+            ret.put("type", "error");ret.put("msg", "球场添加失败，请联系管理员！");return ret;
         }
-        ret.put("type", "success");
-        ret.put("msg", "角色添加成功！");
-        return ret;
+        ret.put("type", "success");ret.put("msg", "球场添加成功！");return ret;
     }
-
-    /**
-     * 编辑用户
-     * @return
-     */
+    //编辑球场
     @RequestMapping(value="/edit",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> edit(Venues venues){
         Map<String, String> ret = new HashMap<String, String>();
         if(venues == null){
@@ -139,41 +132,22 @@ public class VenuesController {
         ret.put("msg", "角色添加成功！");
         return ret;
     }
-
-    /**
-     * 批量删除用户
-     * @param ids
-     * @return
-     */
+    //批量删除球场
     @RequestMapping(value="/delete",method=RequestMethod.POST)
-    @ResponseBody
     public Map<String, String> delete(String ids){
         Map<String, String> ret = new HashMap<String, String>();
         if(StringUtils.isEmpty(ids)){
-            ret.put("type", "error");
-            ret.put("msg", "选择要删除的数据！");
-            return ret;
-        }
+            ret.put("type", "error");ret.put("msg", "选择要删除的数据！");return ret;}
         if(ids.contains(",")){
-            ids = ids.substring(0,ids.length()-1);
-        }
+            ids = ids.substring(0,ids.length()-1);}
+        //球场下是否有设备
         if(venuesService.findequipment(ids)> 0 ){
-            ret.put("type", "error");
-            ret.put("msg", "球场下仍有设备未删除");
-            return ret;
-        }
+            ret.put("type", "error");ret.put("msg", "球场下仍有设备未删除");return ret;}
+        //球场下是否有订单
         if(venuesService.findeorders(ids)> 0 ){
-            ret.put("type", "error");
-            ret.put("msg", "球场下仍有订单未结束");
-            return ret;
-        }
+            ret.put("type", "error");ret.put("msg", "球场下仍有订单未结束");return ret;}
         if(venuesService.delete(ids) <= 0){
-            ret.put("type", "error");
-            ret.put("msg", "用户删除失败，请联系管理员！");
-            return ret;
-        }
-        ret.put("type", "success");
-        ret.put("msg", "用户删除成功！");
-        return ret;
+            ret.put("type", "error");ret.put("msg", "球场删除失败，请联系管理员！");return ret;}
+        ret.put("type", "success");ret.put("msg", "球场删除成功！");return ret;
     }
 }

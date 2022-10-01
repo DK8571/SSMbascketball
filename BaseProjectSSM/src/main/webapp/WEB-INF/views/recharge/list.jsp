@@ -26,6 +26,7 @@
                     <input id="WIDsubject" name="WIDsubject" readonly="readonly" />
                 </dd>
                 <dd>充值金额 ：</dd>
+                <dd>请填写充值金额 </dd>
                 <dd>
                     <input id="WIDtotal_amount" name="WIDtotal_amount" />
                 </dd>
@@ -93,7 +94,7 @@
         columns:[[
             { field:'chk',checkbox:true},
             { field:'balance',title:'余额',width:100,sortable:true},
-            { field:'memberid',title:'会员',width:100,sortable:true},
+            // { field:'memberid',title:'会员',width:100,sortable:true},
         ]]
     });
     function GetDateNow() {
